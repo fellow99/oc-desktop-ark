@@ -26,6 +26,7 @@
 | 门 | 命令 | 结果 |
 |---|---|---|
 | 补丁门 | `node scripts/apply-patches.mjs --check` | ✅ 基线 `9b4ec5714d`、工作树干净、3 条补丁可干净应用 |
+| 工具链门 | `node scripts/smoke-node24.mjs`（首行） | ✅ 打印 `equivalent=true/false`；本机 `v24.14.1` → `equivalent=false`，需 `--allow-version-drift` 才继续（102 plan 登记的 ⚠️） |
 | 语法门 | `node --check scripts/*.mjs payload/*.js payload/lib/*.js` | ✅ 7/7 通过 |
 | Shell | `bash -n scripts/*.sh` | ✅ 2/2 通过 |
 | 依赖 | `ohpm install --all` | ✅ 0.12 s |

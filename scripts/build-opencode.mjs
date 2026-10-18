@@ -24,6 +24,20 @@ if (nodeTarget === '') {
   process.exit(2)
 }
 
+// 上游 packageManager 要求 bun ^1.4.2（102 plan ⚠️）：本机版本偏低时只告警，不静默
+const bunProbe = spawnSync('bun', ['--version'], { encoding: 'utf8' })
+const bunVersion = bunProbe.status === 0 ? (bunProbe.stdout || '').trim() : ''
+if (bunVersion === '') {
+  console.error('✗ 未找到 bun（请安装 1.4.x，或用 PATH 指向 .cache/bun/bun-1.4.2）')
+  process.exit(2)
+}
+const [bunMajor, bunMinor] = bunVersion.split('.').map((v) => Number.parseInt(v, 10))
+if (bunMajor < 1 || (bunMajor === 1 && bunMinor < 4)) {
+  console.warn(`⚠ 上游要求 bun ^1.4.2，本机 ${bunVersion}；产物可能与门禁/真机不一致（102 plan §1 已登记）`)
+} else {
+  console.log(`bun ${bunVersion}`)
+}
+
 function run(cmd, args, cwd, extraEnv = {}) {
   console.log(`→ ${cmd} ${args.join(' ')}`)
   const r = spawnSync(cmd, args, { cwd, stdio: 'inherit', env: { ...process.env, ...extraEnv } })

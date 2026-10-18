@@ -12,7 +12,7 @@
  * 用法：node scripts/smoke-node24.mjs [--keep]
  */
 import { spawn } from 'node:child_process'
-import { existsSync, mkdtempSync, mkdirSync, readFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, mkdirSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -22,10 +22,45 @@ const repo = path.resolve(root, process.env.OPENCODE_DIR ?? '../opencode')
 const distNode = path.join(repo, 'packages/cli/dist-node')
 const entry = path.join(distNode, 'opencode.mjs')
 const keep = process.argv.includes('--keep')
+const allowDrift = process.argv.includes('--allow-version-drift')
+
+// 版本等价标注（FR-102-008）：设备是 v24.2.0，本机可能不同 —— 不静默宣称等价
+const TARGET_NODE = 'v24.2.0'
+const hostNode = process.version
+const equivalent = /^v24\.2\./.test(hostNode)
+console.log(`运行时：host=${hostNode} target=${TARGET_NODE} equivalent=${equivalent}`)
+if (!equivalent && !allowDrift) {
+  console.error(`✗ host Node ${hostNode} 与设备 ${TARGET_NODE} 不等价；`
+    + '确需继续请加 --allow-version-drift（结论会标注 equivalent=false）')
+  process.exit(3)
+}
 
 if (!existsSync(entry)) {
   console.error(`✗ 缺少产物：${entry}（先跑 scripts/build-opencode.mjs）`)
   process.exit(2)
+}
+
+/** `--version` / `--help` 自检（TC-H-003 的前置） */
+function selfCheck(args) {
+  return new Promise((resolve) => {
+    const child = spawn(process.execPath, [entry, ...args], { cwd: repo, stdio: 'ignore' })
+    const timer = setTimeout(() => child.kill('SIGKILL'), 20000)
+    child.on('exit', (code) => {
+      clearTimeout(timer)
+      resolve(code === 0)
+    })
+    child.on('error', () => {
+      clearTimeout(timer)
+      resolve(false)
+    })
+  })
+}
+const versionOk = await selfCheck(['--version'])
+const helpOk = await selfCheck(['--help'])
+console.log(`${versionOk ? '✅' : '❌'} 产物 --version；${helpOk ? '✅' : '❌'} 产物 --help`)
+if (!versionOk || !helpOk) {
+  console.error('✗ 产物基本启动自检失败（--version/--help），不进入 HTTP 门禁')
+  process.exit(1)
 }
 const assets = path.join(distNode, 'assets')
 const password = 'smoke-' + Math.random().toString(36).slice(2)
