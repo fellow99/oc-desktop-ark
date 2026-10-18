@@ -1,6 +1,9 @@
-# OC Desktop Ark（`oc-desktop-ark`）
+# OC Desktop · HarmonyOS Edition（`oc-desktop-ark`）
 
-> opencode 桌面端的 **HarmonyOS / OpenHarmony「Ark」版**：**无 Electron、无 Chromium** —— 进程内 Node（`@fellow99/node-bridge`）
+> **版别定位：HarmonyOS Edition** —— OC Desktop 的两个鸿蒙版别之一；
+> 另一个是 [`oc-desktop-hos`](../oc-desktop-hos)（**Electron on HarmonyOS Edition**：Electron 37 自带 Node）。
+>
+> 本版**无 Electron、无 Chromium**：进程内 Node（`@fellow99/node-bridge`，v24.2.0）
 > 承载 opencode v2 服务端，**ArkWeb** 同源渲染其 Web UI。
 >
 > 本工程**非 opencode 团队构建**，与 [opencode](https://github.com/anomalyco/opencode) 无隶属关系；opencode 为上游开源项目（MIT），

@@ -1,6 +1,6 @@
 # 规格文档索引（`oc-desktop-ark/specs`）
 
-**项目名称：** OC Desktop Ark（`oc-desktop-ark`）
+**项目名称：** OC Desktop · HarmonyOS Edition（`oc-desktop-ark`）
 **版本：** 2.0.26（`versionCode 20026`）
 **技术栈：** ArkTS / ArkWeb · `@fellow99/node-bridge`（Node v24.2.0）· opencode v2.0.26 · `node:sqlite`
 **生成方式：** `specs-as-built`（以源码与规划为事实源；技术无关的 `spec.md` + 技术具体的 `plan.md` 成对）
