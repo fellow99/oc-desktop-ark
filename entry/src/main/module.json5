@@ -1,0 +1,96 @@
+{
+  "module": {
+    "name": "entry",
+    "type": "entry",
+    "description": "$string:module_desc",
+    "mainElement": "EntryAbility",
+    "deviceTypes": [
+      "2in1",
+      "tablet"
+    ],
+    "deliveryWithInstall": true,
+    "installationFree": false,
+    "pages": "$profile:main_pages",
+    // 原生库压缩进 HAP；安装时解到 libs/（dlopen 仍可直接加载）。
+    // 必须写在 module 级（写进 build-profile.json5 会被 schema 拒绝）。
+    "compressNativeLibs": true,
+    "extractNativeLibs": true,
+    "abilities": [
+      {
+        "name": "EntryAbility",
+        "srcEntry": "./ets/entryability/EntryAbility.ets",
+        "description": "$string:EntryAbility_desc",
+        "icon": "$media:icon",
+        "label": "$string:EntryAbility_label",
+        "startWindowIcon": "$media:startIcon",
+        "startWindowBackground": "$color:start_window_background",
+        // 长任务不被挂起（与 KEEP_BACKGROUND_RUNNING 配套）
+        "backgroundModes": [
+          "taskKeeping"
+        ],
+        // 单实例 = 端口随机 + 数据目录唯一的前提（多实例会互抢端口与 <filesDir>）
+        "launchType": "singleton",
+        "exported": true,
+        "skills": [
+          {
+            "entities": ["entity.system.home"],
+            "actions": ["action.system.home"]
+          }
+        ]
+      }
+    ],
+    // 权限声明面：**按真实需要**申报（宪法 S4：声明面 = 使用面）。
+    //   · 受限权限（ACL，system_basic）：kernel.ALLOW_WRITABLE_CODE_MEMORY、READ_PASTEBOARD、
+    //     READ_WRITE_DESKTOP_DIRECTORY —— 必须按本包名向华为申请并写进发布 Profile；
+    //   · 其余为开放权限（normal / user_grant），声明即生效或在运行期首次访问时弹窗。
+    "requestPermissions": [
+      { "name": "ohos.permission.INTERNET" },
+      { "name": "ohos.permission.GET_NETWORK_INFO" },
+      { "name": "ohos.permission.FILE_ACCESS_PERSIST" },
+      { "name": "ohos.permission.KEEP_BACKGROUND_RUNNING" },
+      { "name": "ohos.permission.kernel.ALLOW_WRITABLE_CODE_MEMORY" },
+      {
+        "name": "ohos.permission.READ_PASTEBOARD",
+        "reason": "$string:access_pasteboard",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "inuse"
+        }
+      },
+      {
+        "name": "ohos.permission.READ_WRITE_DESKTOP_DIRECTORY",
+        "reason": "$string:desktop_dir",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "inuse"
+        }
+      },
+      {
+        "name": "ohos.permission.READ_WRITE_DOCUMENTS_DIRECTORY",
+        "reason": "$string:documents_dir",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "inuse"
+        }
+      },
+      {
+        "name": "ohos.permission.READ_WRITE_DOWNLOAD_DIRECTORY",
+        "reason": "$string:download_dir",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "inuse"
+        }
+      }
+    ],
+    // 受限权限必须在 definePermissions 里成对出现（缺一不可）
+    "definePermissions": [
+      {
+        "name": "ohos.permission.kernel.ALLOW_WRITABLE_CODE_MEMORY",
+        "grantMode": "system_grant",
+        "availableLevel": "system_basic",
+        "provisionEnable": true,
+        "distributedSceneEnable": false
+      }
+    ]
+  }
+}

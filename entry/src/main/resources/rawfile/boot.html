@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OC Desktop Ark</title>
+  <style>
+    :root { color-scheme: light; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex; align-items: center; justify-content: center;
+      font-family: "HarmonyOS Sans SC", "Segoe UI", system-ui, sans-serif;
+      background: #ffffff; color: #333333;
+    }
+    .box { text-align: center; max-width: 520px; padding: 24px; }
+    h1 { font-size: 22px; margin: 0 0 12px; font-weight: 600; }
+    .tip { font-size: 13px; color: #777777; line-height: 1.6; }
+    .bar { margin: 18px auto 0; width: 160px; height: 4px; background: #eeeeee; border-radius: 2px; overflow: hidden; }
+    .bar > i { display: block; width: 40%; height: 100%; background: #4a7dff; animation: slide 1.4s ease-in-out infinite; }
+    @keyframes slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>OC Desktop Ark</h1>
+    <p class="tip">正在启动本机服务并加载界面…<br />首次启动可能需要数十秒。</p>
+    <div class="bar"><i></i></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+# 构建产物与本地材料（不入库）
+/entry/build/
+/entry/.cxx/
+/build/
+/oh_modules/
+/entry/oh_modules/
+/libs/**/*.har
+/entry/libs/**/*.so
+/signing.*.local.json
+*.p12
+*.cer
+*.p7b
+*.key
+*.pem
+
+# 载荷（由 scripts/collect-opencode.mjs 投放；只入库 manifest.sha256）
+/entry/src/main/resources/resfile/opencode/*
+!/entry/src/main/resources/resfile/opencode/README.md
+!/entry/src/main/resources/resfile/opencode/manifest.sha256
+
+# 本地缓存与日志
+/opencode-dist/
+/.cache/
+/logs/**/hdc-*
+/node_modules/
+
+# hvigor 本地缓存
+/.hvigor/

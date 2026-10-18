@@ -1,0 +1,11 @@
+{
+  "string": [
+    { "name": "module_desc", "value": "OC Desktop Ark entry module" },
+    { "name": "EntryAbility_desc", "value": "OC Desktop Ark" },
+    { "name": "EntryAbility_label", "value": "OC Desktop Ark" },
+    { "name": "access_pasteboard", "value": "Paste clipboard text or images into the chat input" },
+    { "name": "desktop_dir", "value": "Read and write project files when your workspace is under Desktop" },
+    { "name": "documents_dir", "value": "Read and write project files when your workspace is under Documents" },
+    { "name": "download_dir", "value": "Read and write project files when your workspace is under Downloads" }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "OC Desktop Ark 主模块（ArkWeb 渲染 + 进程内 Node 编排）",
+  "main": "",
+  "author": "fellow99",
+  "license": "MIT",
+  "dependencies": {}
+}
