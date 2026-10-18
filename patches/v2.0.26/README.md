@@ -35,7 +35,8 @@
 node scripts/apply-patches.mjs --check     # 只报告：已应用 / 未应用 / 冲突
 node scripts/apply-patches.mjs             # 幂等应用（工作树必须干净）
 node scripts/apply-patches.mjs --only 0001 # 只处理一条
-node scripts/apply-patches.mjs --reset --yes  # 慎用：还原工作树（丢弃 ../opencode 的本地改动）
+node scripts/apply-patches.mjs --reset --yes  # 慎用：先还原工作树，然后继续应用补丁
+node scripts/apply-patches.mjs --check --reset --yes  # 只还原、不应用（离开时把 ../opencode 还原干净）
 ```
 
 ## SHA-256

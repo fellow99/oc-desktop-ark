@@ -58,4 +58,4 @@
 | 模块 `tasks.md` | ⬜ 未生成 | 本需求为搭建，任务已在 `docs/000-工程规划.md` §11 分阶段给出 |
 | 模块 `test-cases.md` | ⬜ 未生成 | 用例索引见 `overall-test-cases.md`（TC-S/H/D/R） |
 | 真机验收（TC-D-*） | ⬜ 待设备 | 设备缺席，已在 `overall-test-cases.md` §四登记 |
-| 载荷脚本与 host 门禁 | 🚧 | `scripts/{build-bridge-har,provision-runtime}` 与 `payload/opencode-server.js` 见需求 000-scaffold 的实现阶段 |
+| 载荷脚本与 host 门禁 | ✅ | `scripts/{build-bridge-har,provision-runtime,build-opencode,collect-opencode,smoke-node24}` 与 `payload/opencode-server.js` 已落地；2026-10-18 实测：载荷 43 文件 / 62.3 MB，host 门禁全绿 |

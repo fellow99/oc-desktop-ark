@@ -51,3 +51,18 @@
 | 107 合规 | `module.json5` 声明面（9 项，其中 3 项 ACL）+ AI 标识 |
 | 108 版本库插件 | ⬜ Phase 2（本阶段不做） |
 | 109 回归基线 | ⬜ 待设备；host 侧门禁脚本已就位 |
+
+## 四、载荷构建与 host 门禁（2026-10-18 第二轮，已实测）
+
+| 步骤 | 命令 | 结果 |
+|---|---|---|
+| bun 版本门 | `bun --version` → 1.3.14 | ❌ 上游 `build-node.ts` 硬要求 `^1.4.2`（`packages/script/src/index.ts:17`），直接抛错 |
+| 本地 bun 1.4.2 | `npm i bun@1.4.2` → `.cache/bun/node_modules/bun/bin/bun.exe`（npm 镜像，GitHub 不可达） | ✅ `1.4.2`；通过 `BUN_BIN` 传给脚本，不改全局 |
+| 补丁 | `apply-patches` | ✅ 3 条应用（0001/0003/0006） |
+| 上游构建 | `build-opencode --skip-install`（node_modules 由 1.3.14 安装，5670 包） | ✅ `dist-node/opencode.mjs` **16.45 MB**，vite 5812 modules / 25.18 s |
+| 投放 | `collect-opencode` | ✅ **43 文件 / 62.3 MB**；裁剪 `opencode-pty`；清单 JSON（toolchain node `v24.14.1` / bun `1.4.2`，totals 65,277,002 B） |
+| HAP | `hvigorw assembleHap` | ✅ **111.2 MB** / 60 entries（含 `resfile/opencode/{opencode.mjs,assets/app-archive.bin,bootstrap.js}`） |
+| host 门禁 | `smoke-node24 --allow-version-drift` | ✅ 全绿：`port=13683`；`/api/info` 200；无凭据 401；`/` 7231 B；SSE `server.connected`；`--version/--help` 通过 |
+| 还原 | `apply-patches --check --reset --yes` | ✅ `../opencode` 工作树干净，3 条补丁可再应用 |
+
+**观察（登记待办）**：`/api/info` 的 `version` 为 `0.0.0-Branch_v2.0.26-202610181342`（上游 `Script.version` 由构建环境推导），与 `AppScope` 的 `2.0.26` 不同。它只用于诊断展示，不影响鉴权/端口；若要统一，需在构建期固定 version 来源（Phase 1）。

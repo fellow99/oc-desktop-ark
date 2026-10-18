@@ -89,3 +89,21 @@ $ node scripts/apply-patches.mjs --check
 + 0006-shell-select-ohos.patch：未应用，可干净应用
 汇总（--check）：可应用 3 / 已跳过 0 / 失败 0
 ```
+
+## 八、第二轮执行记录（2026-10-18，含载荷）
+
+| ID | 用例 | 结果 | 证据 |
+|---|---|---|---|
+| TC-H-001 | 上游构建 | ✅ | `dist-node/opencode.mjs` 16.45 MB（bun 1.4.2 / target node24） |
+| TC-H-002 | 载荷收集 | ✅ | 43 文件 / 62.3 MB；`manifest.sha256`（JSON，schema=1，totals 65,277,002 B） |
+| TC-H-003 | 服务启动 | ✅ | `server listening on http://127.0.0.1:13683`；`--version/--help` exit 0 |
+| TC-H-004 | API 就绪 | ✅ | `GET /api/info` 200（version `0.0.0-Branch_v2.0.26-202610181342`，pid 21280） |
+| TC-H-005 | UI 同源 | ✅ | `GET /` 200，7231 B HTML |
+| TC-H-006 | SSE 首事件 | ✅ | `data: {"type":"server.connected",...}` |
+| TC-H-008 | 鉴权拒绝 | ✅ | 无凭据 `GET /api/info` → 401 |
+| TC-H-009 | HAP 编译 | ✅ | `BUILD SUCCESSFUL`；`entry-default-unsigned.hap` **111.2 MB** / 60 entries |
+| TC-H-010 | HAP 内容 | ✅ | 含 `libnode.so`、`resfile/opencode/opencode.mjs`、`assets/app-archive.bin`、`rawfile/boot.html` |
+| TC-H-007 | 数据持久化（两次启动同 DB） | ⬜ | 未单独执行（smoke 每次用临时 DB）；列入 Phase 1 |
+| TC-D-* | 真机 | ⬜ | 无设备 |
+
+> 运行时版本标注：host `v24.14.1` / target `v24.2.0` ⇒ `equivalent=false`；本机加 `--allow-version-drift` 执行，真机仍以 24.2.0 为准。

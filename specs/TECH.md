@@ -34,7 +34,7 @@
 | UI | SolidJS（`packages/app`） | 随上游 | 由服务端**同源**托管的内嵌 SPA | ✅ `packages/cli/src/services/web-ui.ts` |
 | UI 归档 | `app-archive.bin`（brotli + JSON 索引） | 随产物 | 内嵌 UI，从 `OPENCODE_NODE_ASSETS_DIR` 读取 | ✅ `packages/cli/src/app-assets.ts` |
 | 数据库 | **`node:sqlite`（`DatabaseSync`）** | Node 内置 | 会话/消息持久化（WAL） | ✅ `packages/core/src/database/sqlite.node.ts:1` + `libnode-arm64.so` 符号 |
-| 构建 | **bun** | **1.3.14** | `build-node.ts --bundle-only` | ✅ 本机 |
+| 构建 | **bun** | **1.4.2**（本地 `.cache/bun/`，来自 npm registry） | `build-node.ts --bundle-only`；上游 `packageManager` 硬要求 `^1.4.2`，全局 1.3.14 会被脚本拒绝 | ✅ 本机实测（1.4.2 通过，1.3.14 报错退出） |
 | 打包器 | Vite（SSR 单文件） | 随上游 | 产出 `dist-node/opencode.mjs` | ✅ `vite.node.config.ts` |
 | 构建目标 | `OPENCODE_NODE_TARGET=node24` | 由补丁 0001 注入 | 对齐 Node 24.2.0（默认是 `node26`） | ✅ 补丁 0001 |
 | 条件变体 | `resolve.conditions: ["ohos","node"]` | 由补丁 0001 注入 | 让 `*.ohos.ts` 命中 | ✅ 补丁 0001 |
