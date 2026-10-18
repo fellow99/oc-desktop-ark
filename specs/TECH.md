@@ -20,7 +20,7 @@
 |---|---|---|---|---|
 | 运行时库 | **`@fellow99/node-bridge`** | `0.1.0`（HAR） | `NAPI 引导 + dlopen(libnode.so) + node::Start`，把 Node 放进应用进程 | ✅ 库 README |
 | Node | **v24.2.0** | `modules 137` / `soname libnode.so.137` | 服务端运行时 | ✅ `runtime.lock.json` |
-| 运行时产物 | `libnode-arm64.so` | **126,809,264 B** / SHA-256 `3019bf5f…` | `entry/libs/arm64-v8a/libnode.so` | ✅ |
+| 运行时产物 | `libnode-arm64.so` | **126,809,264 B** / SHA-256 `3019bf5f…` | `entry/libs/arm64-v8a/libnode.so`；产物目录 `../ohos-node-bridge/runtime/`（原 `ohos-node-runtime`，已归入桥工程） | ✅ |
 | C++ 运行库 | `libc++_shared.so` | 取自 SDK `native/llvm/lib/aarch64-linux-ohos/` | 运行时依赖 | ✅ 库文档 §5.9 |
 | 平台标识 | `process.platform = "openharmony"` / `arch = "arm64"` | — | 平台分支判断 | ✅ 库真机记录 |
 | JIT | V8 JIT + **ACL** `kernel.ALLOW_WRITABLE_CODE_MEMORY` | — | 无 ACL 即 SIGTRAP；`--jitless` 会废掉 WASM | ✅ 库 §D.8 |
