@@ -25,6 +25,8 @@ function buildEnv(base, filesDir) {
   env.OPENCODE_LOG_LEVEL = env.OPENCODE_LOG_LEVEL || 'info';
   env.NO_PROXY = '127.0.0.1,localhost,::1';
   env.no_proxy = env.NO_PROXY;
+  // bash 工具要能找到 sh/toybox（规划 §5.6：优先绝对路径，PATH 前置 /system/bin）
+  env.PATH = `/system/bin:${env.PATH || ''}`;
   return env;
 }
 

@@ -47,6 +47,10 @@ export class EnvNames {
   static readonly ARK_SERVER_LOG: string = 'ARK_SERVER_LOG';
   /** 本工程自定义：监听地址（127.0.0.1 / 0.0.0.0） */
   static readonly ARK_HOST: string = 'ARK_HOST';
+  /** 非 SEA 产物读 `app-archive.bin` 的目录（不设 ⇒ `/` 空页） */
+  static readonly OPENCODE_NODE_ASSETS_DIR: string = 'OPENCODE_NODE_ASSETS_DIR';
+  /** 版本（唯一事实源仍是 AppScope/app.json5；这里只做运行时透传） */
+  static readonly ARK_VERSION: string = 'ARK_VERSION';
 }
 
 /** 启动阶段文案（上屏 + 日志同一份，C2） */

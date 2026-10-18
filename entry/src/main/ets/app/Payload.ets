@@ -19,14 +19,16 @@ export class PayloadPlan {
   /** `node::Start` 实际执行的脚本 = 库引导器绝对路径 */
   scriptPath: string = '';
   archivePath: string = '';
+  /** 上游产物绝对路径（诊断用） */
+  productPath: string = '';
   decision: string = '';
 }
 
 /**
  * 载荷判定（工程规划 §5.8）。
  *
- * HAP 里**只有 resfile 是真实磁盘目录**；rawfile 只能经 resourceManager 读，
- * Node 的 `fs` 打不开它。因此这里只认 `context.resourceDir` 下的文件。
+ * **判据是上游产物**（`opencode.mjs` + `assets/app-archive.bin`），不是宿主脚本 ——
+ * 宿主脚本由 collect 每次必投，拿它当判据会把「产物缺失」误判成「直读命中」。
  */
 export class Payload {
   private static exists(path: string): boolean {
@@ -42,34 +44,41 @@ export class Payload {
     const readonlyRoot: string = context.resourceDir + '/' + Names.PAYLOAD_DIR;
     plan.readonlyRoot = readonlyRoot;
 
-    const entryAbs: string = readonlyRoot + '/' + Names.ENTRY_FILE;
+    const productAbs: string = readonlyRoot + '/opencode.mjs';
+    const uiAbs: string = readonlyRoot + '/assets/app-archive.bin';
     const bootstrapAbs: string = readonlyRoot + '/' + Names.BOOTSTRAP_FILE;
-    const hasEntry: boolean = Payload.exists(entryAbs);
-    const hasBootstrap: boolean = Payload.exists(bootstrapAbs);
+    const hostAbs: string = readonlyRoot + '/' + Names.ENTRY_FILE;
+    plan.productPath = productAbs;
 
-    if (hasEntry && hasBootstrap) {
+    const hasProduct: boolean = Payload.exists(productAbs) && Payload.exists(uiAbs);
+    const hasHost: boolean = Payload.exists(hostAbs) && Payload.exists(bootstrapAbs);
+
+    if (hasProduct && hasHost) {
       plan.route = PayloadRoute.READONLY;
       plan.entry = Names.ENTRY_FILE;
       plan.scriptPath = bootstrapAbs;
-      plan.decision = 'resfile 直读命中：' + entryAbs + '；引导器=' + bootstrapAbs + '（零解压）';
+      plan.decision = 'resfile 直读命中：' + productAbs + ' + assets/app-archive.bin；引导器=' + bootstrapAbs;
       Log.info('载荷路线=' + plan.route + '；' + plan.decision);
       return plan;
     }
 
     const archiveAbs: string = readonlyRoot + '/opencode-dist.tar.gz';
-    if (Payload.exists(archiveAbs) && hasBootstrap) {
+    if (Payload.exists(archiveAbs) && Payload.exists(bootstrapAbs)) {
+      // 归档路线在本阶段**未接线**（NodeRuntimeOptions.archive 尚未传参）。
+      // 如实判定为「不可用」，而不是打印一句「回退」然后必然超时（C2）。
       plan.route = PayloadRoute.ARCHIVE;
-      plan.entry = Names.ENTRY_FILE;
-      plan.scriptPath = bootstrapAbs;
       plan.archivePath = archiveAbs;
-      plan.decision = '归档回退：' + archiveAbs + '；由 Node 侧解包（幂等 marker）';
-      Log.info('载荷路线=' + plan.route + '；' + plan.decision);
+      plan.scriptPath = bootstrapAbs;
+      plan.decision = '归档回退未接线（Phase 1）：检测到 ' + archiveAbs
+        + '，但本版本只支持 resfile 直读；请用 collect-opencode.mjs 投放产物';
+      Log.error(plan.decision);
       return plan;
     }
 
     plan.route = PayloadRoute.MISSING;
-    plan.decision = '载荷缺失：期望 ' + entryAbs + ' 与 ' + bootstrapAbs
-      + '（或 ' + archiveAbs + '）；请先运行 scripts/collect-opencode.mjs 投放';
+    plan.decision = '载荷缺失：期望 ' + productAbs + ' + ' + uiAbs
+      + ' 与宿主脚本 ' + hostAbs + ' / ' + bootstrapAbs
+      + '；请先运行 scripts/collect-opencode.mjs 投放';
     Log.error(plan.decision);
     return plan;
   }

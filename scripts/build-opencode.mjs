@@ -15,12 +15,22 @@ import { fileURLToPath } from 'node:url'
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const repo = path.resolve(root, process.env.OPENCODE_DIR ?? '../opencode')
 const target = process.env.OPENCODE_TARGET ?? 'linux-arm64'
-const nodeTarget = process.env.OPENCODE_NODE_TARGET ?? 'node24'
+const nodeTarget = (process.env.OPENCODE_NODE_TARGET ?? '').trim()
 const bundleOnly = !process.argv.includes('--with-sea')
 
-function run(cmd, args, cwd) {
+// AS-102-04：未显式指定 node24 即判失败（否则上游按默认 node26 产出，与设备运行时错位）
+if (nodeTarget === '') {
+  console.error('✗ 必须显式设置 OPENCODE_NODE_TARGET=node24（对齐 libnode v24.2.0 / ABI 137）')
+  process.exit(2)
+}
+
+function run(cmd, args, cwd, extraEnv = {}) {
   console.log(`→ ${cmd} ${args.join(' ')}`)
-  const r = spawnSync(cmd, args, { cwd, stdio: 'inherit', env: process.env })
+  const r = spawnSync(cmd, args, { cwd, stdio: 'inherit', env: { ...process.env, ...extraEnv } })
+  if (r.error && r.error.code === 'ENOENT') {
+    console.error(`✗ 未找到 ${cmd}（请安装 bun 1.3+，或用 PATH 指向它）`)
+    process.exit(2)
+  }
   if (r.status !== 0) {
     console.error(`✗ 命令失败（exit=${r.status}）：${cmd} ${args.join(' ')}`)
     process.exit(r.status ?? 1)
@@ -35,8 +45,10 @@ if (!existsSync(path.join(repo, 'package.json'))) {
 const flags = ['--bundle-only']
 if (bundleOnly) flags.push('--target=' + target)
 
-run('bun', ['install', '--os=*', '--cpu=*'], repo)
-run('bun', ['run', '--cwd', 'packages/cli', 'script/build-node.ts', ...flags], repo)
+run('bun', ['install', '--os=*', '--cpu=*'], repo, { OPENCODE_NODE_TARGET: nodeTarget })
+run('bun', ['run', '--cwd', 'packages/cli', 'script/build-node.ts', ...flags], repo, {
+  OPENCODE_NODE_TARGET: nodeTarget,
+})
 
 const out = path.join(repo, 'packages/cli/dist-node')
 if (!existsSync(path.join(out, 'opencode.mjs'))) {

@@ -3,16 +3,16 @@ import { webview } from '@kit.ArkWeb';
 import { Contexts } from '../app/Connection';
 import { OpencodeRuntime, LaunchResult } from '../app/OpencodeRuntime';
 import { Log } from '../common/Log';
-import { Stage } from '../common/Constants';
+import { Stage, Timing } from '../common/Constants';
 
 /**
  * 主界面（工程规划 §4.2 / §5.3；模块 103）。
  *
  * 形态：
- *   ① 未就绪时显示**应用内加载页**（阶段文本 + 颜色块），绝不白屏；
+ *   ① 未就绪时显示**应用内加载页**（阶段文本），绝不白屏；
  *   ② 就绪后 `loadUrl('http://127.0.0.1:<port>/?auth_token=…')`，由本机服务渲染 UI；
- *   ③ 首屏成功后 `clearHistory()`（返回键不该回到加载页）；
- *   ④ 失败时切到错误页（阶段 + 原因 + 「请重启应用」），并保留诊断区。
+ *   ③ 首屏成功后 `clearHistory()`（仅当 URL 属于本机服务）；
+ *   ④ 加载失败 / HTTP 错误 / 看门狗超时 ⇒ 错误页（阶段 + 原因 + 「请重启应用」）。
  */
 @Entry
 @Component
@@ -26,9 +26,14 @@ struct Index {
   private controller: webview.WebviewController = new webview.WebviewController();
   private launched: boolean = false;
   private historyCleared: boolean = false;
+  private watchdog: number = -1;
 
   aboutToAppear(): void {
     this.start();
+  }
+
+  aboutToDisappear(): void {
+    this.clearWatchdog();
   }
 
   private abilityContext(): common.UIAbilityContext {
@@ -36,37 +41,88 @@ struct Index {
     return Contexts.ability(host);
   }
 
+  private clearWatchdog(): void {
+    if (this.watchdog >= 0) {
+      clearTimeout(this.watchdog);
+      this.watchdog = -1;
+    }
+  }
+
+  private fail(reason: string): void {
+    if (this.failed) {
+      return;
+    }
+    this.clearWatchdog();
+    this.failed = true;
+    this.stage = Stage.FAILED;
+    this.errorText = reason;
+    Log.error('界面失败：' + reason);
+  }
+
   private start(): void {
     if (this.launched) {
       return;
     }
     this.launched = true;
-    const context: common.UIAbilityContext = this.abilityContext();
+    let context: common.UIAbilityContext;
+    try {
+      context = this.abilityContext();
+    } catch (error) {
+      this.fail('无法获取 UIAbilityContext：' + JSON.stringify(error));
+      return;
+    }
     OpencodeRuntime.get().launch(context, (stage: string) => {
       this.stage = stage;
       this.detail = stage;
       Log.info('阶段：' + stage);
     }).then((result: LaunchResult) => {
       if (!result.ok) {
-        this.failed = true;
-        this.stage = Stage.FAILED;
-        this.errorText = result.message;
+        this.fail(result.message);
         return;
       }
       this.url = result.url;
       this.stage = Stage.READY;
       this.detail = '界面加载中…';
+      // 看门狗：loadUrl 失败可能不触发 onPageEnd（例如 ArkWeb 访问不到 loopback）
+      this.watchdog = setTimeout(() => {
+        if (!this.pageLoaded) {
+          this.fail('界面在 ' + Timing.PAGE_WATCHDOG_MS + ' ms 内未加载完成；'
+            + '可能是 ArkWeb 无法访问本机服务（见 P0-D 探针）');
+        }
+      }, Timing.PAGE_WATCHDOG_MS);
     }).catch((error: Object) => {
-      this.failed = true;
-      this.stage = Stage.FAILED;
-      this.errorText = '启动编排异常：' + JSON.stringify(error);
-      Log.error(this.errorText);
+      this.fail('启动编排异常：' + JSON.stringify(error));
     });
+  }
+
+  /** 只有本机服务地址才清历史，避免把外链也清掉 */
+  private isLocalServiceUrl(loaded: string): boolean {
+    const local: string = this.url.length > 0 ? this.url : '';
+    if (local.length === 0 || loaded.length === 0) {
+      return false;
+    }
+    const cut: number = local.indexOf('?');
+    const origin: string = cut > 0 ? local.substring(0, cut) : local;
+    return loaded.startsWith(origin);
+  }
+
+  private onLoaded(loaded: string): void {
+    this.pageLoaded = true;
+    this.detail = '已加载';
+    this.clearWatchdog();
+    if (!this.historyCleared && this.isLocalServiceUrl(loaded)) {
+      this.historyCleared = true;
+      try {
+        this.controller.clearHistory();
+      } catch (error) {
+        Log.warn('clearHistory 失败：' + JSON.stringify(error));
+      }
+    }
   }
 
   build() {
     Stack({ alignContent: Alignment.BottomEnd }) {
-      if (this.url.length > 0) {
+      if (this.url.length > 0 && !this.failed) {
         Web({ src: this.url, controller: this.controller })
           .domStorageAccess(true)
           .databaseAccess(true)
@@ -75,16 +131,12 @@ struct Index {
           .width('100%')
           .height('100%')
           .onPageEnd(() => {
-            this.pageLoaded = true;
-            this.detail = '已加载';
-            if (!this.historyCleared) {
-              this.historyCleared = true;
-              try {
-                this.controller.clearHistory();
-              } catch (error) {
-                Log.warn('clearHistory 失败：' + JSON.stringify(error));
-              }
-            }
+            this.onLoaded(this.controller.getUrl());
+          })
+          .onErrorReceive((event: OnErrorReceiveEvent) => {
+            const url: string = event.request.getRequestUrl();
+            const info: string = event.error.getErrorInfo();
+            this.fail('界面加载失败（' + url + '）：' + info);
           })
       } else {
         Column({ space: 12 }) {

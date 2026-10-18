@@ -55,7 +55,8 @@ function git(...argv) {
 function gitOrFail(...argv) {
   const r = git(...argv)
   if (r.status !== 0) {
-    const detail = (r.stderr || r.stdout || '').trim().split('\n').slice(0, 6).join('\n  ')
+    const raw = (r.stderr || r.stdout || '').trim()
+    const detail = raw.length > 0 ? raw.split('\n').slice(0, 6).join('\n  ') : (r.error?.message ?? '(无输出)')
     fail(1, `git ${argv.join(' ')} 失败：\n  ${detail}`)
   }
   return (r.stdout || '').trim()
@@ -88,9 +89,12 @@ console.log(`✓ 基线 HEAD=${head}（${repo}）`)
 let dirty = gitOrFail('status', '--porcelain')
 if (dirty.length > 0) {
   if (has('--reset')) {
+    // FR-102-002：先打印将要删除/还原的内容，再执行（--yes 也不例外）
+    console.error('将要还原的已跟踪改动（git diff --stat）：')
+    console.error(gitOrFail('diff', '--stat') || '  （无）')
+    console.error('将要删除的未跟踪文件（git clean -nd -- packages）：')
+    console.error(gitOrFail('clean', '-nd', '--', 'packages') || '  （无未跟踪文件）')
     if (!has('--yes')) {
-      console.error('将要删除/还原的内容（git clean -nd）：')
-      console.error(gitOrFail('clean', '-nd', '--', 'packages') || '  （无未跟踪文件）')
       fail(2, '--reset 需要同时给 --yes 才执行（避免误删另一半工程的改动）')
     }
     gitOrFail('checkout', '--', '.')

@@ -1,3 +1,4 @@
+import { buffer } from '@kit.ArkTS';
 import { fileIo as fs } from '@kit.CoreFileKit';
 import { Log } from './Log';
 
@@ -28,7 +29,7 @@ export class ReadyInfo {
  * ArkTS 侧不需要为此引入动态对象类型，失败时还能直接给出「文本里有没有这个键」的证据。
  */
 export class Ports {
-  /** 读文本文件（读不到返回空串，不抛） */
+  /** 读文本文件（读不到返回空串，不抛）。上限 64 KB，避免被写坏的 marker 拖垮 UI 线程 */
   static readText(path: string): string {
     if (path.length === 0) {
       return '';
@@ -41,14 +42,16 @@ export class Ports {
       if (stat.size <= 0) {
         return '';
       }
+      const size: number = stat.size > 65536 ? 65536 : stat.size;
       const file: fs.File = fs.openSync(path, fs.OpenMode.READ_ONLY);
       try {
-        const buffer: ArrayBuffer = new ArrayBuffer(stat.size);
-        const read: number = fs.readSync(file.fd, buffer);
+        const ab: ArrayBuffer = new ArrayBuffer(size);
+        const read: number = fs.readSync(file.fd, ab);
         if (read <= 0) {
           return '';
         }
-        return buffer.slice(0, read).toString();
+        // 必须走 @kit.ArkTS 的 buffer：ArrayBuffer.toString() 在 ArkTS 里不是 UTF-8 解码
+        return buffer.from(ab.slice(0, read)).toString('utf-8');
       } finally {
         fs.closeSync(file);
       }
@@ -58,8 +61,8 @@ export class Ports {
     }
   }
 
-  /** 取 `"key": <number>` 的数值；找不到返回 0 */
-  private static numberAfterKey(text: string, key: string): number {
+  /** 取 `"key": <number>` 的数值；找不到返回 0（`Connection` 的 createdAt 也用它） */
+  static numberAfterKey(text: string, key: string): number {
     const marker: string = '"' + key + '"';
     const at: number = text.indexOf(marker);
     if (at < 0) {
@@ -128,12 +131,23 @@ export class Ports {
     return Ports.parseMarker(Ports.readText(path));
   }
 
-  /** 从库日志里找 `ARK_SERVER_READY {"port":N,...}`（只认本轮的行） */
+  /** 从库日志里找 `ARK_SERVER_READY {"port":N,...}` */
   static parseReadyLog(text: string): ReadyInfo {
     const at: number = text.lastIndexOf('ARK_SERVER_READY');
     if (at < 0) {
       return new ReadyInfo();
     }
     return Ports.parseMarker(text.substring(at));
+  }
+
+  /** 从库日志里找 `ARK_SERVER_FATAL {"reason":"..."}`（宿主可快速失败，不必等满超时） */
+  static parseFatal(text: string): string {
+    const at: number = text.lastIndexOf('ARK_SERVER_FATAL');
+    if (at < 0) {
+      return '';
+    }
+    const tail: string = text.substring(at);
+    const reason: string = Ports.stringAfterKey(tail, 'reason');
+    return reason.length > 0 ? reason : 'unknown（详见 server.log）';
   }
 }

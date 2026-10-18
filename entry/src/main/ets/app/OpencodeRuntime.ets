@@ -1,8 +1,10 @@
 import { common } from '@kit.AbilityKit';
+import { fileIo as fs } from '@kit.CoreFileKit';
 import { NodeLogEntry, NodeRuntime, NodeRuntimeOptions } from '@fellow99/node-bridge';
 import { EnvNames, Names, Stage, Timing } from '../common/Constants';
 import { Log } from '../common/Log';
 import { Ports, ReadyInfo } from '../common/Ports';
+import { HostCapabilities } from '../host/HostCapabilities';
 import { Connection } from './Connection';
 import { Payload, PayloadPlan, PayloadRoute } from './Payload';
 
@@ -16,12 +18,12 @@ export class LaunchResult {
 /**
  * 启动编排（工程规划 §4.2 / §5.2；模块 101）。
  *
- * 五个阶段与判据：
- *   1 凭据：`Connection.loadOrCreate`（0600，跨启动稳定）
- *   2 载荷：`Payload.plan`（文件存在性判定，不做编译期开关）
+ * 五阶段与判据：
+ *   1 凭据：`Connection.loadOrCreate`（原子写；损坏先备份）
+ *   2 载荷：`Payload.plan`（判据 = 上游产物，不是宿主脚本）
  *   3 投递：`NodeRuntime.start`（返回 ok ≠ 就绪，C2）
- *   4 就绪：marker / 本轮日志 `ARK_SERVER_READY`（**只认本轮**）
- *   5 加载：由页面 `loadUrl(url + '?auth_token=…')`
+ *   4 就绪：marker / 本轮日志 `ARK_SERVER_READY`；`ARK_SERVER_FATAL` 快速失败
+ *   5 加载：页面 `loadUrl(url + '?auth_token=' + encodeURIComponent(token))`
  */
 export class OpencodeRuntime {
   private static instance: OpencodeRuntime | null = null;
@@ -29,22 +31,13 @@ export class OpencodeRuntime {
   private launched: boolean = false;
   private startedAt: number = 0;
   private connection: Connection = new Connection();
+  private attempts: number = 0;
 
   static get(): OpencodeRuntime {
     if (OpencodeRuntime.instance === null) {
       OpencodeRuntime.instance = new OpencodeRuntime();
     }
     return OpencodeRuntime.instance;
-  }
-
-  /** 已投递过就不再投递（`node::Start` 每进程一次，C5） */
-  alreadyLaunched(): boolean {
-    return this.launched;
-  }
-
-  /** 本轮启动时刻（用于过滤上一轮遗留的 marker/日志） */
-  launchStartedAt(): number {
-    return this.startedAt;
   }
 
   private static wait(ms: number): Promise<void> {
@@ -55,7 +48,8 @@ export class OpencodeRuntime {
     });
   }
 
-  private buildEnv(context: common.UIAbilityContext, readyPath: string, serverLog: string): Record<string, string> {
+  private buildEnv(context: common.UIAbilityContext, plan: PayloadPlan, readyPath: string,
+    serverLog: string): Record<string, string> {
     const env: Record<string, string> = {};
     env[EnvNames.XDG_DATA_HOME] = context.filesDir + '/data';
     env[EnvNames.XDG_CACHE_HOME] = context.filesDir + '/cache';
@@ -70,17 +64,21 @@ export class OpencodeRuntime {
     env[EnvNames.OPENCODE_CLIENT] = 'desktop';
     env[EnvNames.OPENCODE_LOG_LEVEL] = 'info';
     env[EnvNames.OPENCODE_PASSWORD] = this.connection.password;
+    // 非 SEA 产物从该变量读 app-archive.bin；不设 ⇒ `/` 空页（review Important-1）
+    env[EnvNames.OPENCODE_NODE_ASSETS_DIR] = plan.readonlyRoot + '/assets';
     env[EnvNames.NO_PROXY] = '127.0.0.1,localhost,::1';
     env[EnvNames.NO_PROXY_LOWER] = '127.0.0.1,localhost,::1';
+    env[EnvNames.PATH] = '/system/bin:' + context.filesDir + '/bin';
     env[EnvNames.ARK_READY_FILE] = readyPath;
     env[EnvNames.ARK_SERVER_LOG] = serverLog;
     env[EnvNames.ARK_HOST] = '127.0.0.1';
+    env[EnvNames.ARK_VERSION] = '2.0.26';
     return env;
   }
 
-  /** 汇总本轮日志文本（只保留 `startedAt` 之后的行；`at=0` 的行保留，库未能解析时间戳） */
-  private logsSince(): string {
-    const entries: NodeLogEntry[] = this.runtime.logs(300);
+  /** 汇总本轮日志文本（`at=0` 的行保留；可解析时间的按 `startedAt` 过滤上一轮） */
+  private logsSince(count: number): string {
+    const entries: NodeLogEntry[] = this.runtime.logs(count);
     let text: string = '';
     for (const entry of entries) {
       if (entry.at === 0 || entry.at >= this.startedAt) {
@@ -91,13 +89,11 @@ export class OpencodeRuntime {
   }
 
   /**
-   * 执行启动（幂等：重复调用直接返回上一次结果）。
-   * @param onStage 阶段回调（中文文案直接上屏）
+   * 执行启动（幂等：重复调用直接返回失败，避免第二次 `node::Start`）。
    */
   async launch(context: common.UIAbilityContext, onStage: (stage: string) => void): Promise<LaunchResult> {
     const result: LaunchResult = new LaunchResult();
     if (this.launched) {
-      result.ok = false;
       result.message = '运行时已投递过（node::Start 每进程一次）；若未就绪请重启应用';
       return result;
     }
@@ -111,22 +107,25 @@ export class OpencodeRuntime {
     // 2/5 载荷
     onStage(Stage.PAYLOAD);
     const plan: PayloadPlan = Payload.plan(context);
-    if (plan.route === PayloadRoute.MISSING) {
+    if (plan.route !== PayloadRoute.READONLY) {
       result.message = plan.decision;
       Log.error('启动失败（载荷）：' + plan.decision);
       return result;
     }
 
-    // 准备目录（宿主负责「可写根」的形状；Node 只往里写自己的文件）
+    // 目录与「作废旧 marker」（FR-101-003：投递前删除 + 记一条作废日志）
     const readyPath: string = context.filesDir + '/payload/' + Names.READY_FILE;
     const serverLog: string = context.filesDir + '/' + Names.LOG_DIR + '/' + Names.SERVER_LOG;
     try {
-      const fileIo = await import('@kit.CoreFileKit');
-      fileIo.fileIo.mkdirSync(context.filesDir + '/payload', true);
-      fileIo.fileIo.mkdirSync(context.filesDir + '/' + Names.LOG_DIR, true);
-      fileIo.fileIo.mkdirSync(context.filesDir + '/' + Names.WORKSPACE_DIR, true);
+      fs.mkdirSync(context.filesDir + '/payload', true);
+      fs.mkdirSync(context.filesDir + '/' + Names.LOG_DIR, true);
+      fs.mkdirSync(context.filesDir + '/' + Names.WORKSPACE_DIR, true);
+      if (fs.accessSync(readyPath)) {
+        fs.unlinkSync(readyPath);
+        Log.info('已作废上一轮 marker：' + readyPath);
+      }
     } catch (error) {
-      Log.warn('创建沙箱目录失败（继续，Node 侧会再试）：' + JSON.stringify(error));
+      Log.warn('准备沙箱目录/作废 marker 失败（继续）：' + JSON.stringify(error));
     }
 
     // 3/5 投递
@@ -138,7 +137,7 @@ export class OpencodeRuntime {
       payloadRoot: context.filesDir + '/payload',
       cwd: context.filesDir + '/' + Names.WORKSPACE_DIR,
       logPath: context.filesDir + '/payload/node.log',
-      env: this.buildEnv(context, readyPath, serverLog),
+      env: this.buildEnv(context, plan, readyPath, serverLog),
       flags: AppStorage.get<string>('nodeFlags') ?? '--no-verify-heap'
     };
     const started = this.runtime.start(context, options);
@@ -146,39 +145,71 @@ export class OpencodeRuntime {
       + '；' + started.message);
     if (!started.ok) {
       result.message = '运行时投递失败（code=' + started.code + '）：' + started.message;
+      this.runtime.markFailed(result.message);
       return result;
     }
 
-    // 4/5 等就绪（marker 优先，其次本轮日志）
+    // 宿主能力桥必须在 start 之后接线（传输层依赖运行时单例）
+    const caps: string = HostCapabilities.install(this.runtime, context);
+    Log.info(caps);
+
+    // 4/5 等就绪
     onStage(Stage.WAITING);
     const deadline: number = Date.now() + Timing.READY_TIMEOUT_MS;
     let ready: ReadyInfo = new ReadyInfo();
+    let channel: string = 'none';
+    let fatal: string = '';
     while (Date.now() < deadline) {
+      this.attempts++;
       ready = Ports.readMarker(readyPath);
       if (ready.ok() && ready.startedAt >= this.startedAt) {
+        channel = 'marker';
         break;
       }
-      const fromLog: ReadyInfo = Ports.parseReadyLog(this.logsSince());
+      const logs: string = this.logsSince(50);
+      fatal = Ports.parseFatal(logs);
+      if (fatal.length > 0) {
+        break;
+      }
+      const fromLog: ReadyInfo = Ports.parseReadyLog(logs);
       if (fromLog.ok()) {
         ready = fromLog;
+        channel = 'log';
         break;
+      }
+      if (this.attempts % 10 === 0) {
+        Log.info('等待就绪：第 ' + this.attempts + ' 次（marker=' + readyPath + '）');
       }
       await OpencodeRuntime.wait(Timing.READY_INTERVAL_MS);
     }
 
-    if (!ready.ok()) {
-      const crash = this.runtime.lastCrash();
-      result.message = '等待服务就绪超时（' + Timing.READY_TIMEOUT_MS + ' ms）；'
-        + (crash === null ? '无崩溃记录' : '崩溃=' + crash.signal + ' 阶段=' + crash.stage);
-      Log.error(result.message + '；日志尾=' + this.logsSince().slice(-400));
+    if (fatal.length > 0) {
+      this.runtime.markFailed('server fatal: ' + fatal);
+      result.message = '服务端报告致命错误：' + fatal + '（详见 ' + serverLog + '）';
+      Log.error(result.message);
       return result;
     }
 
-    // 5/5 交回页面加载
+    if (!ready.ok()) {
+      const crash = this.runtime.lastCrash();
+      const crashText: string = crash === null
+        ? '无崩溃记录'
+        : '崩溃=' + (crash.signal ?? 'unknown') + ' 阶段=' + crash.stage;
+      const tail: string = this.logsSince(80).slice(-800);
+      result.message = '等待服务就绪超时（' + Timing.READY_TIMEOUT_MS + ' ms，尝试 ' + this.attempts + ' 次）；'
+        + 'marker=' + readyPath + '；' + crashText + '；日志尾=' + tail;
+      this.runtime.markFailed(result.message);
+      Log.error(result.message);
+      return result;
+    }
+
+    // 5/5 交回页面加载（token 必须 percent-encode：base64 含 '+'）
     onStage(Stage.LOADING);
+    this.runtime.markRunning();
     result.ok = true;
-    result.url = ready.url() + '/?auth_token=' + this.connection.authToken();
-    Log.info('服务就绪：' + ready.url() + '（version=' + ready.version + '，startedAt=' + ready.startedAt + '）');
+    result.url = ready.url() + '/?auth_token=' + encodeURIComponent(this.connection.authToken());
+    Log.info('服务就绪（通道=' + channel + '）：' + ready.url() + '（version=' + ready.version
+      + '，startedAt=' + ready.startedAt + '）');
     return result;
   }
 }
