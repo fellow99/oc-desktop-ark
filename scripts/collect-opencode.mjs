@@ -126,7 +126,9 @@ writeFileSync(path.join(out, 'manifest.sha256'), JSON.stringify(manifest, null, 
 
 function safeBunVersion() {
   try {
-    return execFileSync('bun', ['--version'], { encoding: 'utf8' }).trim()
+    const bin = process.env.BUN_BIN || 'bun'
+    const shell = process.platform === 'win32' && !process.env.BUN_BIN
+    return execFileSync(bin, ['--version'], { encoding: 'utf8', shell }).trim()
   } catch {
     return 'unavailable'
   }

@@ -1,0 +1,278 @@
+{
+  "schema": 1,
+  "baseline": "9b4ec5714d",
+  "form": "readonly",
+  "node": "24.2.0",
+  "target": "linux-arm64",
+  "toolchain": {
+    "node": "v24.14.1",
+    "bun": "1.4.2"
+  },
+  "removed": [
+    "opencode-pty"
+  ],
+  "files": [
+    {
+      "path": "assets/@ff-labs/fff-bin-linux-arm64-gnu/libfff_c.so",
+      "sha256": "3e037ac8584fa49eaeedc8eacbb116682854d4a623efcf7feb68f25656e7bfcd",
+      "size": 9451704,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@lydell/node-pty-linux-arm64/lib/eventEmitter2.js",
+      "sha256": "f1c14613aa90c10def4ca7238329270871997eb26f919f7074dc25533e3e75dd",
+      "size": 1600,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@lydell/node-pty-linux-arm64/lib/index.js",
+      "sha256": "c1b82c92c4c63aaa8e8441fc5a291c4727cd3f3550666d2fec7250e0f6d4b173",
+      "size": 2008,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@lydell/node-pty-linux-arm64/lib/interfaces.js",
+      "sha256": "56e4173f09aad26173f9d4c79800fda0b808c34424f987ef8d671cc931119a0a",
+      "size": 233,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@lydell/node-pty-linux-arm64/lib/terminal.js",
+      "sha256": "5ed5cd66a766afba4a04093284e999f8516d41936501839055800b10eca5d304",
+      "size": 7454,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@lydell/node-pty-linux-arm64/lib/types.js",
+      "sha256": "408bf8287717b6322cc380ea66caf1b5e366dcf697707ae2f3cc454e08f3b151",
+      "size": 228,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@lydell/node-pty-linux-arm64/lib/unixTerminal.js",
+      "sha256": "c3bb8dfceb9f99a5d7003041c0aff243eaa60f062538c88fc452c59ae516e74c",
+      "size": 13734,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@lydell/node-pty-linux-arm64/lib/utils.js",
+      "sha256": "6981b69ce5b162393f59f3a541f0e188b9e70bb8300786d1d6be83a231eac7ca",
+      "size": 1542,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@lydell/node-pty-linux-arm64/LICENSE",
+      "sha256": "a3d60eaf32d2fb09c9d82ef39f14bd6e2c0f3ca7de30daa827486c0d6f8b6e9f",
+      "size": 3326,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@lydell/node-pty-linux-arm64/package.json",
+      "sha256": "f88e6e3b346fd7a2c2650bb0ba392c8e6dfc961df69054df98f72db7b70a9fb5",
+      "size": 372,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@lydell/node-pty-linux-arm64/prebuilds/linux-arm64/pty.node",
+      "sha256": "d8314caa682827c0bcab6a7a2ef121a17065605e830d5eac55de3245333b3ad8",
+      "size": 69112,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@lydell/node-pty-linux-arm64/README.md",
+      "sha256": "53f816106182aec95ce7ef3e0a084c5c53700a64a13a9e91290f51b3a9bfd9c3",
+      "size": 89,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opencode/ui/audio/bip-bop-01.mp3",
+      "sha256": "129765d4203f92ecb36ba17553b037ebf4daf28ebb56013b3896d3e7e36f2d74",
+      "size": 4574,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opencode/ui/audio/bip-bop-03.mp3",
+      "sha256": "82b992e5dc5cfdc4d7206e0cd12d3132fa76ae30f8af51ec4cc216ba15f1afcd",
+      "size": 4186,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opencode/ui/audio/nope-03.mp3",
+      "sha256": "9832805f84dcdb4a8ccb46a98cc75def72b52509610837938ed8343b2537df0c",
+      "size": 3820,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opencode/ui/audio/staplebops-06.mp3",
+      "sha256": "eb87d63312ac11b1ceb1a8b348057dfe4d1166d5a85dc79778fe69d458f4c097",
+      "size": 4971,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opencode/ui/audio/yup-01.mp3",
+      "sha256": "b227d0516dfa1eda3b250635cce19e040af3f9cee443a8bb4b5a80990bca3f58",
+      "size": 4418,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opentui/core-linux-arm64/libopentui.so",
+      "sha256": "ad60b63349360af055c4a49dc850d49d3f5f601bcc23e3dc1959026ccf70e715",
+      "size": 5908024,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opentui/core/assets/javascript/highlights.scm",
+      "sha256": "c90e849891a3c8698992e10efdeaff7e7a8f98da47f941489566cb9e60f639b5",
+      "size": 2863,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opentui/core/assets/javascript/tree-sitter-javascript.wasm",
+      "sha256": "5fb488d0cabb4775a594bab85682de5ad6ce83c0d6ac997a9f82dd084d571240",
+      "size": 411770,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opentui/core/assets/markdown_inline/highlights.scm",
+      "sha256": "ca9a109ddd21c5ffdc6b84f00c0a4b2eeb55ae36a0b8eeb9b02348269c5acd22",
+      "size": 2149,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opentui/core/assets/markdown_inline/tree-sitter-markdown_inline.wasm",
+      "sha256": "9bbd71a70a23f6d0193bb162a72eecf2a2bd9ce76910d7ad3da9c5f80f122671",
+      "size": 426020,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opentui/core/assets/markdown/highlights.scm",
+      "sha256": "f3b02df1a9213cfecfb6936bce8db2f777edd523fc23ed890695e6cb4552d556",
+      "size": 3444,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opentui/core/assets/markdown/injections.scm",
+      "sha256": "a2bf8c052454acbe765970a4ad2706c60cad7b62a762b927e28f60af1a0ef516",
+      "size": 815,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opentui/core/assets/markdown/tree-sitter-markdown.wasm",
+      "sha256": "3e13182f21373634c40653f170e6f2d2790914eb2c243927086d79023c534f7a",
+      "size": 421534,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opentui/core/assets/typescript/highlights.scm",
+      "sha256": "8e823819058d480c450ca4ef377a05675f6ed6f7c0460a69b972cdbe940c0893",
+      "size": 9832,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opentui/core/assets/typescript/tree-sitter-typescript.wasm",
+      "sha256": "778025db5a8be0e70f8ccc3671e486dfeddd048c25d9e8a70c26de2e1bf6f97d",
+      "size": 1413849,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opentui/core/assets/zig/highlights.scm",
+      "sha256": "f2232f0fde717543e4541cec871dd8633cb9bc6b5d1686a56b2d469c1dd9e6b6",
+      "size": 3479,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opentui/core/assets/zig/tree-sitter-zig.wasm",
+      "sha256": "54b3b83dd9c62da5815f06132bc3fc914d9dcc780370b32416446a0b7969e8c6",
+      "size": 691726,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opentui/core/parser.worker.js",
+      "sha256": "cc39e6ba6470c793fa7de1b81888185c1a152904f116a0bb106b5f15276181d9",
+      "size": 172409,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@parcel/watcher-linux-arm64-glibc/watcher.node",
+      "sha256": "a0bc8fc5f3e68e95218c2541b812dc07ba5fb8afd765b6252ab9e68ba5edb2aa",
+      "size": 457680,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@silvia-odwyer/photon-node/photon_rs_bg.wasm",
+      "sha256": "10468181565c56004c867f3a4af96f89a0ef5a63a72f2b5fb12c1f1992a3615c",
+      "size": 1881634,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@yuuang/ffi-rs-linux-arm64-gnu/ffi-rs.linux-arm64-gnu.node",
+      "sha256": "2edcff26d4127dbaf453e8e1771b593c180ea254b9866117f7fe7780bc17429d",
+      "size": 709704,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/app-archive.bin",
+      "sha256": "5e90012b8f237b48e7f4ce909d84e38833c0a942da88c32c9667a077df5331f0",
+      "size": 24117444,
+      "kind": "ui-archive"
+    },
+    {
+      "path": "assets/tree-sitter-bash/tree-sitter-bash.wasm",
+      "sha256": "364f0a2cd385c792239423026ef442dbd073d34c396b7bc9e5932426b8e4aa5d",
+      "size": 1380769,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/tree-sitter-powershell/tree-sitter-powershell.wasm",
+      "sha256": "1d30b5a21866354aa2eb94845556f1e19126ff00e3335048719a0e6435b1c154",
+      "size": 983236,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/web-tree-sitter/tree-sitter.wasm",
+      "sha256": "f38dcc4b43b818f9a0785bc1c6d5611a75ac4cdd428ff3f02757c34ca4e46d7f",
+      "size": 205488,
+      "kind": "asset"
+    },
+    {
+      "path": "bootstrap.js",
+      "sha256": "63e5a63faae155fbedb7ccbc3e94c9fddcba29cdb05b3267c37674b2ce8003ef",
+      "size": 17877,
+      "kind": "asset"
+    },
+    {
+      "path": "host.js",
+      "sha256": "4b3f0918a7684c058cbdfbf747d055cd6944094f97e38d88ce78d51850bc0fbd",
+      "size": 21548,
+      "kind": "asset"
+    },
+    {
+      "path": "lib/env.js",
+      "sha256": "20ff8f74c60831be157b06d28b85f0aa12c244996d1e449a325e651bfb4e1e81",
+      "size": 1380,
+      "kind": "asset"
+    },
+    {
+      "path": "lib/ready.js",
+      "sha256": "96001f508285397a606acb774ce4cdda73090e703cac646749da115d5b22fa60",
+      "size": 1347,
+      "kind": "asset"
+    },
+    {
+      "path": "opencode-server.js",
+      "sha256": "53252925cc78a7031b145f27bdc026b9ca66407812bc3a014aeec960acd3c297",
+      "size": 4880,
+      "kind": "asset"
+    },
+    {
+      "path": "opencode.mjs",
+      "sha256": "c96fed5dc90d36b16f014686657341d5ae8eddc7415a49fd8d735ce4bc95d962",
+      "size": 16452730,
+      "kind": "entry"
+    }
+  ],
+  "totals": {
+    "count": 43,
+    "bytes": 65277002
+  }
+}

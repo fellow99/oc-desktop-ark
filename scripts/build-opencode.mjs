@@ -24,8 +24,14 @@ if (nodeTarget === '') {
   process.exit(2)
 }
 
+// Windows 上 bun 是 npm 的 .cmd 垫片（没有 bun.exe）：默认需经 shell；
+// 提供 BUN_BIN（如本地 .cache/bun/bun-1.4.2/bun.exe）时直接执行。
+const WIN = process.platform === 'win32'
+const BUN = process.env.BUN_BIN || 'bun'
+const useShell = WIN && !process.env.BUN_BIN
+
 // 上游 packageManager 要求 bun ^1.4.2（102 plan ⚠️）：本机版本偏低时只告警，不静默
-const bunProbe = spawnSync('bun', ['--version'], { encoding: 'utf8' })
+const bunProbe = spawnSync(BUN, ['--version'], { encoding: 'utf8', shell: useShell })
 const bunVersion = bunProbe.status === 0 ? (bunProbe.stdout || '').trim() : ''
 if (bunVersion === '') {
   console.error('✗ 未找到 bun（请安装 1.4.x，或用 PATH 指向 .cache/bun/bun-1.4.2）')
@@ -40,7 +46,7 @@ if (bunMajor < 1 || (bunMajor === 1 && bunMinor < 4)) {
 
 function run(cmd, args, cwd, extraEnv = {}) {
   console.log(`→ ${cmd} ${args.join(' ')}`)
-  const r = spawnSync(cmd, args, { cwd, stdio: 'inherit', env: { ...process.env, ...extraEnv } })
+  const r = spawnSync(cmd, args, { cwd, stdio: 'inherit', env: { ...process.env, ...extraEnv }, shell: WIN })
   if (r.error && r.error.code === 'ENOENT') {
     console.error(`✗ 未找到 ${cmd}（请安装 bun 1.3+，或用 PATH 指向它）`)
     process.exit(2)
@@ -59,8 +65,11 @@ if (!existsSync(path.join(repo, 'package.json'))) {
 const flags = ['--bundle-only']
 if (bundleOnly) flags.push('--target=' + target)
 
-run('bun', ['install', '--os=*', '--cpu=*'], repo, { OPENCODE_NODE_TARGET: nodeTarget })
-run('bun', ['run', '--cwd', 'packages/cli', 'script/build-node.ts', ...flags], repo, {
+const skipInstall = process.argv.includes('--skip-install')
+if (!skipInstall) {
+  run(BUN, ['install', '--os=*', '--cpu=*'], repo, { OPENCODE_NODE_TARGET: nodeTarget })
+}
+run(BUN, ['run', '--cwd', 'packages/cli', 'script/build-node.ts', ...flags], repo, {
   OPENCODE_NODE_TARGET: nodeTarget,
 })
 
