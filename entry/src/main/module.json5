@@ -39,31 +39,16 @@
         ]
       }
     ],
-    // 权限声明面：**按真实需要**申报（宪法 S4：声明面 = 使用面）。
-    //   · 受限权限（ACL，system_basic）：kernel.ALLOW_WRITABLE_CODE_MEMORY、READ_PASTEBOARD、
-    //     READ_WRITE_DESKTOP_DIRECTORY —— 必须按本包名向华为申请并写进发布 Profile；
+    // 权限声明面：**按真实需要**申报（宪法 S4：声明面 = 使用面）。详见 docs/ACL配置.md。
+    //   · 受限权限（ACL）：**只保留** kernel.ALLOW_WRITABLE_CODE_MEMORY（JIT 刚性前置，system_basic，
+    //     无它 V8 走 JIT 即 SIGTRAP）—— 必须按本包名 org.fellow99.oc.OCDesktopArk 申请并写进发布 Profile。
+    //     已撤销 READ_PASTEBOARD / READ_WRITE_DESKTOP_DIRECTORY（ArkWeb 自读剪贴板；选择器只留沙箱/文档/下载三根）。
     //   · 其余为开放权限（normal / user_grant），声明即生效或在运行期首次访问时弹窗。
     "requestPermissions": [
       { "name": "ohos.permission.INTERNET" },
       { "name": "ohos.permission.GET_NETWORK_INFO" },
       { "name": "ohos.permission.KEEP_BACKGROUND_RUNNING" },
       { "name": "ohos.permission.kernel.ALLOW_WRITABLE_CODE_MEMORY" },
-      {
-        "name": "ohos.permission.READ_PASTEBOARD",
-        "reason": "$string:access_pasteboard",
-        "usedScene": {
-          "abilities": ["EntryAbility"],
-          "when": "inuse"
-        }
-      },
-      {
-        "name": "ohos.permission.READ_WRITE_DESKTOP_DIRECTORY",
-        "reason": "$string:desktop_dir",
-        "usedScene": {
-          "abilities": ["EntryAbility"],
-          "when": "inuse"
-        }
-      },
       {
         "name": "ohos.permission.READ_WRITE_DOCUMENTS_DIRECTORY",
         "reason": "$string:documents_dir",

@@ -85,6 +85,20 @@ if (existsSync(path.join(bridgePayload, 'host.js'))) {
 cpSync(path.join(root, 'payload/opencode-server.js'), path.join(out, 'opencode-server.js'))
 cpSync(path.join(root, 'payload/lib'), path.join(out, 'lib'), { recursive: true })
 
+// 4.5) 工作区选择器插件（plugins/ → resfile/opencode/plugins/）。
+// opencode 的插件发现目录是 `XDG_CONFIG_HOME/opencode/plugin`；ArkTS 启动时把这里的插件
+// 复制到该目录（见 OpencodeRuntime.provisionPlugin）。插件是可选能力（选择器缺失不阻断启动），
+// 因此源缺失只告警、不失败 —— 但告警必须醒目，避免「悄悄没投上」。
+const pluginSrc = path.join(root, 'plugins/oc-plugin-workspace-roots/index.mjs')
+if (existsSync(pluginSrc)) {
+  const pluginDestDir = path.join(out, 'plugins/oc-plugin-workspace-roots')
+  mkdirSync(pluginDestDir, { recursive: true })
+  cpSync(pluginSrc, path.join(pluginDestDir, 'index.mjs'))
+  console.log('✓ 工作区选择器插件已投放：plugins/oc-plugin-workspace-roots/index.mjs')
+} else {
+  console.warn(`⚠ 工作区选择器插件源缺失（选择器将不可用，不阻断 collect）：${pluginSrc}`)
+}
+
 // 5) 清单（JSON）
 const files = []
 function walk(dir, prefix) {

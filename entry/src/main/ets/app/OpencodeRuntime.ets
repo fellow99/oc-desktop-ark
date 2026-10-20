@@ -72,7 +72,10 @@ export class OpencodeRuntime {
     env[EnvNames.ARK_READY_FILE] = readyPath;
     env[EnvNames.ARK_SERVER_LOG] = serverLog;
     env[EnvNames.ARK_HOST] = '127.0.0.1';
-    env[EnvNames.ARK_VERSION] = '2.0.26';
+     env[EnvNames.ARK_VERSION] = '2.0.26';
+     // 工作区选择器：用户主目录（文档/下载根）+ 宿主能力桥文件信箱目录（Node 侧 host.js 与 ArkTS 泵同串）
+     env['OC_HOS_USER_HOME'] = '/storage/Users/currentUser';
+     env[EnvNames.ARK_HOST_MAILBOX] = context.filesDir + '/' + Names.MAILBOX_DIR;
     return env;
   }
 
@@ -116,17 +119,23 @@ export class OpencodeRuntime {
     // 目录与「作废旧 marker」（FR-101-003：投递前删除 + 记一条作废日志）
     const readyPath: string = context.filesDir + '/payload/' + Names.READY_FILE;
     const serverLog: string = context.filesDir + '/' + Names.LOG_DIR + '/' + Names.SERVER_LOG;
-    try {
-      fs.mkdirSync(context.filesDir + '/payload', true);
-      fs.mkdirSync(context.filesDir + '/' + Names.LOG_DIR, true);
-      fs.mkdirSync(context.filesDir + '/' + Names.WORKSPACE_DIR, true);
-      if (fs.accessSync(readyPath)) {
-        fs.unlinkSync(readyPath);
-        Log.info('已作废上一轮 marker：' + readyPath);
-      }
-    } catch (error) {
-      Log.warn('准备沙箱目录/作废 marker 失败（继续）：' + JSON.stringify(error));
-    }
+     try {
+       fs.mkdirSync(context.filesDir + '/payload', true);
+       fs.mkdirSync(context.filesDir + '/' + Names.LOG_DIR, true);
+       fs.mkdirSync(context.filesDir + '/' + Names.WORKSPACE_DIR, true);
+       // 工作区选择器插件目录（opencode 的插件发现目录；沙箱 config 根下）
+       fs.mkdirSync(context.filesDir + '/config/' + Names.PLUGIN_DIR, true);
+       // 宿主能力桥文件信箱目录（Node 写 .req / ArkTS 泵读它；两侧同路径、同 UID）
+       fs.mkdirSync(context.filesDir + '/' + Names.MAILBOX_DIR, true);
+       // 投放工作区选择器插件（只读直读：resfile 插件 → 沙箱 config 插件目录）
+       this.provisionPlugin(context);
+       if (fs.accessSync(readyPath)) {
+         fs.unlinkSync(readyPath);
+         Log.info('已作废上一轮 marker：' + readyPath);
+       }
+     } catch (error) {
+       Log.warn('准备沙箱目录/作废 marker 失败（继续）：' + JSON.stringify(error));
+     }
 
     // 3/5 投递
     onStage(Stage.STARTING);
@@ -149,9 +158,14 @@ export class OpencodeRuntime {
       return result;
     }
 
-    // 宿主能力桥必须在 start 之后接线（传输层依赖运行时单例）
-    const caps: string = HostCapabilities.install(this.runtime, context);
-    Log.info(caps);
+     // 宿主能力桥：文件信箱泵（Node 写 .req / 本泵读它 → dispatch → 写 .done/.fail）
+     // 必须在 start 之后接线（传输层依赖运行时单例）；与 Node 侧 host.useFileMailbox 同路径。
+     const mailboxDir: string = context.filesDir + '/' + Names.MAILBOX_DIR;
+     const mailboxState: string = this.runtime.host.startMailbox(mailboxDir, 100);
+     Log.info('宿主信箱：' + mailboxState);
+     // 宿主能力注册（perm.check / perm.request / perm.openAppInfo / shell.openExternal / runtime.facts）
+     const caps: string = HostCapabilities.install(this.runtime, context);
+     Log.info(caps + '｜信箱' + (mailboxState.startsWith('started') ? '已启动' : '未启动（' + mailboxState + '）'));
 
     // 4/5 等就绪
     onStage(Stage.WAITING);
@@ -211,5 +225,35 @@ export class OpencodeRuntime {
     Log.info('服务就绪（通道=' + channel + '）：' + ready.url() + '（version=' + ready.version
       + '，startedAt=' + ready.startedAt + '）');
     return result;
+  }
+
+  /**
+   * 投放工作区选择器插件（只读直读：resfile 插件目录 → 沙箱 config 插件目录）。
+   *
+   * 幂等：每次启动覆盖写（插件是纯 JS，无版本态）。源缺失（collect 未投放）时如实记日志、不阻断启动。
+   * opencode 的插件发现目录 = `XDG_CONFIG_HOME/opencode/plugin`（= `<filesDir>/config/opencode/plugin`），
+   * 因此这里把 resfile 里的插件原样复制到该目录，opencode 启动时即可发现并注册其 RPC。
+   *
+   * ⚠️ 源在 `resfile/opencode/plugins/...`：HAP 里**只有 resfile 是真实磁盘目录**（安装时落盘），
+   *    因此必须走真实 fs（`accessSync` + `copyFileSync`），与 `Payload.plan` 判据同语义；
+   *    不能用 `resourceManager.getRawFileContentSync` —— 它读的是 `rawfile/`，而插件不在 rawfile 里。
+   */
+  private provisionPlugin(context: common.UIAbilityContext): void {
+    const srcDir: string = context.resourceDir + '/' + Names.PAYLOAD_DIR + '/plugins/oc-plugin-workspace-roots';
+    const destDir: string = context.filesDir + '/config/' + Names.PLUGIN_DIR + '/oc-plugin-workspace-roots';
+    try {
+      fs.mkdirSync(destDir, true);
+      const srcFile: string = srcDir + '/index.mjs';
+      if (!fs.accessSync(srcFile)) {
+        Log.warn('工作区选择器插件源缺失（跳过投放；collect-opencode 是否已投放 resfile 插件？）：' + srcFile);
+        return;
+      }
+      const destFile: string = destDir + '/index.mjs';
+      fs.copyFileSync(srcFile, destFile);
+      const size: number = fs.statSync(destFile).size;
+      Log.info('工作区选择器插件已投放：' + destFile + '（' + size + ' B）');
+    } catch (error) {
+      Log.warn('投放工作区选择器插件失败（选择器将不可用；不阻断启动）：' + JSON.stringify(error));
+    }
   }
 }

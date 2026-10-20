@@ -18,9 +18,14 @@ export class Names {
   static readonly CONNECTION_FILE: string = 'connection.json';
   /** 本工程自己的日志目录（与库的 payload/app.log 分开，见宪法 C3） */
   static readonly LOG_DIR: string = 'logs';
+  /** 本工程自己的日志文件（LOG_DIR 下） */
   static readonly SERVER_LOG: string = 'server.log';
   /** 沙箱工作区（服务端 cwd；opencode 的项目根 = cwd） */
   static readonly WORKSPACE_DIR: string = 'workspace';
+  /** 工作区选择器插件目录（相对沙箱 config 根；opencode 的插件发现目录） */
+  static readonly PLUGIN_DIR: string = 'opencode/plugin';
+  /** 宿主能力桥文件信箱目录（Node 写 .req / ArkTS 泵读它；两侧同路径、同 UID） */
+  static readonly MAILBOX_DIR: string = 'host-mailbox';
 }
 
 /** 环境变量名（与 payload/lib/env.js 镜像） */
@@ -48,7 +53,10 @@ export class EnvNames {
   /** 本工程自定义：监听地址（127.0.0.1 / 0.0.0.0） */
   static readonly ARK_HOST: string = 'ARK_HOST';
   /** 非 SEA 产物读 `app-archive.bin` 的目录（不设 ⇒ `/` 空页） */
+  /** 非 SEA 产物读 `app-archive.bin` 的目录（不设 ⇒ `/` 空页） */
   static readonly OPENCODE_NODE_ASSETS_DIR: string = 'OPENCODE_NODE_ASSETS_DIR';
+  /** 本工程自定义：宿主能力桥文件信箱目录（Node 侧 host.js 与 ArkTS 泵读同一个串） */
+  static readonly ARK_HOST_MAILBOX: string = 'ARK_HOST_MAILBOX';
   /** 版本（唯一事实源仍是 AppScope/app.json5；这里只做运行时透传） */
   static readonly ARK_VERSION: string = 'ARK_VERSION';
 }

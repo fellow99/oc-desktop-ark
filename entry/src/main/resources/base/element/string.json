@@ -3,8 +3,6 @@
     { "name": "module_desc", "value": "OC Desktop Ark 主模块" },
     { "name": "EntryAbility_desc", "value": "OC Desktop Ark" },
     { "name": "EntryAbility_label", "value": "OC Desktop Ark" },
-    { "name": "access_pasteboard", "value": "用于把剪贴板中的文本或图片粘贴到对话输入框" },
-    { "name": "desktop_dir", "value": "当你的工作区位于桌面目录时，代理需要读写其中的项目文件" },
     { "name": "documents_dir", "value": "当你的工作区位于文档目录时，代理需要读写其中的项目文件" },
     { "name": "download_dir", "value": "当你的工作区位于下载目录时，代理需要读写其中的项目文件" }
   ]
