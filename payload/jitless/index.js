@@ -1,48 +1,37 @@
 'use strict';
 /*
- * jitless 兼容层的**唯一出口**（需求 108-jitless）
+ * jitless 兼容层的**唯一出口**（需求 110-jitless，oc-desktop-ark）
  *
- * 【为什么需要这一层】OHOS 不允许 W^X 的 JIT 页 ⇒ 宿主以 `--jitless` 启动 ⇒ 在 V8 里连带
- * 关掉了 WASM ⇒ `WebAssembly === undefined`。于是 Node 自带的 undici 全线不可用：
+ * 【为什么需要这一层】OHOS 不允许 W^X 的 JIT 页 ⇒ 宿主以 `--jitless` 启动 ⇒ V8 连带
+ * 关掉 WASM ⇒ `WebAssembly === undefined`。于是 Node 自带的 undici 全线不可用：
  *   · 原生 `fetch`（解析器是 WASM 版 llhttp）一连接就抛 `WebAssembly is not defined`；
- *   · `node:http`/`node:https` 的惰性 getter（`lazyUndici`）会把 undici 拉起来；
- *   · 上游直接 `require('undici')` / `import { fetch } from 'undici'` 的包也走同一条死路。
- * 本目录下的四个文件就是这三条缺口的纯 JS 补齐：`http-lazy-undici.js`（封印惰性 getter）、
- * `fetch-shim.js`（基于原生 `node:http/https` 的 fetch 实现）、`undici-shim.js`（以真实导出
- * 为底、只覆写危险面）。
+ *   · `node:http`/`node:https` 的惰性 getter（`lazyUndici`）会把 undici 拉起来。
+ * 本目录下的模块就是这些缺口的纯 JS 补齐：`http-lazy-undici.js`（封印惰性 getter）、
+ * `fetch-shim.js`（基于原生 `node:http/https` 的 fetch 实现）、`undici-shim.js`（防御资产，
+ * 由 selftest 验证；本工程 bundle 不直接 require undici，故运行时不接线，见 REVIEW C1）。
  *
  * 【判据只有一个】`typeof WebAssembly === 'undefined'`。WASM 可用时**一个动作都不做**
- * —— 桌面侧（有 WASM）必须保持 100% 原生行为，任何"顺手装一下"都会让原生 undici 与
- * 我们的垫片打架（例如 `maxHeaderSize` 被换掉后原生 fetch 直接报
- * `http module header size invalid`）。
+ * —— jit 形态必须保持 100% 原生行为，任何"顺手装一下"都会让原生 undici 与垫片打架。
  *
- * 【调用方式】入口脚本（组装期生成的条件入口）：
- *     const { installIfNeeded } = require(process.env.PI_JITLESS_DIR + '/index.js');
- *     const facts = installIfNeeded((line) => writeLog(line));
+ * 【调用方式】`payload/opencode-server.js` 在 import `opencode.mjs` 之前：
+ *     const { installIfNeeded } = require('./jitless');
+ *     const facts = installIfNeeded({ log, bundleMarks });
  * 本模块**不写任何文件**：`log` 回调由调用方负责落盘。
  *
  * 【返回事实（结构化三态）】`installed` / `kept` / `failed`：
  *     {
  *       active: boolean,        // 兼容层是否接管（= WASM 是否缺失）
  *       webAssembly: 'undefined' | 'defined',
- *       httpLazy: 'installed' | 'kept' | 'failed',   // 惰性 getter 封印结果
- *       sealed: string[],                            // 被封印的属性名清单
- *       fetch: 'installed' | 'kept' | 'failed',      // globalThis.fetch 是否被接管
- *       globals: { Headers: ..., Request: ..., Response: ..., FormData: ..., Blob: ..., File: ... },
- *       fetchImpl: Function | null,                  // 接管后的 fetch（未接管时为 null）
+ *       httpLazy: 'installed' | 'kept' | 'failed',
+ *       sealed: string[],
+ *       fetch: 'installed' | 'kept' | 'failed',
+ *       globals: { Headers, Request, Response, FormData, Blob, File },
+ *       fetchImpl: Function | null,
+ *       wasm: { bundled, degraded },   // bundle 内嵌 WASM 能力的探测与降级事实
  *     }
  * 幂等：重复调用返回**同一个对象**，不重复安装。
  */
 
-/** 兼容层自身所在目录：组装期生成的条件入口靠它定位本目录。 */
-/**
- * 兼容层自身所在目录：组装期生成的条件入口（`pi-jitless-entry.cjs`）靠它定位本目录。
- *
- * 【为什么不在模块顶层无条件设置】jit 形态（有 ACL）下条件入口走 `require(REAL_MAIN)`，
- * 根本不需要这个变量；无条件设置等于给进程环境多塞一个绝对路径（子进程可见），
- * 与 NFR-108-001「jit 形态零可观察差异」相悖 ⇒ 只在 compat 分支里设（见 installIfNeeded）。
- */
-const SHIM_DIR = __dirname;
 const { sealHttpLazyUndici } = require('./http-lazy-undici.js');
 const { installFetchShim } = require('./fetch-shim.js');
 
@@ -65,20 +54,22 @@ function describe(facts) {
 /**
  * 按需安装 jitless 兼容层。
  *
- * @param {(line: string) => void} [log] 日志回调（调用方负责落盘；本模块不写文件）
+ * @param {object|function} [options] 选项对象（或直接传日志回调，兼容旧签名）：
+ * @param {(line: string) => void} [options.log] 日志回调（调用方落盘；本模块不写文件）
+ * @param {Record<string, boolean>} [options.bundleMarks] bundle 内嵌 WASM 标记探测结果
+ *   （{photon, treeSitter, quickjs}，由调用方从 opencode.mjs 文本探测得到）
  * @returns {{active: boolean, webAssembly: 'undefined'|'defined', httpLazy: string, sealed: string[],
- *   fetch: string, globals: Record<string, string>, fetchImpl: Function|null}}
+ *   fetch: string, globals: Record<string, string>, fetchImpl: Function|null, wasm: object}}
  */
-function installIfNeeded(log = NOOP) {
-  const say = typeof log === 'function' ? log : NOOP;
-  /* 幂等：第二次进来只回报事实，不再动任何全局/模块对象。**事实照打**：
-   * 首次调用可能来自上游库（默认 NOOP 日志），那样结构化安装结果就永远进不了 app.log
-   * （FR-108-002/008 要求"可 grep 的三态事实"），所以这里也 describe 一遍。 */
+function installIfNeeded(options) {
+  const opts = typeof options === 'function' ? { log: options } : (options || {});
+  const say = typeof opts.log === 'function' ? opts.log : NOOP;
+  const bundleMarks = opts.bundleMarks || null;
+  /* 幂等：第二次进来只回报事实，不再动任何全局/模块对象。 */
   if (state !== null) {
     say(`${LOG_PREFIX} 兼容层已安装过（幂等）：${describe(state)}`);
     return state;
   }
-
 
   if (typeof WebAssembly !== 'undefined') {
     say(`${LOG_PREFIX} WASM 可用：兼容层不安装`);
@@ -90,15 +81,11 @@ function installIfNeeded(log = NOOP) {
       fetch: 'kept',
       globals: {},
       fetchImpl: null,
+      wasm: { active: false, webAssembly: 'defined', bundled: bundleMarks || {}, degraded: [] },
     };
     return state;
   }
 
-  /*
-   * compat 分支的入口动作之一：把本目录告诉组装期生成的条件入口（`pi-jitless-entry.cjs`）。
-   * 放在这里而不是模块顶层 —— jit 形态不需要它，也不该给进程环境增变量（NFR-108-001）。
-   */
-  process.env.PI_JITLESS_DIR = SHIM_DIR;
 
   /*
    * 顺序是承重的：**先封 getter、再接管 fetch**。
@@ -136,11 +123,11 @@ function installIfNeeded(log = NOOP) {
    }
  
    /* 110-jitless（本工程专属）：bundle 内嵌 photon/tree-sitter/quickjs 是懒加载的内部符号，
-    * 无法 monkey-patch；这里只探测 + 出结构化降级事实（FR-110-006/007/008/009），不崩进程。
-    * wasmFacts 内部已按 `typeof WebAssembly` 判据：jit 形态返回空降级清单，零可观察差异。 */
+    * 无法 monkey-patch；这里按调用方给的 bundleMarks 出**结构化降级事实**
+    * （FR-110-006/007/008/009），不崩进程。marks 缺省时只报 WebAssembly 状态。 */
    let wasm = { active: false, webAssembly: 'defined', bundled: {}, degraded: [] };
    try {
-     wasm = require('./wasm-patch.js').wasmFacts(say);
+     wasm = require('./wasm-patch.js').wasmFacts(say, bundleMarks);
    } catch (error) {
      say(`${LOG_PREFIX} wasm 能力探测失败（不影响 fetch）：${String(error)}`);
    }

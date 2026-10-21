@@ -30,6 +30,8 @@
  */
 
 const LOG_PREFIX = '[jitless:wasm]';
+/** quickjs 的更具体标记（m6：避免 16MB 文本里 `\\bquickjs\\b` 误报字符串字面量）。 */
+const QUICKJS_MARKERS = ['quickjs-emscripten', 'quickjs.wasm', 'quickjs-wasm', 'new QuickJS', 'getQuickJS'];
 
 /**
  * 在 bundle 源码文本里探测「声明了哪些 WASM 资产」。
@@ -44,20 +46,20 @@ function probeBundledWasm(bundleText) {
   return {
     photon: text.includes('photon_rs_bg.wasm') || text.includes('@silvia-odwyer/photon-node'),
     treeSitter: text.includes('web-tree-sitter/tree-sitter.wasm') || text.includes('OPENCODE_TREE_SITTER_WASM_PATH'),
-    quickjs: /\bquickjs\b/i.test(text),
+    quickjs: QUICKJS_MARKERS.some((marker) => text.includes(marker)),
     wasmPaths: uniqueMatches(text, /[\w./@-]+\.wasm\b/g).slice(0, 64),
   };
 }
 
-function uniqueMatches(text, re) {
-  const set = new Set();
-  let m;
-  re.lastIndex = 0;
-  while ((m = re.exec(text)) !== null) {
-    set.add(m[0]);
-    if (set.size > 512) break;
-  }
-  return Array.from(set);
+/** 调用方已在外部探测好的标记（避免把 16MB bundle 文本传进本模块）。 */
+function marksToProbe(marks) {
+  if (!marks || typeof marks !== 'object') return null;
+  return {
+    photon: marks.photon === true,
+    treeSitter: marks.treeSitter === true,
+    quickjs: marks.quickjs === true,
+    wasmPaths: Array.isArray(marks.wasmPaths) ? marks.wasmPaths.slice(0, 64) : [],
+  };
 }
 
 /**
@@ -81,20 +83,21 @@ function degradedCapabilities(wasmAvailable, probe) {
  * 产出 wasm-patch 阶段的事实对象（并入 `installIfNeeded` 的返回）。
  *
  * @param {(line: string) => void} [log]
- * @param {string} [bundleText]
+ * @param {string|object} [source] bundle 源码文本，或调用方预先探测好的 marks 对象
+ *   （{photon, treeSitter, quickjs, wasmPaths}）。传 marks 可避免 16MB bundle 文本进本模块。
  * @returns {{
  *   active: boolean, webAssembly: string,
- *   bundled: { photon: boolean, treeSitter: boolean, quickjs: boolean },
+ *   bundled: { photon: boolean, treeSitter: boolean, quickjs: boolean, wasmPaths: string[] },
  *   degraded: string[]
  * }}
  */
-function wasmFacts(log = () => {}, bundleText) {
+function wasmFacts(log = () => {}, source) {
   const wasmAvailable = typeof WebAssembly !== 'undefined';
-  const probe = probeBundledWasm(bundleText);
+  const preMarks = marksToProbe(source);
+  const probe = preMarks !== null ? preMarks : probeBundledWasm(typeof source === 'string' ? source : '');
   const degraded = degradedCapabilities(wasmAvailable, probe);
 
   if (wasmAvailable) {
-    log(`${LOG_PREFIX} WASM 可用：无降级（jit 形态）`);
     return { active: false, webAssembly: 'defined', bundled: probe, degraded: [] };
   }
 

@@ -52,9 +52,42 @@ function portOf(url) {
   const m = /:(\d{1,5})(?:\/|$)/.exec(url || '');
   return m ? Number(m[1]) : 0;
 }
+/**
+ * 从 bundle 文本探测内嵌 WASM 资产标记（I5：喂给兼容层出结构化降级事实）。
+ * 只读前 8 MiB：本 bundle 的资产路径声明都在文件头部的 env 装配段，无需读全 16 MB。
+ * @param {string} entry opencode.mjs 绝对路径
+ * @returns {{photon:boolean,treeSitter:boolean,quickjs:boolean}}
+ */
+function probeBundleMarks(entry) {
+  const empty = { photon: false, treeSitter: false, quickjs: false };
+  try {
+    const fd = fs.openSync(entry, 'r');
+    try {
+      const MAX = 8 * 1024 * 1024;
+      const stat = fs.fstatSync(fd);
+      const size = Math.min(stat.size, MAX);
+      const buf = Buffer.alloc(size);
+      const n = fs.readSync(fd, buf, 0, size, 0);
+      const text = buf.subarray(0, n).toString('utf8');
+      return {
+        photon: text.includes('photon_rs_bg.wasm') || text.includes('@silvia-odwyer/photon-node'),
+        treeSitter: text.includes('web-tree-sitter/tree-sitter.wasm')
+          || text.includes('OPENCODE_TREE_SITTER_WASM_PATH'),
+        quickjs: ['quickjs-emscripten', 'quickjs.wasm', 'quickjs-wasm', 'new QuickJS']
+          .some((marker) => text.includes(marker)),
+      };
+    } finally {
+      fs.closeSync(fd);
+    }
+  } catch (error) {
+    log(`bundle 标记探测失败（降级事实将不完整，不影响启动）：${error && error.message}`);
+    return empty;
+  }
+}
 
 /**
  * 嗅探 `server listening on <url>`：上游 `server-process.ts` 的唯一就绪信号。
+
  * 维护 64 字符滚动尾部，处理跨 chunk 的行；成功写 marker 后加闩，只写一次。
  */
 function installStdoutSniffer() {
@@ -116,11 +149,15 @@ function main() {
   process.argv = ['node', 'opencode.mjs', 'serve', '--hostname', HOST, '--port', '0'];
   log(`serve hostname=${HOST} port=0 entry=${entry} version=${VERSION}`);
 
- 
-   // ⑤ 110-jitless：在加载产物前安装纯 JS 兼容层（fetch / undici 危险面 / wasm 降级事实）。
+   // ⑤ 110-jitless：在加载产物前安装纯 JS 兼容层（fetch / http 惰性 undici 面 / wasm 降级事实）。
    // 顺序承重：先装兼容层、再 import opencode.mjs（后者首次触达 fetch 时垫片已就位）。
-   const jitlessFacts = installIfNeeded(log);
-   log(`jitless ${JSON.stringify(jitlessFacts)}`);
+   // bundle 标记探测（I5）：只读前 8 MiB + 三处字符串判定，避免把 16MB bundle 整体传进兼容层。
+   const bundleMarks = probeBundleMarks(entry);
+   const jitlessFacts = installIfNeeded({ log, bundleMarks });
+   // I4：fetchImpl 是函数，JSON.stringify 会静默丢掉；换成可 grep 的标记串；wasm 子事实单独成行。
+   const factsForLog = { ...jitlessFacts, fetchImpl: jitlessFacts.fetchImpl ? 'shim' : null };
+   log(`jitless facts=${JSON.stringify(factsForLog)}`);
+   log(`jitless wasm=${JSON.stringify(jitlessFacts.wasm)}`);
  
    // 顶层兜底：进程内 Node 的未捕获异常会 abort 整个 App（C5），这里只记录不退出
   process.on('uncaughtException', (error) => {

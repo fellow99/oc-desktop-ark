@@ -69,14 +69,11 @@ function unavailable(op) {
 function createUndiciShim(real) {
   const base = real !== null && typeof real === 'object' ? { ...real } : {};
 
-  /* 全局 dispatcher：只记在内存里。初始值沿用真实模块给的那个（如果有），
-   * 这样上游"先 get 再 set"的写法也能跑，且不会因为取默认值而触发 WASM。 */
+  /* 全局 dispatcher：只记在内存里。
+   * 【review m5】不主动调用 `real.getGlobalDispatcher()` 取初始值 —— 在 jitless 进程里
+   * 真实 undici 一旦被求值就可能物化 WASM 版 llhttp 而抛错；未显式 set 时统一返回
+   * 下面的 fallbackDispatcher（惰性、纯 JS、dispatch 才报明确错误），语义同样自洽。 */
   let globalDispatcher;
-  try {
-    globalDispatcher = typeof real?.getGlobalDispatcher === 'function' ? real.getGlobalDispatcher() : undefined;
-  } catch (error) {
-    globalDispatcher = undefined;
-  }
 
   /*
    * 惰性的兜底 dispatcher：上游若真拿它去 `dispatch()`，会收到与 request 同一族的明确错误；

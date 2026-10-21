@@ -26,8 +26,11 @@
  * 处置：按**能力**识别外来 FormData（`isForeignFormData`）与外来 Blob（`isBlobLike`）。
  * 同一族取舍见 `isBlobLike` 的注释（"不能只用 instanceof"）。
  *
- * 【已知取舍】① 只跟随最多 5 次重定向，且只对 303 改写成 GET（307/308 尽量重放内存体，
- * 流式体无法重放）；② 请求体支持 string/Buffer/TypedArray/FormData/Blob/ReadableStream；
+ * 【已知取舍】① 只跟随最多 5 次重定向：303 一律改 GET 丢体；301/302 仅 POST 改 GET
+ * 丢体（对齐 Fetch 标准 / 原生 fetch 的真实行为；GET 的 301/302 本就无体）；
+ * 307/308 **保持原方法**，内存体（string/Buffer/FormData/Blob）原样重放，
+ * 流式体（ReadableStream，已被消费、不可重读）无法重放 ⇒ 大声 reject；
+ * ② 请求体支持 string/Buffer/TypedArray/FormData/Blob/ReadableStream；
  * ③ 不实现 `Response.redirect()` 之外的标准静态方法、不实现 `duplex` 校验；
  * ④ 响应体不做背压（`res` 一有数据就 enqueue，与参考实现一致），大响应体会占内存。
  */
@@ -175,13 +178,14 @@ class ShimFile extends ShimBlob {
 }
 
 /**
- * 生成一个 multipart/form-data 的 boundary。
+ * 生成一个 multipart/form-data 的 boundary（review m1：**中性**串，不含项目/需求标识——
+ * boundary 会原样出现在网络报文里，不应泄露实现来源）。
  *
  * 【为什么要单独抽出来】响应方向必须**先**定 content-type、**后**编体：多部分边界就写在
  * content-type 里 ⇒ 边界只能由构造响应的一方生成、再传给编码器。请求方向仍自生成，行为不变。
  */
 function makeMultipartBoundary() {
-  return `----pijitless${Date.now().toString(16)}${Math.floor(Math.random() * 1e9).toString(16)}`;
+  return `----formdata-${Date.now().toString(16)}-${Math.floor(Math.random() * 1e9).toString(16)}`;
 }
 
 class ShimFormData {
@@ -566,6 +570,9 @@ function stripBodyHeaders(headers) {
   const out = headers.clone();
   out.delete('content-length');
   out.delete('content-type');
+  out.delete('content-encoding');
+  out.delete('content-language');
+  out.delete('content-location');
   out.delete('transfer-encoding');
   return out;
 }
@@ -696,34 +703,49 @@ function onceFetch(url, init, headers, encoded, signal, redirectsLeft, redirecte
       }
     }
 
-    const follow = (status, resHeaders, location) => {
+    const follow = (status, resHeaders, location, redirectRes) => {
       const nextUrl = new URL(location, parsed).toString();
       const nextInit = { method };
       /*
        * 体改写规则（对齐 Fetch 标准，也是原生 fetch 的实际行为）：
-       *   · 303 ⇒ 一律改写成 GET 并丢体（表单提交后的通用形态）；
+       *   · 303 ⇒ 一律改写成 GET 并丢体（表单提交后的 See Other）；
        *   · 301 / 302 **且原方法是 POST** ⇒ 同样改写成 GET 并丢体。
-       *     为什么这条要单独做：尾斜杠跳转（`/api/x` → `/api/x/`）在 Next 里极常见，
-       *     不改写就会把同一个 POST 体重发一次 —— 服务端可能**重复写入**，
-       *     而日志上看起来只是"多了一次请求"。
+       *     历史 UA 行为：GET/HEAD 的 301/302 本就无体，不需要改写；
+       *   · 307 / 308 ⇒ **方法与体都必须原样重放**（这正是 307/308 与 302 的区别）。
+       *     内存体（encoded.data，Buffer 可重复写）⇒ 真重放；
+       *     流式体（encoded.stream，字节已被消费、不可重读）⇒ 无法重放，
+       *     **大声 reject**（错误码与 undici 同族），绝不静默改成空 POST ——
+       *     静默空体会把"重复下单"类事故藏成"请求成功但服务端没收到体"。
        */
       let nextEncoded = encoded;
       let nextHeaders = headers;
       const rewriteToGet = method !== 'HEAD'
         && (status === 303 || ((status === 301 || status === 302) && method === 'POST'));
+      const replayUnchanged = status === 307 || status === 308;
       if (rewriteToGet) {
         nextInit.method = 'GET';
         nextEncoded = null;
         nextHeaders = stripBodyHeaders(headers);
+      } else if (replayUnchanged) {
+        if (encoded !== null && encoded !== undefined && encoded.stream !== null) {
+          /* 排空这一跳的响应体后再拒绝：避免 socket 还挂着响应数据。 */
+          try { redirectRes.resume(); } catch { /* 忽略 */ }
+          const error = new TypeError('fetch failed：307/308 要求原样重放请求体，'
+            + '但流式请求体（ReadableStream）已被消费、不可重读；请改用内存体（string/Buffer/FormData/Blob）');
+          error.code = 'ERR_JITLESS_STREAM_REPLAY_UNSUPPORTED';
+          settle(reject, error);
+          return;
+        }
+        // 内存体：encoded.data 是 Buffer，下一跳 req.write(data) 可再次发送；方法/头原样保留。
       } else if (nextEncoded !== null && nextEncoded !== undefined && nextEncoded.stream !== null) {
-        /* 流式体不能重放（已经被消费）⇒ 丢掉体，同时剔掉体相关的头。 */
+        /* 301/302 GET/HEAD 之外不会到这；防御：流式体不能重放 ⇒ 丢掉体，同时剔掉体相关的头。 */
         nextEncoded = null;
         nextHeaders = stripBodyHeaders(headers);
-      } else if (nextEncoded === null || nextEncoded === undefined || nextEncoded.data === null) {
+      } else if (method === 'GET' || method === 'HEAD') {
+        /* 无体请求：仅清理可能残留的体相关头（防御，不改方法）。 */
         nextHeaders = stripBodyHeaders(headers);
       }
-      /* 307/308 且体在内存里 ⇒ 原样重放（`data` 是 Buffer，可重复写）。
-       * 先摘掉本跳的 abort 监听：下一跳的 `onceFetch` 会自己注册一个（留着会多一层悬挂监听）。 */
+      /* 先摘掉本跳的 abort 监听：下一跳的 `onceFetch` 会自己注册一个（留着会多一层悬挂监听）。 */
       detach();
       settle(resolve, onceFetch(nextUrl, nextInit, nextHeaders, nextEncoded, signal, redirectsLeft - 1, true, mode));
     };
@@ -768,7 +790,7 @@ function onceFetch(url, init, headers, encoded, signal, redirectsLeft, redirecte
             return;
           }
           res.resume();
-          follow(status, resHeaders, location);
+          follow(status, resHeaders, location, res);
           return;
         }
         /*

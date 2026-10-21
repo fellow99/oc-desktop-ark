@@ -153,7 +153,9 @@ function sealHttpLazyUndici(log = NOOP) {
     }
   }
 
-  const status = failed.length > 0 ? 'failed' : 'installed';
+  /* I10：一个 getter 都没封到（例如未来 Node 版本取消惰性 getter）时不得报 installed ——
+   * 那是「没有需要封印的东西」（kept），不是「封印成功」。有失败项仍报 failed。 */
+  const status = failed.length > 0 ? 'failed' : (sealed.length > 0 ? 'installed' : 'kept');
   return sealReport(sealed, status, { sealed: sealed.slice(), kept, failed });
 }
 

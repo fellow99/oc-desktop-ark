@@ -5,7 +5,7 @@ import { EnvNames, Names, Stage, Timing } from '../common/Constants';
 import { Log } from '../common/Log';
 import { Ports, ReadyInfo } from '../common/Ports';
  import { HostCapabilities } from '../host/HostCapabilities';
- import { NodeMode } from '../common/NodeMode';
+import { decision as nodeModeDecision, writeNodeModeEvidence } from '../common/NodeMode';
  import { Connection } from './Connection';
  import { Payload, PayloadPlan, PayloadRoute } from './Payload';
 
@@ -140,8 +140,9 @@ export class OpencodeRuntime {
 
      // 3/5 投递
      onStage(Stage.STARTING);
-     // 110-jitless：写形态证据（node-mode.json）——手机 hilog 对三方应用不可见，这是唯一可靠归因。
-     NodeMode.writeNodeModeEvidence(context.filesDir, NodeMode.resolve(), context.applicationInfo.debug);
+    // 110-jitless：写形态证据（node-mode.json）——手机 hilog 对三方应用不可见，这是唯一可靠归因。
+    // 复用 EntryAbility 的同一判定（NodeMode.decision() 单例）：ACL 探测全进程只做一次（review m8）。
+    writeNodeModeEvidence(context.filesDir, nodeModeDecision(), context.applicationInfo.debug);
     const options: NodeRuntimeOptions = {
       scriptPath: plan.scriptPath,
       entry: plan.entry,

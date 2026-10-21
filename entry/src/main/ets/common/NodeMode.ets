@@ -1,5 +1,6 @@
 import { abilityAccessCtrl, bundleManager, Permissions } from '@kit.AbilityKit';
 import { fileIo as fs } from '@kit.CoreFileKit';
+import { deviceInfo } from '@kit.BasicServicesKit';
 import { Log } from './Log';
 import { NODE_MODE } from './BuildConfig';
 import { Names } from './Constants';
@@ -45,10 +46,12 @@ export class AclProbe {
 export class NodeModeDecision {
   readonly mode: string;
   readonly reason: string;
+  readonly acl: AclProbe;
 
-  constructor(mode: string, reason: string) {
+  constructor(mode: string, reason: string, acl: AclProbe) {
     this.mode = mode;
     this.reason = reason;
+    this.acl = acl;
   }
 
   isCompat(): boolean {
@@ -100,7 +103,21 @@ export function resolve(): NodeModeDecision {
   const built: string = NODE_MODE === NODE_MODE_JIT ? NODE_MODE_JIT : NODE_MODE_COMPAT;
   const detail: string = '编译期常量 BuildConfig.NODE_MODE=' + built
     + '（运行期不可切换）｜诊断读数：' + probe.detail;
-  return new NodeModeDecision(built, detail);
+  return new NodeModeDecision(built, detail, probe);
+}
+
+/**
+ * 进程内**唯一一次**形态判定（review m8：ACL 查询与 BundleInfo 解析只做一次；
+ * EntryAbility 与 OpencodeRuntime 共用同一结果，避免双探测读数不一致时无法归因）。
+ * 首次访问时解析；之后永远返回同一实例。
+ */
+let cached: NodeModeDecision | null = null;
+
+export function decision(): NodeModeDecision {
+  if (cached === null) {
+    cached = resolve();
+  }
+  return cached;
 }
 
 /**
@@ -110,10 +127,10 @@ export function resolve(): NodeModeDecision {
  * 唯一可靠的「这次启动是什么形态、为什么」的持久证据。写失败不得影响启动。
  *
  * @param filesDir 应用 filesDir（证据写到 `<filesDir>/payload/node-mode.json`）
- * @param decision 形态判定结果
+ * @param decision 形态判定结果（其 acl 读数一并落盘；调用方传 `decision()` 单例）
  * @param debugBuild 是否 debug 构建（`applicationInfo.debug`）
  */
-export function writeNodeModeEvidence(filesDir: string, decision: NodeModeDecision, debugBuild: boolean): void {
+export function writeNodeModeEvidence(filesDir: string, decisionResult: NodeModeDecision, debugBuild: boolean): void {
   try {
     const dir: string = filesDir + '/payload';
     try {
@@ -123,10 +140,15 @@ export function writeNodeModeEvidence(filesDir: string, decision: NodeModeDecisi
     }
     const record: Record<string, string | boolean> = {
       'schema': '1',
-      'mode': decision.mode,
-      'reason': decision.reason,
-      'flags': decision.flags(),
+      'mode': decisionResult.mode,
+      'reason': decisionResult.reason,
+      'flags': decisionResult.flags(),
       'debugBuild': debugBuild,
+      'deviceType': deviceInfo.deviceType,
+      'deviceModel': deviceInfo.productModel,
+      'osFullName': deviceInfo.osFullName,
+      'aclGranted': decisionResult.acl.granted,
+      'aclDetail': decisionResult.acl.detail,
       'writtenAt': new Date().toISOString(),
     };
     const payload: string = JSON.stringify(record, null, 2) + '\n';
@@ -137,7 +159,7 @@ export function writeNodeModeEvidence(filesDir: string, decision: NodeModeDecisi
     } finally {
       fs.closeSync(fh);
     }
-    Log.info('node-mode 证据已写：' + file + '（mode=' + decision.mode + '）');
+    Log.info('node-mode 证据已写：' + file + '（mode=' + decisionResult.mode + '）');
   } catch (e) {
     Log.warn('node-mode 证据写失败（不影响启动）：' + JSON.stringify(e));
   }

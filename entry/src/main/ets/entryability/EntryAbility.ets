@@ -1,7 +1,7 @@
  import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
  import { window } from '@kit.ArkUI';
  import { Log } from '../common/Log';
- import { NodeMode } from '../common/NodeMode';
+import { decision as nodeModeDecision, NodeModeDecision } from '../common/NodeMode';
 
 /**
  * OC Desktop Ark 主 Ability（工程规划 §4.2）。
@@ -23,7 +23,7 @@ export default class EntryAbility extends UIAbility {
      // 110-jitless：Node 运行形态由**编译期常量** `BuildConfig.NODE_MODE` 决定（默认 compat）。
      // 运行期**没有**任何形态切换入口（无 probeFlags / want 参数 / 设置项 / ACL 探测参与决策）——
      // `--jitless` 是进程级形态，一次误判 = 整机不可用（见 common/NodeMode.ets 文件头）。
-     const decision: NodeMode.NodeModeDecision = NodeMode.resolve();
+    const decision: NodeModeDecision = nodeModeDecision();
      const flags: string = decision.flags();
      const debugBuild: boolean = this.context.applicationInfo.debug;
      AppStorage.setOrCreate<string>('nodeFlags', flags);

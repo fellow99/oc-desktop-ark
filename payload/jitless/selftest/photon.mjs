@@ -674,6 +674,30 @@ function parseOnly(argv) {
 const only = parseOnly(process.argv.slice(2));
 const selected = only ? tests.filter((t) => only.some((n) => t.name === n || t.name.startsWith(n))) : tests;
 
+/* review I9：pi-dist 集成用例（upstream-*）依赖参考工程的上游产物；本工程（oc-desktop-ark）
+ * 正常工作区里根本没有 pi-dist ⇒ 静默 SKIP 会让 CI/巡检误以为这两支被测过。
+ * 处置：开始前先探测一次；缺失时打**显著横幅**（不是夹在两条 PASS 之间的单行 SKIP），
+ * 并把跳过原因写进结束行，明确"这是环境缺失、不是通过"。可用 PI_DIST_UTILS 显式指路。 */
+const piDistAvailable = findPiDistUtils() !== null;
+const upstreamSelected = selected.filter((t) => t.name.startsWith('upstream-') || t.name.startsWith('exif-orientation'));
+if (!piDistAvailable && upstreamSelected.length > 0) {
+    const searched = [
+        process.env.PI_DIST_UTILS || '(未设 PI_DIST_UTILS)',
+        path.resolve(HERE, '../../../../pi-desktop-hos/pi-dist/node_modules/@earendil-works/pi-coding-agent/dist/utils'),
+        path.resolve(HERE, '../../../pi-desktop-hos/pi-dist/node_modules/@earendil-works/pi-coding-agent/dist/utils'),
+    ];
+    console.log('');
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    console.log(`!! [jitless:photon][selftest] 警告：${upstreamSelected.length} 个上游集成用例无法执行`);
+    console.log('!! 原因：找不到参考工程 pi-dist 的 utils 目录（photon.js / image-resize-core.js）。');
+    console.log('!! 这是**测试环境缺失**，不是用例通过；垫片纯 JS 面仍由其余用例完整覆盖。');
+    for (const dir of searched) console.log(`!!   已查：${dir}`);
+    console.log('!! 要跑上游集成：设置 PI_DIST_UTILS=<pi-dist 的 utils 绝对路径> 后重跑。');
+    console.log('!! 被跳过的用例：' + upstreamSelected.map((t) => t.name).join(', '));
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    console.log('');
+}
+
 console.log(
     `${LOG} 开始：${selected.length}/${tests.length} 个用例，WebAssembly=${typeof WebAssembly}（undefined ⇒ compat 形态）`,
 );
@@ -705,8 +729,11 @@ for (const t of selected) {
     }
 }
 
+const tail = skipped > 0
+    ? `（⚠ ${skipped} 个跳过${piDistAvailable ? '' : '：pi-dist 缺失，上游集成未测'}）`
+    : '';
 console.log(
-    `${LOG} 结束：${selected.length - failed - skipped} 通过 / ${failed} 失败 / ${skipped} 跳过，总耗时 ${Date.now() - tAll} ms`,
+    `${LOG} 结束：${selected.length - failed - skipped} 通过 / ${failed} 失败 / ${skipped} 跳过，总耗时 ${Date.now() - tAll} ms ${tail}`,
 );
 if (failed) {
     for (const f of failures) console.error(`${LOG} FAILED ${f.name}: ${f.msg}`);

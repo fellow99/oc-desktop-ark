@@ -247,6 +247,258 @@
       "kind": "asset"
     },
     {
+      "path": "jitless/fetch-shim.js",
+      "sha256": "bd3226a7a89e1f0a81b13eb77afcf581248ccbd4857a60e5fff45f7c76ac995f",
+      "size": 53478,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/http-lazy-undici.js",
+      "sha256": "1b9be82b8abbfe441c112af008691b39f3ba2f35d34140adbc948a31160dfd48",
+      "size": 7410,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/image-codec.js",
+      "sha256": "339e9ed58de79631e12ea6d8eb8320fed32fa17107b032227cfdffae22bcac04",
+      "size": 11779,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/index.js",
+      "sha256": "5fcdd48f43d007f2b25b92c3cfd45456cf50b517d273d9c9de9601e466ce2735",
+      "size": 6726,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/photon-shim.js",
+      "sha256": "f4bfbc96872d67ec081b28e81e37f7459a55c269f182743a85270af2f7709a1d",
+      "size": 18628,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/undici-shim.js",
+      "sha256": "1376ccc088dc4fecce32f609b5d3c155f0275d65c2ac91e33d6d21e82f300ae6",
+      "size": 6238,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/jpeg-js/CONTRIBUTING.md",
+      "sha256": "d1dca6b23725c6d90f6ad612b0836432d15676245f6401161b789868985b760a",
+      "size": 1260,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/jpeg-js/index.d.ts",
+      "sha256": "b6a4094d0564b7459a479e2320e97949b9378d6d2a4081707f606a6168483a6b",
+      "size": 1032,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/jpeg-js/index.js",
+      "sha256": "6a717532c6ccf05572052801b593a07766d8834eccef316490db4e58f2e6385b",
+      "size": 143,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/jpeg-js/lib/decoder.js",
+      "sha256": "f6c9f3c4633bfe7ad26c424baae4867f9a635df29a9e9d28c15e418dd0123e33",
+      "size": 41744,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/jpeg-js/lib/encoder.js",
+      "sha256": "2e5cf3518f02b1f584f8615af96849ef9268f076df229e2485a8289430c87ce7",
+      "size": 22934,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/jpeg-js/LICENSE",
+      "sha256": "f6fda8c485eb9eb6c067acf413ec0a518cba520830dddc04618e472f204416ab",
+      "size": 1473,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/jpeg-js/package.json",
+      "sha256": "4ed856c5fa47037755d7fdd83fa1fb585aab28caa639eb0e4f2469ab0783efda",
+      "size": 674,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/jpeg-js/README.md",
+      "sha256": "34a33517ec16ee38d747d16079d761a6f1340310303a23ee4d81ce082b5b5ea6",
+      "size": 8594,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/CHANGELOG.md",
+      "sha256": "10747fe98d86662a61259ee340110c49e33a339ca9165a913de8e43ceb5cc25f",
+      "size": 3129,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/bitmapper.js",
+      "sha256": "e2865e8648543551c3d68092102a2b6961c97a04bac1836687ec55ed7caec6b4",
+      "size": 6744,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/bitpacker.js",
+      "sha256": "4c6d38fa9ab55a2dabbb4e95247bf2e542172c75e59093a615fae605ea1c4738",
+      "size": 4828,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/chunkstream.js",
+      "sha256": "a1f738190cbb1371201ffd2c57fa97ae047f7560b6cea6195b6764168ebfb162",
+      "size": 4438,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/constants.js",
+      "sha256": "c32a1c2619836f7e72a8573be1a3437907d79015ca1271be0b7013bbf0a16b0f",
+      "size": 694,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/crc.js",
+      "sha256": "ea6c19019207dee85697593eb04e77dcc454fb95fdc96ff8fa651a252ce547b9",
+      "size": 893,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/filter-pack.js",
+      "sha256": "8ac8c98843d47bb71602687414b1ff6c35548ca86b27da0405cc2cd96897a60e",
+      "size": 4450,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/filter-parse-async.js",
+      "sha256": "cbc6a0677fbaa1bc37c59fdbbeebd3e7658d7c047903c887969fd38fdd596bb2",
+      "size": 582,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/filter-parse-sync.js",
+      "sha256": "eba4a4e76e85cee1a3c6d7c51298602d0c8f17a8c12e5a852b0ab284d67ce153",
+      "size": 504,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/filter-parse.js",
+      "sha256": "ca32bee90b5e782a7aa13a0d2dd9563a510ab0664ab1d2895cd07799a47a25ac",
+      "size": 4975,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/format-normaliser.js",
+      "sha256": "3d6c6445f627142844c1826a1210fccbd6473f51061073bcfff57a19cc38ab0a",
+      "size": 2459,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/interlace.js",
+      "sha256": "c67acf45f72e8e7cb82d5b555792314550392f5bc8e9889fb971dccbf11b0402",
+      "size": 2099,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/packer-async.js",
+      "sha256": "1bdab5b9561bbdf7fbccaeb7d06fa1d09670ec2134a63d8984600d1b0eebe16f",
+      "size": 1212,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/packer-sync.js",
+      "sha256": "ba3fb315e9734ccb9451f915d63056354c3ad1ff0eb3c28cc3aae6951139ee3e",
+      "size": 1249,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/packer.js",
+      "sha256": "2c816dacdb1981276cd5d233c864df3e6a4990c6a9a9bb3d61e13e539f373283",
+      "size": 3852,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/paeth-predictor.js",
+      "sha256": "320368d5b0611416a92fb6c1ddb9005d2dee7ad9b649f9198702b1bce6a8e93e",
+      "size": 388,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/parser-async.js",
+      "sha256": "5daae87137be61c31e11146e396ed52ee0142052ff419d816febf6124007ee72",
+      "size": 4537,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/parser-sync.js",
+      "sha256": "6c33c17aa4c11fd1fc16291e7ebb4e5e96b95d44af63ae1ecb23d50cf3937c1d",
+      "size": 2692,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/parser.js",
+      "sha256": "1b7e0269210b8b233984dbcc7a86fe021b2ccec4f39416eb971eca4eb25397ad",
+      "size": 8010,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/png-sync.js",
+      "sha256": "e2c4676393239c49df59d6bd5daf61e046276676257fb5513f3b4e08fce73d2f",
+      "size": 264,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/png.js",
+      "sha256": "ca1095844306d04691e91edd7d94a620bf0454b2567956a7a6025cf9f3f14975",
+      "size": 4612,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/sync-inflate.js",
+      "sha256": "81e7f6eb2569cdc0400b6b16a751ca6294462e56e5094284f4781f3f734d8b5c",
+      "size": 3919,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/lib/sync-reader.js",
+      "sha256": "0b7b0a5017640c81b571dba7ae2f53907fecb7e8fef0cb2c0247bf379faa869d",
+      "size": 1159,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/LICENSE",
+      "sha256": "29bcaf95e7ba55972a39cb6a1a1c2f318e58fb7abcb9dabe930c79bc7412ea88",
+      "size": 1170,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/package.json",
+      "sha256": "702ccfd57d6274245a2aceed8cc63015f3bc68d37da93ac0fec86b375679a57d",
+      "size": 1888,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/pngjs/README.md",
+      "sha256": "c0069c00c3c473c36bcdd61f402a94b4d998adb2d735f1a944aa0c26510a3105",
+      "size": 9662,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/vendor/VENDOR.json",
+      "sha256": "e109abd4aecc912c48d2db6f11d26386a52de29a0fff54d51ccde38c2a01152c",
+      "size": 7192,
+      "kind": "asset"
+    },
+    {
+      "path": "jitless/wasm-patch.js",
+      "sha256": "cca46bc10e8d1ed8e6bb4bf9f1d2eb4588de14319d03c046f720debe67d14f35",
+      "size": 5633,
+      "kind": "asset"
+    },
+    {
       "path": "lib/env.js",
       "sha256": "20ff8f74c60831be157b06d28b85f0aa12c244996d1e449a325e651bfb4e1e81",
       "size": 1380,
@@ -260,8 +512,8 @@
     },
     {
       "path": "opencode-server.js",
-      "sha256": "53252925cc78a7031b145f27bdc026b9ca66407812bc3a014aeec960acd3c297",
-      "size": 4880,
+      "sha256": "4e50cbc5c85485bebf3b9e168eb715807571701cbdf211f34a5a2908affbce36",
+      "size": 7309,
       "kind": "asset"
     },
     {
@@ -278,7 +530,7 @@
     }
   ],
   "totals": {
-    "count": 44,
-    "bytes": 65288316
+    "count": 86,
+    "bytes": 65566092
   }
 }

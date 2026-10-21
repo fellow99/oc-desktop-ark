@@ -218,12 +218,49 @@ function route(req, res) {
     return;
   }
   if (p === '/submit') {
+    /* 303：任何方法都必须改成 GET 丢体。 */
     const chunks = [];
     req.on('data', (c) => chunks.push(c));
     req.on('end', () => {
       records.submit = { method: req.method, body: Buffer.concat(chunks).toString('utf8') };
       res.writeHead(303, { location: '/after' });
       res.end();
+    });
+    return;
+  }
+  if (p === '/replay307') {
+    /* 307 Temporary Redirect：方法与体都必须原样重放。 */
+    const chunks = [];
+    req.on('data', (c) => chunks.push(c));
+    req.on('end', () => {
+      records.replay307 = { method: req.method, body: Buffer.concat(chunks).toString('utf8'),
+        contentLength: req.headers['content-length'] ?? null };
+      res.writeHead(307, { location: '/replay-done' });
+      res.end();
+    });
+    return;
+  }
+  if (p === '/replay308') {
+    /* 308 Permanent Redirect：同样必须原样重放。 */
+    const chunks = [];
+    req.on('data', (c) => chunks.push(c));
+    req.on('end', () => {
+      records.replay308 = { method: req.method, body: Buffer.concat(chunks).toString('utf8'),
+        contentLength: req.headers['content-length'] ?? null };
+      res.writeHead(308, { location: '/replay-done' });
+      res.end();
+    });
+    return;
+  }
+  if (p === '/replay-done') {
+    const chunks = [];
+    req.on('data', (c) => chunks.push(c));
+    req.on('end', () => {
+      records.replayDone = { method: req.method, body: Buffer.concat(chunks).toString('utf8'),
+        contentLength: req.headers['content-length'] ?? null,
+        transferEncoding: req.headers['transfer-encoding'] ?? null };
+      res.writeHead(200, { 'content-type': 'application/json' });
+      res.end(JSON.stringify(records.replayDone));
     });
     return;
   }
@@ -573,6 +610,67 @@ await run('redirect-303-post', async () => {
   eq(records.after.transferEncoding, null, '303 之后不得带 transfer-encoding');
 });
 
+// ── 用例 9b：307/308 必须保持方法并重放内存体（review I3）─────────────────
+await run('redirect-307-308-replay', async () => {
+  await startServer();
+  records.replay307 = null;
+  records.replayDone = null;
+  const bodyText = '{"order":"307-replay"}';
+  const res307 = await shimFetch(`${baseUrl}/replay307`, {
+    method: 'PUT',
+    headers: { 'content-type': 'application/json', 'x-test-method': 'keep' },
+    body: bodyText,
+  });
+  eq(res307.status, 200, '307 最终 status');
+  assert(records.replay307 !== null, '原始 PUT 应到达 /replay307');
+  eq(records.replay307.method, 'PUT', '/replay307 收到的 method');
+  eq(records.replay307.body, bodyText, '/replay307 收到的体');
+  assert(records.replayDone !== null, '应跟随 307 请求 /replay-done');
+  eq(records.replayDone.method, 'PUT', '307 后 method 必须保持 PUT（不得改成 GET）');
+  eq(records.replayDone.body, bodyText, '307 后请求体必须原样重放');
+  eq(Number(records.replayDone.contentLength), Buffer.byteLength(bodyText),
+    '307 重放的 content-length 必须是体重字节数');
+
+  /* 308：同样语义，再跑一遍 POST。 */
+  records.replay308 = null;
+  records.replayDone = null;
+  const postBody = 'a=1&b=2';
+  const res308 = await shimFetch(`${baseUrl}/replay308`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    body: postBody,
+  });
+  eq(res308.status, 200, '308 最终 status');
+  eq(records.replay308.method, 'POST', '/replay308 收到的 method');
+  eq(records.replay308.body, postBody, '/replay308 收到的体');
+  eq(records.replayDone.method, 'POST', '308 后 method 必须保持 POST');
+  eq(records.replayDone.body, postBody, '308 后请求体必须原样重放');
+});
+
+// ── 用例 9c：307 + 流式体 ⇒ 必须大声 reject（不得静默空体重放）────────────
+await run('redirect-307-stream-rejects', async () => {
+  await startServer();
+  records.replay307 = null;
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream({
+    start(controller) {
+      controller.enqueue(encoder.encode('stream-body'));
+      controller.close();
+    },
+  });
+  const error = await expectReject(
+    shimFetch(`${baseUrl}/replay307`, {
+      method: 'POST',
+      headers: { 'content-type': 'text/plain;charset=UTF-8' },
+      body: stream,
+    }),
+    (e) => e.code === 'ERR_JITLESS_STREAM_REPLAY_UNSUPPORTED',
+    '307 + 流式体',
+  );
+  assert(/307\/308/.test(error.message), '错误信息必须点名 307/308 与不可重放原因');
+  assert(records.replay307 !== null, '原始 POST 仍应已发出（在收到 307 后才拒绝跟随）');
+});
+
 // ── 用例 10：undici 面（临时包目录模拟组装期条件入口）───────────────────
 await run('undici-surface', async () => {
   await startServer();
@@ -852,8 +950,11 @@ await run('static-guard', async () => {
   }
 
   const files = ['index.js', 'http-lazy-undici.js', 'fetch-shim.js', 'undici-shim.js'];
+  /* index.js 原文也要：④ 的环境变量断言必须针对**原文**（注释里提及名字不应算违规）。 */
+  const sources = {};
   for (const file of files) {
     const source = fs.readFileSync(path.join(JITLESS_DIR, file), 'utf8');
+    sources[file] = source;
     const code = stripComments(source);
 
     /* ① 不许 import/require undici（只允许 fetch-shim 之外……其实一个都不允许） */
@@ -881,27 +982,29 @@ await run('static-guard', async () => {
     }
   }
 
-  /* ④ index.js 必须先把 PI_JITLESS_DIR 指到自身目录 */
   /*
-   * ④ index.js 必须把 PI_JITLESS_DIR 指到自身目录（条件入口靠它定位垫片）。
-   *    判定用"存在对 SHIM_DIR/__dirname 的赋值"，**不绑定变量拼写**：
-   *    本轮把它从模块顶层移进了 compat 分支（jit 形态不该给进程环境增变量，NFR-108-001）。
+   * ④ index.js 不得再设置进程级 PI_JITLESS_DIR/SHIM_DIR 环境变量（review I7：
+   *    条件入口改用相对 require 后，compat 层不应给宿主进程环境留指纹；NFR-110-001
+   *    要求 jit 形态零环境差异，compat 形态也只动该动的全局）。
+   *    针对**去注释后的代码**：注释里允许提到这两个名字（迁移说明），但真正的赋值必须消失。
    */
-  const indexSource = fs.readFileSync(path.join(JITLESS_DIR, 'index.js'), 'utf8');
-  assert(/process\.env\.PI_JITLESS_DIR\s*=\s*(?:SHIM_DIR|__dirname)/.test(indexSource),
-    'index.js 必须设置 process.env.PI_JITLESS_DIR = SHIM_DIR（或 __dirname）');
-  const assignAt = indexSource.search(/process\.env\.PI_JITLESS_DIR\s*=\s*(?:SHIM_DIR|__dirname)/);
-  assert(assignAt > indexSource.indexOf("if (typeof WebAssembly !== 'undefined') {"),
-    'PI_JITLESS_DIR 的**赋值**必须在 compat 分支内（WASM 可用时不得给进程环境增变量）');
+  const indexCode = stripComments(sources['index.js']);
+  assert(!/process\.env\.PI_JITLESS_DIR|process\.env\.SHIM_DIR/.test(indexCode),
+    'index.js 不得设置 PI_JITLESS_DIR / SHIM_DIR 环境变量（相对 require 已足够定位垫片）');
 
-  /* ⑤ 封印函数自己也要自检 WASM（调用方忘了判也不会误封） */
+  /* ⑤ 封印函数自己也要自检 WASM（调用方忘了判也不会误封）。
+   *    本用例前面已经成功安装过一次（幂等缓存 + getter 已被替换），这里再次调用
+   *    看到的是"无 getter 可封"的稳态 ⇒ status='kept'；首次封印的 installed 事实
+   *    已由用例 1（install-facts）断言。 */
   const seal = sealHttpLazyUndici(() => {});
   assert(Array.isArray(seal), 'sealHttpLazyUndici 必须返回属性名清单（数组）');
   if (!JITLESS) {
     eq(seal.length, 0, 'WASM 可用时 sealHttpLazyUndici 不应封印任何东西');
-    eq(seal.status, 'kept', 'WASM 可用时 sealHttpLazyUndici 的事实应为 kept');
   }
+  eq(seal.status, 'kept', '稳态（幂等）下 sealHttpLazyUndici 的事实应为 kept');
+
 });
+
 // ── 汇总 ─────────────────────────────────────────────────────────────────
 await stopServer();
 const failedCases = results.filter((r) => !r.ok);

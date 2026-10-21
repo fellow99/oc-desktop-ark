@@ -80,9 +80,20 @@
 
 ### FR-110-005 undici 危险面接管
 
-- `opencode.mjs` 及其依赖若直接 `require('undici')` / `import { fetch } from 'undici'` / `undici.install()`，在 compat 形态下 `install()` 必须为**空操作**（不得把 `globalThis.fetch` 换回 WASM 版）；
-- `setGlobalDispatcher`/`getGlobalDispatcher` 为惰性记录；`request/stream/pipeline/connect/upgrade` 覆写为**明确 reject**（`code=ERR_JITLESS_UNDICI_WASM`，信息指路改用 `fetch`），不静默；
-- jit 形态（`WebAssembly` 可用）下**完全不接管**，保持 100% 原生。
+**载荷事实（2026-10-21 review C1 取证修正）**：对 16 MB `resfile/opencode/opencode.mjs` 全文 grep，
+字面量 `'undici'` 仅出现 2 次，唯一的 `from 'undici'` 位于 **OpenAI SDK 的一条错误消息字符串**内
+（提示用户如何自行配置代理），不是真实的 `import`/`require`；bundle 运行时**并不加载 undici 包**。
+因此早期设想的「拦截 `Module._load('undici')`」**不接线**（拦截一个永不发生的加载只会增加风险面）。
+真正的 undici 风险面是 Node 内置的 `node:http`/`node:https` 惰性 getter（`lazyUndici`），
+已由 `http-lazy-undici.js` 封印（见 FR-110-004）。本条按如下口径落地：
+
+- `undici-shim.js`（条件入口 + `createUndiciShim`）作为**已自测的防御资产保留**：仅当未来 bundle
+  引入真实 `import ... from 'undici'`（依赖升级/换打包方式）时，经组装期条件入口接线；当前不进入运行时链路；
+- 防御资产的行为契约仍被 selftest 钉死：compat 形态下 `undici.install()` 必须为**空操作**
+  （不得把 `globalThis.fetch` 换回 WASM 版）；`setGlobalDispatcher`/`getGlobalDispatcher` 为惰性内存记录
+  （不主动求值真实 undici 的默认 dispatcher）；`request/stream/pipeline/connect/upgrade` 覆写为
+  **明确 reject**（`code=ERR_JITLESS_UNDICI_WASM`，信息指路改用 `fetch`），不静默；
+- jit 形态（`WebAssembly` 可用）下条件入口**原样透出**真实模块，100% 原生。
 
 ### FR-110-006 tree-sitter 代码解析：**能力开关 + 如实降级**
 
@@ -91,14 +102,18 @@
 - 触发语义搜索时必须给出**结构化降级提示**（「本档不支持语义搜索，已回退文本搜索」），**不得**崩进程、不得静默失败；
 - jit 形态下行为与现役完全一致。
 
-### FR-110-007 图片能力（photon → 纯 JS）
+### FR-110-007 图片能力（photon → 纯 JS 垫片 / 如实降级）
 
-- 必须实现 `@silvia-odwyer/photon-node` 被真实使用的 API 面：`PhotonImage`（`new_from_byteslice` / `get_width` / `get_height` / `get_raw_pixels` / `get_bytes` / `get_bytes_jpeg(q)` / `free`）、`resize(image,w,h,SamplingFilter)`、`fliph`、`flipv`、`SamplingFilter`；
-- 必须**同步**（上游调用点同步，无 `await`）；
-- 必须**惰性解码**：`new_from_byteslice` 只解析文件头取宽高；仅在 `get_raw_pixels` / `get_bytes` / `resize` 时解码；
-- 支持格式：JPEG（decode/encode）、PNG（decode/encode）；GIF/WebP 至少能取宽高（解码不支持时必须**明确报错**，由上游转换为可见提示）；
-- 判定同 FR-110-004：`WebAssembly` 可用 ⇒ 原生 photon；不可用 ⇒ 纯 JS 垫片（vendor `jpeg-js` + `pngjs`，锁 sha256，离线可构建）；
-- **接入方式差异**：本工程 photon 在 `opencode.mjs` bundle 内（非独立 npm 包），兼容层需在 import 产物前**按能力开关替换其 photon 调用入口**（monkey-patch），jit 形态不替换。
+**载荷事实（2026-10-21 本机 grep 取证，修正本条早期假设）**：`opencode.mjs` 对 photon 是**双层结构**：
+1. **调用层**：`nn.PhotonImage.new_from_byteslice(...)`，且**自带 `try/catch`**（`catch:()=>new DecodeError(...)`）⇒ 解码失败是**受控降级**（上游把 `DecodeError` 转为用户可见提示），不崩进程；
+2. **加载层**：bundle 内联 emscripten 实例化 `new WebAssembly.Module(readFileSync(__OPENCODE_PHOTON_WASM_PATH))`，WASM 路径来自 `process.env.OPENCODE_PHOTON_WASM_PATH`（默认 `<assetsRoot>/@silvia-odwyer/photon-node/photon_rs_bg.wasm`）。
+
+⇒ 「monkey-patch bundle 内 photon 入口」在本工程**不可行**（调用方与 WASM 加载方都是 minified 内部符号，无外部拦截点）；纯 JS 垫片无法注入为 photon 本体。**本条需求按如下口径落地**：
+
+- compat 形态下**图片附件路径不可用**：触发图片附件时走上游既有 `DecodeError` 降级路径 ⇒ 用户可见「图片处理失败」提示，**对话可继续、进程不崩**；
+- 纯 JS 编解码能力（`photon-shim.js` + `image-codec.js` + vendor `jpeg-js`/`pngjs`，锁 sha256）**保留并全量自测**（`payload/jitless/selftest/photon.mjs`）：作为已验证的降级/替换资产，供未来上游提供注入点（环境变量指向 JS 实现 / 上游拆分 photon 为独立包）时直接启用；
+- jit 形态（`WebAssembly` 可用）行为与现役完全一致（原生 photon）；
+- **验收口径变更**：AC-110-09 的 compat 主分支为「发图得到明确提示且对话可继续」（与 tree-sitter/code-mode 同口径的如实降级）；「发图成功（视觉模型识读）」仅对 **jit 变体**成立。
 
 ### FR-110-008 code-mode（quickjs）降级
 
@@ -138,7 +153,7 @@
 | AC-110-06 | 权限声明面 | 静态门禁：`module.json5` 只含 JIT ACL + 两个 normal 用户目录权限，无 `READ_PASTEBOARD`/`READ_WRITE_DESKTOP_DIRECTORY` |
 | AC-110-07 | 真机 compat 启动 | 装 compat 变体（默认 `NODE_MODE='compat'`）⇒ Node 起、服务就绪（marker）、ArkWeb 可交互 |
 | AC-110-08 | 真机 compat 对话 | 一次真实对话成功（`stopReason=stop`），SSE 流式可见（调模型走纯 JS fetch） |
-| AC-110-09 | 真机 compat 图片 | 发一张图给模型成功（视觉模型识读），或明确提示且不影响对话 |
+| AC-110-09 | 真机 compat 图片 | compat 形态：发图得到**明确提示**（上游 `DecodeError` 降级）且**对话可继续**（FR-110-007 口径）；jit 变体：发图成功（视觉模型识读） |
 | AC-110-10 | 真机 jit 回归 | 改 `NODE_MODE='jit'` 重新构建 ⇒ 不带 `--jitless`；启动/对话/图片与改造前一致（jit 零回归） |
 | AC-110-11 | 降级如实 | compat 形态触发语义搜索 / code-mode 得到结构化降级提示，进程不崩 |
 | AC-110-12 | release 合规 | release 包无运行期形态切换入口；`node-mode.json` 依据串为编译期常量 |

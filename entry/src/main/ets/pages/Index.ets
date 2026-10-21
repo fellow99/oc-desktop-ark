@@ -17,8 +17,10 @@ import { Stage, Timing } from '../common/Constants';
 @Entry
 @Component
 struct Index {
-   @State stage: string = Stage.IDLE;
-   @State detail: string = '正在启动（Node 形态见 node-mode.json）…';
+  // 110-jitless：形态由 EntryAbility 在 onCreate 写入 AppStorage（编译期常量，不可运行期切换）。
+  @StorageProp('nodeMode') @Watch('onNodeModeChange') nodeMode: string = 'unknown';
+  @State stage: string = Stage.IDLE;
+  @State detail: string = '正在启动…';
   @State url: string = '';
   @State failed: boolean = false;
   @State errorText: string = '';
@@ -29,7 +31,25 @@ struct Index {
   private watchdog: number = -1;
 
   aboutToAppear(): void {
+    // 形态进入首帧文案：compat 明确告知"无 JIT 兼容模式"，避免真机上被误解为"卡顿/异常"。
+    this.detail = this.modeLine();
     this.start();
+  }
+
+  private modeLine(): string {
+    if (this.nodeMode === 'compat') {
+      return '无 JIT 兼容模式（--jitless；图片附件/WASM 能力受限，对话不受影响）';
+    }
+    if (this.nodeMode === 'jit') {
+      return 'JIT 模式（完整能力）';
+    }
+    return '正在启动（Node 形态见 node-mode.json）…';
+  }
+
+  private onNodeModeChange(): void {
+    if (!this.failed && this.url.length === 0) {
+      this.detail = this.modeLine();
+    }
   }
 
   aboutToDisappear(): void {
@@ -165,6 +185,10 @@ struct Index {
             Text(this.detail)
               .fontSize(12)
               .fontColor('#777777')
+            Text('Node 形态：' + this.nodeMode)
+              .fontSize(11)
+              .fontColor('#999999')
+              .margin({ top: 4 })
           }
         }
         .width('100%')
