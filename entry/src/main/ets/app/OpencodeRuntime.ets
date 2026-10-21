@@ -120,23 +120,27 @@ export class OpencodeRuntime {
     // 目录与「作废旧 marker」（FR-101-003：投递前删除 + 记一条作废日志）
     const readyPath: string = context.filesDir + '/payload/' + Names.READY_FILE;
     const serverLog: string = context.filesDir + '/' + Names.LOG_DIR + '/' + Names.SERVER_LOG;
-     try {
-       fs.mkdirSync(context.filesDir + '/payload', true);
-       fs.mkdirSync(context.filesDir + '/' + Names.LOG_DIR, true);
-       fs.mkdirSync(context.filesDir + '/' + Names.WORKSPACE_DIR, true);
-       // 工作区选择器插件目录（opencode 的插件发现目录；沙箱 config 根下）
-       fs.mkdirSync(context.filesDir + '/config/' + Names.PLUGIN_DIR, true);
-       // 宿主能力桥文件信箱目录（Node 写 .req / ArkTS 泵读它；两侧同路径、同 UID）
-       fs.mkdirSync(context.filesDir + '/' + Names.MAILBOX_DIR, true);
-       // 投放工作区选择器插件（只读直读：resfile 插件 → 沙箱 config 插件目录）
-       this.provisionPlugin(context);
-       if (fs.accessSync(readyPath)) {
-         fs.unlinkSync(readyPath);
-         Log.info('已作废上一轮 marker：' + readyPath);
-       }
-     } catch (error) {
-       Log.warn('准备沙箱目录/作废 marker 失败（继续）：' + JSON.stringify(error));
-     }
+    /* 110-jitless（真机取证 2026-10-21）：目录创建逐个兜住。
+     * OpenHarmony 的 `fs.mkdirSync(path, true)` 在目录**已存在**时会抛 EEXIST（不像 mkdir -p）；
+     * 之前五个 mkdir 共用一个大 try ⇒ 第二次启动起整段跳到 catch，
+     * 连带下面的「作废旧 marker」和插件投放都被跳过（插件永远是首次装机那份）。 */
+    this.ensureDir(context.filesDir + '/payload');
+    this.ensureDir(context.filesDir + '/' + Names.LOG_DIR);
+    this.ensureDir(context.filesDir + '/' + Names.WORKSPACE_DIR);
+    // 工作区选择器插件目录（opencode 的插件发现目录；沙箱 config 根下）
+    this.ensureDir(context.filesDir + '/config/' + Names.PLUGIN_DIR);
+    // 宿主能力桥文件信箱目录（Node 写 .req / ArkTS 泵读它；两侧同路径、同 UID）
+    this.ensureDir(context.filesDir + '/' + Names.MAILBOX_DIR);
+    // 投放工作区选择器插件（只读直读：resfile 插件 → 沙箱 config 插件目录；每次启动覆盖写）
+    this.provisionPlugin(context);
+    try {
+      if (fs.accessSync(readyPath)) {
+        fs.unlinkSync(readyPath);
+        Log.info('已作废上一轮 marker：' + readyPath);
+      }
+    } catch (error) {
+      Log.warn('作废旧 marker 失败（继续）：' + JSON.stringify(error));
+    }
 
      // 3/5 投递
      onStage(Stage.STARTING);
@@ -231,6 +235,21 @@ export class OpencodeRuntime {
     return result;
   }
 
+  /** 幂等建目录：已存在且确实是目录才算成功（OpenHarmony `mkdirSync(path, true)` 对已存在目录抛 EEXIST）。 */
+  private ensureDir(dir: string): void {
+    try {
+      if (fs.accessSync(dir)) {
+        if (!fs.statSync(dir).isDirectory()) {
+          Log.warn('路径已存在但不是目录（继续；后续写入会明确失败）：' + dir);
+        }
+        return;
+      }
+      fs.mkdirSync(dir, true);
+    } catch (error) {
+      Log.warn('建目录失败（继续）：' + dir + ' ' + JSON.stringify(error));
+    }
+  }
+
   /**
    * 投放工作区选择器插件（只读直读：resfile 插件目录 → 沙箱 config 插件目录）。
    *
@@ -246,16 +265,32 @@ export class OpencodeRuntime {
     const srcDir: string = context.resourceDir + '/' + Names.PAYLOAD_DIR + '/plugins/oc-plugin-workspace-roots';
     const destDir: string = context.filesDir + '/config/' + Names.PLUGIN_DIR + '/oc-plugin-workspace-roots';
     try {
-      fs.mkdirSync(destDir, true);
+      this.ensureDir(destDir);
       const srcFile: string = srcDir + '/index.mjs';
       if (!fs.accessSync(srcFile)) {
         Log.warn('工作区选择器插件源缺失（跳过投放；collect-opencode 是否已投放 resfile 插件？）：' + srcFile);
         return;
       }
       const destFile: string = destDir + '/index.mjs';
-      fs.copyFileSync(srcFile, destFile);
-      const size: number = fs.statSync(destFile).size;
-      Log.info('工作区选择器插件已投放：' + destFile + '（' + size + ' B）');
+      /* 原子覆盖：先拷到同目录 tmp，再 rename 覆盖目标。
+       * - 不先删旧文件：删完再拷失败（ENOSPC / 读 resfile 失败）会留下「没有插件」，
+       *   而且每次启动都会重演（投放现在是每次都跑）。
+       * - rename 对已存在目标是原子替换，且不会读到半截文件。 */
+      const destTmp: string = destFile + '.tmp';
+      if (fs.accessSync(destTmp)) {
+        fs.unlinkSync(destTmp);
+      }
+      fs.copyFileSync(srcFile, destTmp);
+      const srcSize: number = fs.statSync(srcFile).size;
+      const tmpSize: number = fs.statSync(destTmp).size;
+      if (srcSize !== tmpSize) {
+        /* 截断拷贝必须可见（OpenHarmony copyFileSync 的已知风险点）。 */
+        Log.warn('插件拷贝长度不符（放弃替换，保留旧文件）：src=' + srcSize + ' B tmp=' + tmpSize + ' B');
+        fs.unlinkSync(destTmp);
+        return;
+      }
+      fs.renameSync(destTmp, destFile);
+      Log.info('工作区选择器插件已投放：' + destFile + '（' + tmpSize + ' B）');
     } catch (error) {
       Log.warn('投放工作区选择器插件失败（选择器将不可用；不阻断启动）：' + JSON.stringify(error));
     }

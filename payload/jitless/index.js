@@ -28,6 +28,10 @@
  *       globals: { Headers, Request, Response, FormData, Blob, File },
  *       fetchImpl: Function | null,
  *       wasm: { bundled, degraded },   // bundle 内嵌 WASM 能力的探测与降级事实
+ *       photonGuard: 'armed' | 'failed' | 'n/a',
+ *         // compat：photon 纯 JS 替身是否挂到 globalThis.__PI_JITLESS_PHOTON__
+ *         //   （投放期已在 opencode.mjs 注入守卫；未 armed ⇒ 服务 import 期就 FATAL）
+ *         // jit：恒为 'n/a'（兼容层不安装）
  *     }
  * 幂等：重复调用返回**同一个对象**，不重复安装。
  */
@@ -48,6 +52,7 @@ function describe(facts) {
     .join(', ');
   return `httpLazy=${facts.httpLazy}（${facts.sealed.length > 0 ? facts.sealed.join(', ') : '无'}）`
     + ` fetch=${facts.fetch}`
+    + ` photonGuard=${facts.photonGuard === undefined ? 'n/a' : facts.photonGuard}`
     + ` globals=${globals.length > 0 ? globals : '(无)'}`;
 }
 
@@ -82,6 +87,7 @@ function installIfNeeded(options) {
       globals: {},
       fetchImpl: null,
       wasm: { active: false, webAssembly: 'defined', bundled: bundleMarks || {}, degraded: [] },
+      photonGuard: 'n/a',
     };
     return state;
   }
@@ -125,23 +131,41 @@ function installIfNeeded(options) {
    /* 110-jitless（本工程专属）：bundle 内嵌 photon/tree-sitter/quickjs 是懒加载的内部符号，
     * 无法 monkey-patch；这里按调用方给的 bundleMarks 出**结构化降级事实**
     * （FR-110-006/007/008/009），不崩进程。marks 缺省时只报 WebAssembly 状态。 */
-   let wasm = { active: false, webAssembly: 'defined', bundled: {}, degraded: [] };
-   try {
-     wasm = require('./wasm-patch.js').wasmFacts(say, bundleMarks);
-   } catch (error) {
-     say(`${LOG_PREFIX} wasm 能力探测失败（不影响 fetch）：${String(error)}`);
-   }
+  let wasm = { active: false, webAssembly: 'defined', bundled: {}, degraded: [] };
+  try {
+    wasm = require('./wasm-patch.js').wasmFacts(say, bundleMarks);
+  } catch (error) {
+    say(`${LOG_PREFIX} wasm 能力探测失败（不影响 fetch）：${String(error)}`);
+  }
+
+  /* 110-jitless（真机实测补充）：bundle 里 photon 的 wasm-bindgen 胶水在**模块初始化期**
+   * 就 `new WebAssembly.Module(...)` ⇒ compat 下整个服务 import 失败（FATAL）。
+   * 投放期 collector 已在 opencode.mjs 里注入守卫：
+   *     var photon_rsExports=(typeof WebAssembly==="undefined"&&globalThis.__PI_JITLESS_PHOTON__)
+   *         ?globalThis.__PI_JITLESS_PHOTON__:requirePhoton_rs();
+   * ⇒ 这里必须在 import bundle **之前**把纯 JS 替身挂上，否则守卫取不到值、又回落到 WASM。
+   * 装载失败不抛（记 `photonGuard: 'failed'`）：服务起不来时上游会给出自己的 FATAL 行。 */
+  let photonGuard = 'n/a';
+  try {
+    globalThis.__PI_JITLESS_PHOTON__ = require('./photon-shim.js');
+    photonGuard = 'armed';
+    say(`${LOG_PREFIX} photon 纯 JS 替身已挂载（globalThis.__PI_JITLESS_PHOTON__）`);
+  } catch (error) {
+    photonGuard = 'failed';
+    say(`${LOG_PREFIX} photon 替身装载失败（图片路径将报 DecodeError）：${String(error)}`);
+  }
  
-   state = {
-     active: true,
-     webAssembly: 'undefined',
-     httpLazy,
-     sealed,
-     fetch: fetchStatus,
-     globals,
-     fetchImpl,
-     wasm,
-   };
+  state = {
+    active: true,
+    webAssembly: 'undefined',
+    httpLazy,
+    sealed,
+    fetch: fetchStatus,
+    globals,
+    fetchImpl,
+    wasm,
+    photonGuard,
+  };
 
   say(`${LOG_PREFIX} 兼容层安装完成：${describe(state)}`);
   return state;

@@ -18,7 +18,7 @@ import {
   cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, renameSync,
   rmSync, statSync, writeFileSync,
 } from 'node:fs'
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -42,6 +42,92 @@ if (!existsSync(path.join(bridgePayload, 'bootstrap.js'))) {
 }
 
 /**
+ * 110-jitless：给 staged `opencode.mjs` 注入**唯一的** photon 守卫。
+ *
+ * 【为什么必须改 bundle】上游 bundle 里 photon 是 wasm-bindgen 胶水，`requirePhoton_rs()`
+ * 在**模块初始化期**（`var photon_rsExports=requirePhoton_rs()`）就执行
+ * `new WebAssembly.Module(bytes)` / `new WebAssembly.Instance(...)`。compat 形态
+ * （`node --jitless` ⇒ `WebAssembly===undefined`）下这是**启动期硬失败**（真机实测：
+ * `FATAL import failed: ReferenceError: WebAssembly is not defined`），不是懒加载降级。
+ * 单文件 bundle 里 photon 的符号是 minified 内部符号，运行期无法 monkey-patch
+ * ⇒ 只能在投放期做这一处**锚点唯一**的替换，把「初始化」改成「compat 取纯 JS 替身」。
+ *
+ * 【替换内容】`var photon_rsExports=requirePhoton_rs();`
+ *   → `var photon_rsExports=(typeof WebAssembly==="undefined"&&globalThis.__PI_JITLESS_PHOTON__)
+ *      ?globalThis.__PI_JITLESS_PHOTON__:requirePhoton_rs();`
+ * 替身由 `jitless/index.js` 在 import bundle **之前**挂到 `globalThis.__PI_JITLESS_PHOTON__`。
+ *
+ * 【jit 形态零回归】`typeof WebAssembly!=="undefined"` ⇒ 仍走原生 `requirePhoton_rs()`。
+ * 【安全网（三闸）】
+ *   ① 锚点必须**恰好出现 1 次**（多于/少于都拒绝，绝不模糊替换 16 MB 文本）；
+ *   ② 写盘后**重新读回**断言「含新式、不含旧锚点」，并核对文件长度变化；
+ *   ③ 对改后文件跑 `node --check`（语法闸）。
+ *   任一条不满足 ⇒ 抛错（调用方清理 staging 后退出，不留半成品）。
+ *
+ * 【为什么按 Buffer 处理】bundle 是 16 MB UTF-8 文本；`readFileSync(...,'utf8')` + `writeFileSync`
+ * 会把任何非法 UTF-8 字节静默改成 U+FFFD，而 manifest 的 sha256 是**改后**再算的（改坏了也自洽）。
+ * 按字节查找/拼接可完全避开这个风险。
+ *
+ * @param {string} file staged opencode.mjs 绝对路径
+ * @param {string} stage staging 目录（仅用于日志里的相对展示）
+ * @returns {{anchor: string, occurrences: number, applied: boolean}}
+ * @throws {Error} 锚点数量异常 / 回读校验失败 / `node --check` 失败
+ */
+function applyPhotonGuard(file, stage) {
+  const anchor = 'var photon_rsExports=requirePhoton_rs();'
+  const replacement = 'var photon_rsExports=(typeof WebAssembly==="undefined"'
+    + '&&globalThis.__PI_JITLESS_PHOTON__)?globalThis.__PI_JITLESS_PHOTON__:requirePhoton_rs();'
+  const anchorBytes = Buffer.from(anchor, 'utf8')
+  const replacementBytes = Buffer.from(replacement, 'utf8')
+
+  /* ① 锚点唯一性 */
+  const original = readFileSync(file)
+  const occurrences = countOccurrences(original, anchorBytes)
+  if (occurrences !== 1) {
+    throw new Error(`photon 守卫锚点数量异常（期望 1，实测 ${occurrences}）：${anchor}`
+      + ' ｜ 上游 bundle 结构变了 ⇒ 必须人工确认新锚点后再投放（拒绝模糊替换）。')
+  }
+  const at = original.indexOf(anchorBytes)
+  writeFileSync(file, Buffer.concat([
+    original.subarray(0, at), replacementBytes, original.subarray(at + anchorBytes.length),
+  ]))
+
+  /* ② 回读校验（只认落盘内容，不认内存里的 Buffer） */
+  const written = readFileSync(file)
+  const expectedSize = original.length - anchorBytes.length + replacementBytes.length
+  if (written.length !== expectedSize) {
+    throw new Error(`photon 守卫回读长度不符：期望 ${expectedSize} B，实测 ${written.length} B`)
+  }
+  if (countOccurrences(written, anchorBytes) !== 0) {
+    throw new Error('photon 守卫回读仍有旧锚点（替换未生效）')
+  }
+  if (countOccurrences(written, replacementBytes) !== 1) {
+    throw new Error('photon 守卫回读找不到新表达式（替换未生效）')
+  }
+
+  /* ③ 语法闸：Node 解析改后的 ESM */
+  const check = spawnSync(process.execPath, ['--check', file], { encoding: 'utf8' })
+  if (check.status !== 0) {
+    throw new Error(`photon 守卫改后文件语法检查失败（exit=${check.status}）：${(check.stderr || '').slice(0, 400)}`)
+  }
+
+  console.log(`守卫 photon 初始化：1 处锚点已替换 + 回读/语法校验通过（${path.relative(stage, file) || file}）`)
+  return { anchor, occurrences, applied: true }
+}
+
+/** 在 Buffer 里数非重叠出现次数。 */
+function countOccurrences(haystack, needle) {
+  let count = 0
+  let from = 0
+  for (;;) {
+    const at = haystack.indexOf(needle, from)
+    if (at < 0) return count
+    count += 1
+    from = at + needle.length
+  }
+}
+
+/**
  * 在 staging 目录里完成全部组装，返回 manifest 与审计事实。
  * 组装逻辑与输出布局**与是否 apply 无关** —— dry-run 跑的就是真组装，
  * 这样审计结果才代表 apply 后的真实内容（review I2）。
@@ -56,6 +142,9 @@ function assemble(stage) {
   if (existsSync(path.join(distNode, 'assets'))) {
     cpSync(path.join(distNode, 'assets'), path.join(stage, 'assets'), { recursive: true })
   }
+
+  /* 110-jitless：bundle 级 photon 守卫（compat 形态启动期不触达 WASM）。 */
+  const bundleGuard = applyPhotonGuard(path.join(stage, 'opencode.mjs'), stage)
 
   // 2) 裁剪：只删「非目标平台」的二进制子包与不可执行 ELF
   const pruneDirs = [
@@ -168,7 +257,7 @@ function assemble(stage) {
     },
   }
   writeFileSync(path.join(stage, 'manifest.sha256'), JSON.stringify(manifest, null, 2) + '\n')
-  return { manifest, removed, jitlessAudit, pluginCopied }
+  return { manifest, removed, jitlessAudit, pluginCopied, bundleGuard }
 }
 
 function safeBunVersion() {
@@ -238,10 +327,14 @@ const stage = mkdtempSync(path.join(stageParent, '.collect-stage-'))
 let result
 try {
   result = assemble(stage)
-} finally {
-  // apply 成功后才把 stage 移交给 resfile；失败/dry-run 都清理临时目录
+} catch (error) {
+  /* 失败必须清掉 staging：stage 建在 resfile/ 同卷，残留目录会被打进 HAP
+   * （且 .gitignore 只忽略 resfile/opencode/*，残留会成为未跟踪文件）。 */
+  rmSync(stage, { recursive: true, force: true })
+  console.error(`✗ 组装失败（已清理 staging）：${error && error.message ? error.message : String(error)}`)
+  process.exit(1)
 }
-const { manifest, removed, jitlessAudit, pluginCopied } = result
+const { manifest, removed, jitlessAudit, pluginCopied, bundleGuard } = result
 const previous = readPreviousManifest()
 const report = audit(manifest, previous, jitlessAudit)
 
@@ -249,6 +342,7 @@ console.log(`── collect 审计${APPLY ? '（--apply）' : '（dry-run；加 
 console.log(`文件总数 ${manifest.totals.count} / ${(manifest.totals.bytes / 1048576).toFixed(1)} MB`)
 console.log(`裁剪平台子包 ${removed.length} 个${removed.length ? '：' + removed.join(', ') : ''}`)
 console.log(`jitless 兼容层：${report.jitlessCount} 个文件入库（另排除 selftest 项 ${jitlessAudit.skippedSelftest}）`)
+console.log(`bundle 守卫（photon 初始化）：${bundleGuard.applied ? '已注入（jit 形态仍走原生）' : '未注入'}`)
 console.log(`工作区选择器插件：${pluginCopied ? '已投放' : '⚠ 源缺失，未投放（不阻断）'}`)
 if (previous === null) {
   console.log('旧清单：不存在（首次投放或 resfile 已被清理）')

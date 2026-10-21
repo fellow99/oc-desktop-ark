@@ -36,11 +36,21 @@ const PERM_BY_ROOT = {
 };
 
 /**
- * 宿主桥 `host.js` 的解析：优先与载荷同目录（resfile 只读直读时两者同层），
- * 找不到则退回 `NODE_BRIDGE_PAYLOAD_ROOT/host.js`，再找不到 `undefined`（能力降级为 not-bridge）。
+ * 宿主桥 `host.js` 的解析。
+ *
+ * 【真机取证 2026-10-21】插件被投放到**可写**的 `files/config/opencode/plugin/...`，
+ * 而 `host.js` 随载荷在**只读**的 `resfile/opencode/`（= `NODE_BRIDGE_READONLY_ROOT`），
+ * 两者并不同目录 ⇒ 只查 `here` 和 `NODE_BRIDGE_PAYLOAD_ROOT` 会落到 `undefined`
+ * （症状：`permissionCheck` 返回「宿主桥不可用」，权限预检/申请、应用信息页深链全废）。
+ * 因此按「插件同目录 → 只读载荷根 → 可写载荷根」顺序找，全找不到才降级为 not-bridge。
  */
 function resolveHost() {
   const candidates = [];
+  /* 顺序承重：**只读载荷根优先**。`host.js` 有能力面（perm.request / perm.openAppInfo），
+   * 而插件目录是**可写**的；先读可写目录等于允许「谁写谁能接管宿主桥」。 */
+  if (process.env.NODE_BRIDGE_READONLY_ROOT) {
+    candidates.push(path.join(process.env.NODE_BRIDGE_READONLY_ROOT, 'host.js'));
+  }
   const here = path.dirname(new URL(import.meta.url).pathname);
   candidates.push(path.join(here, 'host.js'));
   if (process.env.NODE_BRIDGE_PAYLOAD_ROOT) {
@@ -57,6 +67,29 @@ function resolveHost() {
 }
 
 const host = resolveHost();
+
+/**
+ * 接线文件信箱（host.js 的 `invoke()` 默认**没有**传输层，会明确 reject `transport-unavailable`）。
+ *
+ * 【真机取证 2026-10-21】只 require host.js 不 `useFileMailbox()` ⇒ `permissionCheck` 拿到
+ * `host bridge: transport-unavailable name=perm.check`。信箱目录由宿主注入（`ARK_HOST_MAILBOX`），
+ * 与 ArkTS 侧 `HostCapabilities` 的泵同路径、同 UID。
+ */
+if (host) {
+  try {
+    const box = process.env.ARK_HOST_MAILBOX;
+    if (typeof box === 'string' && box.length > 0) {
+      const wired = host.useFileMailbox(box, {});
+      console.log(`${LOG_PREFIX} workspace-roots: host bridge mailbox=${wired.ok ? wired.dir : 'unavailable(' + wired.error + ')'}`);
+    } else {
+      console.log(`${LOG_PREFIX} workspace-roots: ARK_HOST_MAILBOX 未注入（权限预检/申请将明确失败）`);
+    }
+  } catch (e) {
+    console.log(`${LOG_PREFIX} workspace-roots: 接线文件信箱失败 ${e && e.message}`);
+  }
+}
+
+/** 沙箱家目录（宿主把 HOME 指到 filesDir）。 */
 const HOME = process.env.HOME || process.env.USERPROFILE || '';
 
 /** 用户主目录（文档/下载的根）。默认 `/storage/Users/currentUser`，可用 OC_HOS_USER_HOME 覆盖。 */
@@ -183,35 +216,69 @@ async function handleOpenAppInfo() {
     return { ok: false, message: (e && e.message) || String(e) };
   }
 }
-
 /**
  * 上游插件契约：默认导出 `{ id, setup }`；`setup` 返回值是清理函数。
  * 缺失 `context.rpc.register` 时**抛错**（fail-visible：插件在 inventory 里变 failed，
  * 而不是静默什么都不注册，导致 UI 回退）。
+ *
+ * 【定义形状是承重的（真机取证 2026-10-21）】
+ * 上游 `Rpc.register(definition, handlers)` 内部会：
+ *   · `Object.entries(definition.events)`  —— 缺 `events` ⇒ `TypeError: Cannot convert
+ *     undefined or null to object`（插件整体 failed，RPC 全部 unavailable）；
+ *   · 每个方法调用时 `parse$7(definition.methods[m].input, payload)` 与
+ *     `encode$2(methods[m].output, result)` —— 缺 `input`/`output` ⇒ 调用期报错。
+ * `parse$7/encode$2` 同时接受 effect Schema、Standard Schema 与 **draft 2020-12 JSON Schema**
+ * ⇒ 插件侧用纯 JSON Schema 声明即可（不依赖上游内部构造器）。
+ *
+ * 【载荷形状】route 固定 `POST /api/rpc/<id>/<method>`；body 是 `{ input: <客户端 input> }`，
+ * 但上游 route **已解包**后才进 handler（真机取证）。故 handler 收到的通常就是 `<客户端 input>`，
+ * 用 `payloadOf()` 兜住「已解包 / 未解包」两种形状。
  */
+const INPUT_SCHEMA = {
+  type: 'object',
+  properties: { input: { type: 'object', additionalProperties: true } },
+  additionalProperties: true,
+};
+/** 输出：四种方法返回的都是扁平对象（ok/code/message/entries/roots…），不收紧。 */
+const OUTPUT_SCHEMA = { type: 'object', additionalProperties: true };
+
+/** 取客户端真正的 input（见头注释「载荷形状」）。 */
+function payloadOf(payload) {
+  if (!payload || typeof payload !== 'object') return {};
+  /* 仅当对象**只有一个键 `input`** 且其值是对象时才解包（避免误伤真含 input 字段的入参）。 */
+  const keys = Object.keys(payload);
+  if (keys.length === 1 && keys[0] === 'input' && payload.input && typeof payload.input === 'object') {
+    return payload.input;
+  }
+  return payload;
+}
+
 export default {
   id: PLUGIN_ID,
   async setup(context) {
     if (!context || !context.rpc || typeof context.rpc.register !== 'function') {
       throw new Error(`${PLUGIN_ID}: unexpected plugin context (missing context.rpc.register)`);
     }
+    const method = (description) => ({ description, input: INPUT_SCHEMA, output: OUTPUT_SCHEMA });
     const definition = {
       id: PLUGIN_ID,
       name: 'OC Workspace Roots',
       description: '沙箱 / 文档 / 下载 三根工作区选择器（含权限预检、申请与目录枚举）',
+      /* 承重：上游对 `definition.events` 直接 Object.entries（见头注释）。 */
+      events: {},
       methods: {
-        roots: { description: '三个主目录的解析（路径 / 是否存在 / 是否需要授权）' },
-        browse: { description: '列某个 root（或 root 内子路径）的目录' },
-        permissionCheck: { description: '权限预检（点 Tab 时，不请求）' },
-        permissionRequest: { description: '主动申请目录权限（点「请求权限」按钮时）' },
-        openAppInfo: { description: '深链到本应用信息页' },
+        roots: method('三个主目录的解析（路径 / 是否存在 / 是否需要授权）'),
+        browse: method('列某个 root（或 root 内子路径）的目录'),
+        permissionCheck: method('权限预检（点 Tab 时，不请求）'),
+        permissionRequest: method('主动申请目录权限（点「请求权限」按钮时）'),
+        openAppInfo: method('深链到本应用信息页'),
       },
     };
     const registration = await context.rpc.register(definition, {
       roots: async () => handleRoots(),
-      browse: async (input) => handleBrowse(input),
-      permissionCheck: async (input) => handlePermissionCheck(input),
-      permissionRequest: async (input) => handlePermissionRequest(input),
+      browse: async (payload) => handleBrowse(payloadOf(payload)),
+      permissionCheck: async (payload) => handlePermissionCheck(payloadOf(payload)),
+      permissionRequest: async (payload) => handlePermissionRequest(payloadOf(payload)),
       openAppInfo: async () => handleOpenAppInfo(),
     });
     console.log(`${LOG_PREFIX} plugin ${PLUGIN_ID} registered (roots, browse, permissionCheck, permissionRequest, openAppInfo)`);

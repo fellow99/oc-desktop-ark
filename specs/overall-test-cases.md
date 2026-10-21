@@ -1,23 +1,31 @@
 # overall-test-cases —— 测试用例索引
 
-> 索引级文档：列出跨模块用例与执行方式；模块级细化在各 `1NN-*/spec.md` 的「验收场景」。
-> **状态口径**：✅ 已执行通过 · ❌ 失败 · ⬜ 未执行（无设备/未实现）。
+> 索引级文档：**只管分层、编号与引用关系**；可执行细节与判据在模块 `test-cases.md` 里，不在此重复。
+> **状态口径**：✅ 已执行通过 · ❌ 失败 · ⚠️ 部分通过（有明确降级/限制） · ⬜ 未执行（无设备/未实现）。
 > 证据落点：`logs/<YYYYMMDD>-N/TEST_REPORT.md` + `docs/evidence/`。
 
-## 一、用例编号与分层
+## 〇、引用关系（唯一入口表）
 
-| 前缀 | 层级 | 执行环境 | 是否需要设备 |
+> 规则：**一份用例只写在一处**。跨模块的用例登记在本文；模块细节登记在 `specs/<编号>/test-cases.md`。
+> 本文只引用模块文件，不复制其内容；模块文件反向以「关联」列指回本文的分层。
+
+| 层 | 编号前缀 | 执行环境 | 需设备 | 用例所在文件 |
+|---|---|---|---|---|
+| 静态 | `TC-S-*` | host：`node --check`、JSON 解析、脚本自检 | 否 | 本文 §二 |
+| host 门禁 | `TC-H-*` | host：补丁 / 构建 / `smoke-node24` | 否 | 本文 §三 |
+| 设备（全局） | `TC-D-*` | 真机：`hdc` + 界面 | **是** | 本文 §四 |
+| 回归 | `TC-R-*` | host + 真机 | 部分 | 本文 §五 |
+| 模块：110-jitless（PC 自测） | `TC-110-0x` | host：`node --jitless`（≈ 真机 compat） | 否 | [110-jitless/test-cases.md](110-jitless/test-cases.md) |
+| 模块：110-jitless（静态/投放门禁） | `TC-110-1x` | host：`check-acl-surface` / `collect-opencode` / `node --check` | 否 | 同上 |
+| 模块：110-jitless（真机） | `TC-110-2x` | 真机：`hdc` + HTTP + 模型凭据（运行时注入） | **是** | 同上 |
+
+**模块文件清单（本索引引用的全部模块用例）**
+
+| 模块 | 文件 | 覆盖的全局用例 | 说明 |
 |---|---|---|---|
-| `TC-S-*` | 静态（static） | host：`node --check`、JSON 解析、脚本自检 | 否 |
-| `TC-H-*` | host（host gate） | host：补丁 / 构建 / `smoke-node24` | 否 |
- | `TC-S-*`/`TC-H-*` | 静态 / host 门禁 | host：`node --check`、JSON 解析、脚本自检、构建 | 否 |
- | `TC-110-0x` | **模块用例（110-jitless，PC 侧）** | host：`node --jitless` 自测（开发期迭代） | 否 |
- | `TC-110-1x` | **模块用例（110-jitless，静态/投放门禁）** | host：`check-acl-surface` / `collect-opencode` | 否 |
- | `TC-110-2x` | **模块用例（110-jitless，真机）** | 真机：`hdc` + HTTP + 模型凭据（运行时注入） | **是** |
- 
- > **模块用例索引**：各 `1NN-*` 模块的细化用例落在 `specs/<编号>/test-cases.md`。
- > - `110-jitless`：[specs/110-jitless/test-cases.md](110-jitless/test-cases.md)（TC-110-01…25；PC 自测 + 静态/投放门禁 + 真机三层）
- > 本索引只登记**跨模块**与**分层**；模块级命令与期望以模块 test-cases.md 为准。
+| 110-jitless | [110-jitless/test-cases.md](110-jitless/test-cases.md) | `TC-S-005`、`TC-D-002/003/004/005/009` | 无 JIT 双形态；实证 `TC-D-002/003`（ACL 反证/正证）与 compat 下的可用性 |
+
+> 新增模块时：① 在 `specs/<编号>/test-cases.md` 里编号自己的用例；② 只在上表加一行；③ 不要在本文件复制模块用例正文。
 ## 二、静态用例（host，无设备）
 
 | ID | 用例 | 步骤 | 期望 | 关联 |
@@ -82,7 +90,8 @@
 | 日期 | 环境 | 执行范围 | 结果 | 证据 |
 |---|---|---|---|---|
 | 2026-10-18 | host（无设备） | TC-S-001..004 | ✅ 通过（`apply-patches --check` 3 条可应用；`node --check` 通过） | 本文 §七 |
-| ⬜ | 真机（设备缺席） | TC-D-* | ⬜ 未执行 | — |
+| 2026-10-21 | 真机 USB（HAD-W32 / HarmonyOS 7.0.0.111 / API 26） | TC-D-001/003/004/006/009；TC-S-008；TC-H-009/010 | ✅ 通过（详见 §十 与 `logs/20261021-2/TEST_REPORT.md`） | `logs/20261021-2/` |
+| 2026-10-21 | 真机 | TC-D-002（无 ACL 反证） | ⬜ 未执行（本形态需换 Profile 重签，见 §十 声明边界） | — |
 
 ## 七、host 侧已取得的证据（2026-10-18）
 
@@ -146,13 +155,18 @@ $ node scripts/apply-patches.mjs --check
  | TC-110-23 | 真机 | 降级如实（不崩） | AC-110-11 |
  | TC-110-24 | 真机 | jit 变体回归（零回归） | AC-110-10 |
  | TC-110-25 | 真机 | release 合规 | AC-110-12 |
+| TC-110-26 | 门禁+真机 | bundle 守卫：photon 初始化期不触达 WASM（锚点唯一；jit 回落原生） | AC-110-04 |
+| TC-110-27 | 真机 | 工作区选择器 RPC（`roots`/`browse`/`permissionCheck`；插件 active + 宿主桥已接线） | FR-HOST-003 |
+| TC-110-28 | 真机 | `shell` 工具在 compat 下的表现（如实失败即算达标；当前为已知限制） | AC-110-11 |
  
  > 与既有 `TC-D-002`（无 ACL 反证 SIGTRAP）/`TC-D-003`（有 ACL 正证）的关系：本模块在其上叠加「compat 形态下纯 JS 兼容层使 fetch/图片可用」。
  > **敏感信息纪律**：DeepSeek API key / git 账号密码 / 测试 URL 只进运行时 env / 命令参数，**不落盘**任何文档/日志/证据。
  
  ## 十、执行记录（110-jitless）
  
- | 日期 | 环境 | 范围 | 结果 | 证据 |
- |---|---|---|---|---|
- | ⬜ | host（PC，`node --jitless`） | TC-110-01…16 | ⬜ 开发中 | `logs/<YYYYMMDD>-N/TEST_REPORT.md` |
- | ⬜ | 真机（待设备连上） | TC-110-17…25 | ⬜ 待设备 | 同上 |
+| 2026-10-21 | host（PC，`node --jitless` v24.7.0） | TC-110-01…13 | ✅ 全绿（2 支 PASS；22 过 / 0 失败 / 2 跳过＝pi-dist 缺失） | `logs/20261021-2/TEST_REPORT.md` |
+| 2026-10-21 | host（静态/投放门禁） | TC-110-14…17、TC-110-26（锚点注入） | ✅ 全绿 | 同上 |
+| 2026-10-21 | 真机（HAD-W32 / API 26） | TC-110-18/19/20/21/27 | ✅（compat 启动 1.6 s；真实对话 `finish=stop`；看图分析正确；工作区三根 + browse 可用） | 同上 |
+| 2026-10-21 | 真机 | TC-110-23（降级如实） / TC-110-28（shell 工具） | ⚠️ 部分：不崩、失败可见；但 `shell` 工具直接报 `WebAssembly is not defined`（限制已登记） | 同上 |
+| 2026-10-21 | 真机 | TC-110-22（git 闭环） | ❌ 阻塞：设备无 `git` 二进制（`exit 127`），且 108-git-plugin 未实现/未投放 | 同上 |
+| 2026-10-21 | 真机 | TC-110-24（jit 变体） / TC-110-25（release 合规） | ⬜ 未执行（需改 `NODE_MODE` 重编 / release 包） | — |

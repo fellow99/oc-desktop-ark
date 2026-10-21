@@ -138,18 +138,50 @@ hdc shell "cat <filesDir>/payload/node-mode.json"   # 期望 mode=jit、flags �
 ### TC-110-25 release 合规
 release 包启动：期望无运行期形态切换入口；`node-mode.json` 依据串 = 编译期常量。（AC-110-12）
 
+### TC-110-26 投放期 bundle 守卫（photon 初始化期不触达 WASM）
+```bash
+node scripts/collect-opencode.mjs            # dry-run 也会打印守卫结果
+grep -c 'globalThis.__PI_JITLESS_PHOTON__' entry/src/main/resources/resfile/opencode/opencode.mjs
+```
+期望：
+- 锚点 `var photon_rsExports=requirePhoton_rs();` **恰好 1 处**被替换（多于/少于 1 ⇒ collect 退出码 3，拒绝模糊替换）；
+- 替换后表达式是 `typeof WebAssembly==="undefined" && globalThis.__PI_JITLESS_PHOTON__ ? 替身 : requirePhoton_rs()`；
+- `node --check opencode.mjs` 通过；jit 形态下 `typeof WebAssembly !== 'undefined'` ⇒ 仍走原生。
+
+> 背景（真机 2026-10-21）：photon 的 wasm-bindgen 胶水在**模块初始化期**就 `new WebAssembly.Module(...)`，
+> compat 下表现为 `FATAL import failed: ReferenceError: WebAssembly is not defined`（服务起不来），不是懒加载降级。
+
+### TC-110-27 工作区选择器 RPC（真机）
+```bash
+# 插件必须在 inventory 里 active（不是 failed）
+GET  /api/plugin
+POST /api/rpc/oc-harmony-workspace-roots/roots             -d '{"input":{}}'
+POST /api/rpc/oc-harmony-workspace-roots/browse            -d '{"input":{"id":"sandbox"}}'
+POST /api/rpc/oc-harmony-workspace-roots/permissionCheck   -d '{"input":{"id":"documents"}}'
+```
+期望：`state.status='active'`；`roots` 返回 sandbox/documents/download 三根（sandbox 必 available）；
+`browse` 返回 `ok:true` 且列出目录项；`permissionCheck` 的 `source` 为 `bridge`（未授权时 `granted:false` 且带 hint）。
+
+> 契约要点（真机取证）：definition 必须含 `events:{}` 且每个方法含 `input`/`output` 的 draft 2020-12 JSON Schema；
+> handler 收到的通常是已解包的 input；`host.js` 在只读载荷根，且必须 `useFileMailbox(ARK_HOST_MAILBOX)` 才不是 `transport-unavailable`。
+
+### TC-110-28 `shell` 工具在 compat 下的表现（真机）
+期望口径：**不崩、失败可见**（AC-110-11）。当前实测（2026-10-21）：工具返回 `WebAssembly is not defined`
+——`shell` 工具的命令解析依赖 tree-sitter WASM，compat 下不可用。判据 = 进程存活、错误原样上报；
+「在 compat 下让 shell 可用」属未完成项（见 `TEST_REPORT.md` 遗留）。
+
 ---
 
 ## 四、overall-test-cases.md 引用关系（重排）
 
 本模块用例并入 `specs/overall-test-cases.md` 的分层索引：
 
-| 层 | 本模块用例 | 说明 |
+| 层（见 overall §〇） | 本模块用例 | 说明 |
 |---|---|---|
-| 静态（TC-S-*） | TC-S-005（权限声明面，现含 check-acl-surface） | 复用既有静态门禁口径 |
-| host（TC-H-*） | TC-110-14/15/16/17（静态/投放门禁） | 无设备，host 可跑 |
-| PC 自测 | TC-110-01…13（`node --jitless`） | 开发期迭代，非真机验收证据 |
-| 设备（TC-D-*） | TC-110-18…25 | 需 hdc 在线 + Profile 含 JIT ACL |
+| 静态（`TC-S-*`） | TC-110-14（权限声明面）、TC-110-15（脚本语法） | 与 overall 的 `TC-S-004/005` 同口径，不重复登记 |
+| host 门禁（`TC-H-*`） | TC-110-16（投放门禁）、TC-110-17（无运行期切换）、TC-110-26（bundle 守卫） | 无设备，host 可跑，进 HAP 前必跑 |
+| PC 自测（`TC-110-0x`） | TC-110-01…13（`node --jitless`） | 开发期迭代，**非**真机验收证据 |
+| 设备全局（`TC-D-*`） | TC-110-18…25、TC-110-27/28 | 需 hdc 在线；`TC-D-002/003`（ACL 反证/正证）由本模块 `TC-110-18` 承载 |
 
 > 既有 `TC-D-002`（无 ACL 反证：Profile 不含 JIT ACL ⇒ SIGTRAP）与 `TC-D-003`（有 ACL 正证）仍适用；本模块在其上叠加「compat 形态下纯 JS 兼容层使服务可用」。
 
