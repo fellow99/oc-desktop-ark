@@ -107,7 +107,7 @@ jit 形态同脚本零回归（兼容层不安装）。
 
 ## 七、敏感信息核查
 
-- 全仓（`specs/ docs/ logs/ plugins/ payload/ entry/src/main/ets/ scripts/`）关键字扫描：`sk-dc5d…` / 账号 / 口令 / 两个测试仓库域名 → **0 命中**。
+- 全仓（`specs/ docs/ logs/ plugins/ payload/ entry/src/main/ets/ scripts/`）关键字扫描：模型 API key、git 账号、口令、两个测试仓库域名 → **0 命中**。
 - API key 只经应用内凭据接口（`POST /api/integration/deepseek/connect/key`）写入应用私有库（`auth.json` 在沙箱内，未落盘到仓库/文档）。
 - 测试仓库凭据只出现在命令行参数里（host 侧 `--anyauth` 探测与 `ls-remote`），未写入 `~/.git-credentials`（已复核该文件不存在）。
 - 本报告隐去设备序列号与端口号（动态）。
