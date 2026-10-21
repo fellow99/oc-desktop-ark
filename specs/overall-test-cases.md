@@ -10,8 +10,14 @@
 |---|---|---|---|
 | `TC-S-*` | 静态（static） | host：`node --check`、JSON 解析、脚本自检 | 否 |
 | `TC-H-*` | host（host gate） | host：补丁 / 构建 / `smoke-node24` | 否 |
-| `TC-D-*` | 设备（device） | 真机：`hdc` + 截图 + HTTP 端点 | **是** |
-
+ | `TC-S-*`/`TC-H-*` | 静态 / host 门禁 | host：`node --check`、JSON 解析、脚本自检、构建 | 否 |
+ | `TC-110-0x` | **模块用例（110-jitless，PC 侧）** | host：`node --jitless` 自测（开发期迭代） | 否 |
+ | `TC-110-1x` | **模块用例（110-jitless，静态/投放门禁）** | host：`check-acl-surface` / `collect-opencode` | 否 |
+ | `TC-110-2x` | **模块用例（110-jitless，真机）** | 真机：`hdc` + HTTP + 模型凭据（运行时注入） | **是** |
+ 
+ > **模块用例索引**：各 `1NN-*` 模块的细化用例落在 `specs/<编号>/test-cases.md`。
+ > - `110-jitless`：[specs/110-jitless/test-cases.md](110-jitless/test-cases.md)（TC-110-01…25；PC 自测 + 静态/投放门禁 + 真机三层）
+ > 本索引只登记**跨模块**与**分层**；模块级命令与期望以模块 test-cases.md 为准。
 ## 二、静态用例（host，无设备）
 
 | ID | 用例 | 步骤 | 期望 | 关联 |
@@ -107,3 +113,46 @@ $ node scripts/apply-patches.mjs --check
 | TC-D-* | 真机 | ⬜ | 无设备 |
 
 > 运行时版本标注：host `v24.14.1` / target `v24.2.0` ⇒ `equivalent=false`；本机加 `--allow-version-drift` 执行，真机仍以 24.2.0 为准。
+ 
+ ## 九、模块用例：110-jitless 无 JIT 模式（详见 [110-jitless/test-cases.md](110-jitless/test-cases.md)）
+ 
+ > 需求 110-jitless：去掉 JIT ACL 外的其余 ACL；`kernel.ALLOW_WRITABLE_CODE_MEMORY` 做**双形态兼容**（编译期 `NODE_MODE`，默认 `compat` = `--jitless` + 纯 JS 兼容层；`jit` = 现有环境）。
+ > 用例分三层：PC 侧自测（`node --jitless`，开发期迭代）→ 静态/投放门禁（host）→ 真机。
+ 
+ | ID | 层 | 用例 | 关联 AC |
+ |---|---|---|---|
+ | TC-110-01 | PC | WASM 缺失基线（`typeof WebAssembly`） | AC-110-01 |
+ | TC-110-02 | PC | 兼容层安装事实（三态无 failed） | AC-110-01 |
+ | TC-110-03 | PC | fetch GET 文本 | AC-110-02 |
+ | TC-110-04 | PC | fetch POST JSON + 自定义头 | AC-110-02 |
+ | TC-110-05 | PC | fetch SSE 流式（getReader） | AC-110-02 |
+ | TC-110-06 | PC | fetch 中止（AbortError） | AC-110-02 |
+ | TC-110-07 | PC | fetch FormData / Blob | AC-110-02 |
+ | TC-110-08 | PC | fetch 重定向（5 跳 / 303→GET） | AC-110-02 |
+ | TC-110-09 | PC | undici 危险面（install 空操作 / reject） | AC-110-03 |
+ | TC-110-10 | PC | photon 惰性解码（零解码） | AC-110-04 |
+ | TC-110-11 | PC | photon resize + 双编码 | AC-110-04 |
+ | TC-110-12 | PC | tree-sitter / code-mode 降级 | AC-110-11 |
+ | TC-110-13 | PC | jit 形态零回归（对照） | NFR-110-001 |
+ | TC-110-14 | 门禁 | 权限声明面（check-acl-surface） | AC-110-06 |
+ | TC-110-15 | 门禁 | 脚本语法（node --check） | — |
+ | TC-110-16 | 门禁 | 投放门禁（jitless 入 resfile + manifest） | AC-110-05 |
+ | TC-110-17 | 门禁 | 无运行期形态切换残留 | AC-110-12 |
+ | TC-110-18 | 真机 | 运行形态（编译期 compat） | AC-110-07 |
+ | TC-110-19 | 真机 | 启动到就绪（冷启动耗时） | AC-110-07 |
+ | TC-110-20 | 真机 | 真实对话（stopReason=stop / SSE） | AC-110-08 |
+ | TC-110-21 | 真机 | 图片附件（视觉模型识读） | AC-110-09 |
+ | TC-110-22 | 真机 | git 插件闭环（无账号 + 带账号） | FR-VCS-001 |
+ | TC-110-23 | 真机 | 降级如实（不崩） | AC-110-11 |
+ | TC-110-24 | 真机 | jit 变体回归（零回归） | AC-110-10 |
+ | TC-110-25 | 真机 | release 合规 | AC-110-12 |
+ 
+ > 与既有 `TC-D-002`（无 ACL 反证 SIGTRAP）/`TC-D-003`（有 ACL 正证）的关系：本模块在其上叠加「compat 形态下纯 JS 兼容层使 fetch/图片可用」。
+ > **敏感信息纪律**：DeepSeek API key / git 账号密码 / 测试 URL 只进运行时 env / 命令参数，**不落盘**任何文档/日志/证据。
+ 
+ ## 十、执行记录（110-jitless）
+ 
+ | 日期 | 环境 | 范围 | 结果 | 证据 |
+ |---|---|---|---|---|
+ | ⬜ | host（PC，`node --jitless`） | TC-110-01…16 | ⬜ 开发中 | `logs/<YYYYMMDD>-N/TEST_REPORT.md` |
+ | ⬜ | 真机（待设备连上） | TC-110-17…25 | ⬜ 待设备 | 同上 |

@@ -1,6 +1,6 @@
 # SPECS_CHECKLIST —— 规格完成度
 
-> 更新：2026-10-18 · 需求 `000-scaffold`（工程搭建）
+ > 更新：2026-10-21 · 需求 `110-jitless`（无 JIT 模式）
 > 状态口径：✅ Done（已生成并自检） · 🚧 In Progress · ⬜ Pending
 > 生成方式：`specs-as-built` 方法（源码/规划为唯一事实源；技术无关的 spec + 技术具体的 plan 成对生成）
 
@@ -33,9 +33,10 @@
 | M-106 | 上游适配 | [spec](./106-upstream-adaptation/spec.md) | [plan](./106-upstream-adaptation/plan.md) | 157 / 139 | ✅ Done |
 | M-107 | 合规与上架 | [spec](./107-compliance/spec.md) | [plan](./107-compliance/plan.md) | 159 / 160 | ✅ Done |
 | M-108 | 版本库插件 | [spec](./108-git-plugin/spec.md) | [plan](./108-git-plugin/plan.md) | 160 / 156 | ✅ Done |
-| M-109 | 回归基线 | [spec](./109-regression/spec.md) | [plan](./109-regression/plan.md) | 151 / 160 | ✅ Done |
+ | M-109 | 回归基线 | [spec](./109-regression/spec.md) | [plan](./109-regression/plan.md) | 151 / 160 | ✅ Done |
+ | M-110 | 无 JIT 模式（双形态兼容） | [spec](./110-jitless/spec.md) | [plan](./110-jitless/plan.md) | 167 / 110 | 🚧 In Progress |
 
-**合计**：9 个模块目录 / **18** 个模块文档 + **9** 个项目级文档（含本清单与 README 共 11 个顶层文件）。
+ **合计**：10 个模块目录 / **19** 个模块文档（110 另含 tasks/test-cases）+ **9** 个项目级文档。
 
 ## 三、自检结果（2026-10-18）
 
