@@ -5,51 +5,51 @@
 
 ## T1 载荷兼容层移植（`payload/jitless/`）`[PC]`
 
-- [ ] T1.1 建 `payload/jitless/`，移植 `index.js` / `http-lazy-undici.js` / `fetch-shim.js` / `undici-shim.js`（去「改包 main」，保留 seal+fetch+facts）
-- [ ] T1.2 移植 `photon-shim.js` / `image-codec.js`
-- [ ] T1.3 移植 `vendor/jpeg-js/`、`vendor/pngjs/`、`vendor/VENDOR.json`（校验 sha256）
-- [ ] T1.4 新写 `wasm-patch.js`：import `opencode.mjs` 前按 `WebAssembly===undefined` monkey-patch bundle 内 photon / tree-sitter 入口（先 grep 定位调用点）；jit 形态不替换；降级路径输出结构化提示
-- [ ] **判据**：`node --check payload/jitless/*.js` 全 0 错；`node --jitless payload/jitless/selftest/run.mjs` 安装日志三态齐全无 `failed`
+- [x] T1.1 建 `payload/jitless/`，移植 `index.js` / `http-lazy-undici.js` / `fetch-shim.js` / `undici-shim.js`（去「改包 main」，保留 seal+fetch+facts）
+- [x] T1.2 移植 `photon-shim.js` / `image-codec.js`
+- [x] T1.3 移植 `vendor/jpeg-js/`、`vendor/pngjs/`、`vendor/VENDOR.json`（校验 sha256）
+- [x] T1.4 新写 `wasm-patch.js`：bundle 内 photon/tree-sitter 为懒加载 minified 符号，无法 monkey-patch ⇒ 按 `WebAssembly===undefined` 出**结构化降级事实**（jit 形态零可观察差异）
+- [x] **判据**：`node --check payload/jitless/*.js` 全 0 错；`node --jitless payload/jitless/selftest/run.mjs` 安装日志三态齐全无 `failed`
 
 ## T2 载荷入口接线（`payload/opencode-server.js`）`[PC]`
 
-- [ ] T2.1 在 `import(pathToFileURL(entry))` 之前调用 `require('./jitless').installIfNeeded(log)` 并记事实
-- [ ] **判据**：`node --jitless` 跑入口，日志含 `jitless {"active":true,...}`；jit 对照（不带 `--jitless`）`active:false`
+- [x] T2.1 在 `import(pathToFileURL(entry))` 之前调用 `require('./jitless').installIfNeeded(log)` 并记事实
+- [x] **判据**：`node --jitless` 跑入口，日志含 `jitless {"active":true,...}`；jit 对照（不带 `--jitless`）`active:false`
 
 ## T3 兼容层自测（`payload/jitless/selftest/`）`[PC]`
 
-- [ ] T3.1 移植/编写 `run.mjs`：覆盖 fetch GET/POST/SSE/中止/FormData/Blob/重定向、undici 面、photon 惰性解码/resize、http getter 封印
-- [ ] **判据**：`node --jitless payload/jitless/selftest/run.mjs` 全绿（对照 AC-110-01…04）
+- [x] T3.1 移植/编写 `run.mjs`：覆盖 fetch GET/POST/SSE/中止/FormData/Blob/重定向、undici 面、photon 惰性解码/resize、http getter 封印
+- [x] **判据**：`node --jitless payload/jitless/selftest/run.mjs` 全绿（对照 AC-110-01…04）
 
 ## T4 ArkTS 形态常量（`entry/src/main/ets/`）`[编译]`
 
-- [ ] T4.1 新增 `common/BuildConfig.ets`（`NODE_MODE='compat'` 默认）
-- [ ] T4.2 新增 `common/NodeMode.ets`（`resolve()` 只读 BuildConfig；`probeJitAcl()` 仅诊断；`flagsFor(mode)`）
-- [ ] T4.3 `common/Constants.ets` 加 `JITLESS_FLAG`/`ACL_WRITABLE_CODE_MEMORY`/`NODE_MODE_FILE`/`NODE_MODE_KEY`
-- [ ] T4.4 `EntryAbility.ets`：按 `NodeMode.resolve()` 拼 `nodeFlags`（compat 带 `--jitless`），移除 `probeFlags` 对形态的参与
-- [ ] T4.5 `OpencodeRuntime.ets`：启动后写 `node-mode.json`（mode/reason/flags/device…）；诊断串含 mode+依据
-- [ ] T4.6 `pages/Index.ets`：状态串加 `mode=…(reason)`
-- [ ] **判据**：`hvigorw assembleHap` 编译 0 错；release 构建代码中无运行期形态切换入口（grep `probeFlags` 不参与 flags）
+- [x] T4.1 新增 `common/BuildConfig.ets`（`NODE_MODE='compat'` 默认）
+- [x] T4.2 新增 `common/NodeMode.ets`（`resolve()` 只读 BuildConfig；`probeJitAcl()` 仅诊断；`flagsFor(mode)`）
+- [x] T4.3 `common/Constants.ets` 加 `JITLESS_FLAG`/`ACL_WRITABLE_CODE_MEMORY`/`NODE_MODE_FILE`/`NODE_MODE_KEY`
+- [x] T4.4 `EntryAbility.ets`：按 `NodeMode.resolve()` 拼 `nodeFlags`（compat 带 `--jitless`），移除 `probeFlags` 对形态的参与
+- [x] T4.5 `OpencodeRuntime.ets`：启动后写 `node-mode.json`（mode/reason/flags/device…）；诊断串含 mode+依据
+- [x] T4.6 `pages/Index.ets`：状态串加 `mode=…(reason)`
+- [x] **判据**：`hvigorw assembleHap` 编译 0 错；release 构建代码中无运行期形态切换入口（grep `probeFlags` 不参与 flags）
 
 ## T5 权限声明面收敛（`module.json5`）`[静态]`
 
-- [ ] T5.1 核对/移除 `READ_PASTEBOARD` / `READ_WRITE_DESKTOP_DIRECTORY`；保留 JIT ACL + 两个 normal 用户目录权限
-- [ ] T5.2 新写 `scripts/check-acl-surface.mjs`（解析 module.json5，断言声明面 = FR-110-002）
-- [ ] **判据**：`node scripts/check-acl-surface.mjs` 通过（AC-110-06）
+- [x] T5.1 核对/移除 `READ_PASTEBOARD` / `READ_WRITE_DESKTOP_DIRECTORY`；保留 JIT ACL + 两个 normal 用户目录权限
+- [x] T5.2 新写 `scripts/check-acl-surface.mjs`（解析 module.json5，断言声明面 = FR-110-002）
+- [x] **判据**：`node scripts/check-acl-surface.mjs` 通过（AC-110-06）
 
 ## T6 投放期（`scripts/collect-opencode.mjs`）`[PC]`
 
-- [ ] T6.1 `copyJitlessRuntime()`：`payload/jitless/` → `resfile/opencode/jitless/`（含 vendor，排除 selftest）
-- [ ] T6.2 `jitless/**` 纳入 `manifest.sha256`
-- [ ] T6.3 审计输出 + dry-run 默认
-- [ ] **判据**：`node scripts/collect-opencode.mjs --apply` 后 `resfile/opencode/jitless/` 齐、manifest 覆盖（AC-110-05）
+- [x] T6.1 `copyJitlessRuntime()`：`payload/jitless/` → `resfile/opencode/jitless/`（含 vendor，排除 selftest）
+- [x] T6.2 `jitless/**` 纳入 `manifest.sha256`
+- [x] T6.3 审计输出 + dry-run 默认
+- [x] **判据**：`node scripts/collect-opencode.mjs --apply` 后 `resfile/opencode/jitless/` 齐、manifest 覆盖（AC-110-05）
 
 ## T7 文档与规格登记 `[静态]`
 
-- [ ] T7.1 `docs/ACL-无ACL评估.md` 追加「110-jitless 落地结果」
-- [ ] T7.2 `specs/SPECS_CHECKLIST.md`、`specs/STRUCTURE.md` 登记 M-110
-- [ ] T7.3 `specs/overall-test-cases.md` 追加 `TC-110-*` 段 + 重排引用关系
-- [ ] **判据**：无占位符（TODO/TBD）；表格自洽；FR/AC 编号可追溯
+- [x] T7.1 `docs/ACL-无ACL评估.md` 追加「110-jitless 落地结果」
+- [x] T7.2 `specs/SPECS_CHECKLIST.md`、`specs/STRUCTURE.md` 登记 M-110
+- [x] T7.3 `specs/overall-test-cases.md` 追加 `TC-110-*` 段 + 重排引用关系
+- [x] **判据**：无占位符（TODO/TBD）；表格自洽；FR/AC 编号可追溯
 
 ## T8 Code Review `[评审]`
 

@@ -187,3 +187,19 @@ grep -aoE "[a-zA-Z0-9_./-]+\.wasm" entry/src/main/resources/resfile/opencode/ope
 ```
 
 **结论**：本版**保留** `kernel.ALLOW_WRITABLE_CODE_MEMORY`，零 ACL 作为一条有明确代价与执行清单的**备选路线**留档。若未来需要上手机/平板档（ACL 申请不下来），按 §6 的 P0→P4 逐阶段推进，每阶段的判据必须真机实测，不得以「应该可以」代替。
+
+---
+
+## 10. 110-jitless 落地结果（2026-10-21）
+
+> 需求 `110-jitless`（规格 `specs/110-jitless/`）把本文 §6 的 P0→P4 路线**部分落地**：JIT ACL **仍保留在声明面**（`module.json5` 不变，装机仍需 Profile 授权），但运行形态改为**编译期双形态**，默认 `compat`（`--jitless` + 纯 JS 兼容层），使「无 ACL 授权 / JIT 不可用」的设备也能正常启动使用。
+
+| 阶段 | 动作 | 状态 | 判据 |
+|---|---|---|---|
+| P0 | 编译期常量 `BuildConfig.NODE_MODE`（默认 `compat`）；`compat` ⇒ flags 必含 `--jitless`；`jit` 变体改常量重构建 | ✅ 已实现 | `node-mode.json` 证据落盘；release 无运行期切换入口 |
+| P1 | 纯 JS `fetch` 垫片（`payload/jitless/fetch-shim.js`，node:http/https + stream/web）+ 封印 `node:http` 惰性 undici getter | ✅ 已实现（PC `node --jitless` 全绿：GET/POST/SSE/中止/FormData/Blob/重定向） | AC-110-02/03；真机对话待设备 |
+| P2 | tree-sitter 降级：bundle 内懒加载 WASM 无法 monkey-patch ⇒ `wasm-patch.js` 探测并出**结构化降级事实**，走上游既有 try/catch 降级路径（纯文本 ripgrep/grep 保留） | ✅ 已实现（降级事实 + 不崩） | AC-110-11（真机确认待设备） |
+| P3 | 图片（photon）：同 P2 —— bundle 内符号不可替换；纯 JS 编解码器（`jpeg-js`+`pngjs`，vendor 锁 sha256）与 `photon-shim.js` 已就绪（PC selftest 覆盖惰性解码/resize/双编码），bundle 侧走降级事实 | 🚧 部分（PC 层就绪；bundle 内 photon 入口待真机确认降级表现） | AC-110-04（PC 绿）/ AC-110-09（真机待设备） |
+| P4 | 性能与回归 | ⬜ 待真机 | 解释器 7–10× 慢纳入基线（NFR-110-006） |
+
+**与本文原结论的关系**：本文 §1/§7 的「保留 JIT ACL，零 ACL 留档为有代价备选路线」不变；110-jitless 把「备选路线」升级为**默认运行形态**（compat），同时保留 jit 编译期变体 ⇒ 双形态兼容，代价与执行清单即本文 §6 路线。

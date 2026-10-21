@@ -29,7 +29,9 @@ oc-desktop-ark/
 │       │   ├── app/OpencodeRuntime.ets            🚧 启动编排（密码→载荷→start→marker→loadUrl）
 │       │   ├── app/Connection.ets                 🚧 密码生成与持久化（0600）
 │       │   ├── app/Payload.ets                    🚧 载荷路线判定（resfile / tar.gz / 缺失）
-│       │   ├── common/Constants.ets               🚧 唯一常量源（端口/路径/env 名/阶段文案）
+│       │   ├── common/BuildConfig.ets             🚧 110-jitless 编译期形态常量（NODE_MODE，默认 compat）
+│       │   ├── common/NodeMode.ets                🚧 110-jitless 形态解析 + ACL 诊断 + node-mode.json 证据
+│       │   ├── common/Constants.ets               🚧 唯一常量源（端口/路径/env 名/阶段文案；+NODE_MODE_FILE）
 │       │   ├── common/Ports.ets                   🚧 就绪 marker 解析 + HTTP 探活
 │       │   ├── common/WindowState.ets             ⬜ 窗口尺寸记忆
 │       │   ├── host/HostCapabilities.ets          🚧 HostBridge 能力实现（perm/picker/openExternal/notify）
@@ -39,7 +41,8 @@ oc-desktop-ark/
 │           ├── resfile/opencode/                  🚧 载荷落点（gitignored；README 说明）
 │           └── base/{element,media,profile}/      🚧
 ├── payload/                               🚧 Node 侧启动脚本（源码）
-│   ├── opencode-server.js                 🚧 argv/env/chdir/stdout 嗅探/marker/异常兜底
+│   ├── opencode-server.js                 🚧 argv/env/chdir/stdout 嗅探/marker/异常兜底（import 前装 jitless 兼容层）
+│   ├── jitless/                           🚧 110-jitless 纯 JS 兼容层（index/fetch-shim/undici-shim/http-lazy-undici/photon-shim/image-codec/wasm-patch/vendor/selftest）
 │   └── lib/{env.js,ready.js,log.js}       🚧 环境装配 / 就绪 marker / 独立日志
 ├── patches/v2.0.26/                       ✅ 0001 / 0003 / 0006 + README
 ├── scripts/                               ✅ 已有 apply-patches.mjs
@@ -47,7 +50,8 @@ oc-desktop-ark/
 │   ├── build-bridge-har.sh                🚧 构建 bridge HAR → libs/
 │   ├── provision-runtime.sh               🚧 投放 libnode.so + libc++_shared.so
 │   ├── build-opencode.mjs                 🚧 bun install + build-node --bundle-only
-│   ├── collect-opencode.mjs               🚧 裁剪 assets + 投放 resfile + SHA-256 清单
+│   ├── collect-opencode.mjs               🚧 裁剪 assets + 投放 resfile（含 jitless/）+ SHA-256 清单
+│   ├── check-acl-surface.mjs              🚧 110-jitless 权限声明面静态门禁（AC-110-06）
 │   └── smoke-node24.mjs                   🚧 host 门禁（/api/info + SPA + SSE）
 ├── docs/
 │   ├── 000-工程规划.md                    ✅ v0.3（唯一权威规划）
@@ -81,7 +85,8 @@ specs/
 ├── 106-upstream-adaptation/{spec.md,plan.md}
 ├── 107-compliance/{spec.md,plan.md}
 ├── 108-git-plugin/{spec.md,plan.md}
-└── 109-regression/{spec.md,plan.md}
+├── 109-regression/{spec.md,plan.md}
+└── 110-jitless/{spec.md,plan.md,tasks.md,test-cases.md}   🚧 无 JIT 双形态兼容（编译期 NODE_MODE + payload/jitless 纯 JS 兼容层）
 ```
 
 > 按需求约定：本需求的规格**只落在 `oc-desktop-ark/specs/`**，不进入父工程 `specs/`。

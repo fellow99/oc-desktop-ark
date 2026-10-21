@@ -14,8 +14,11 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
-const { buildEnv } = require('./lib/env');
-const { appendLog, writeReady } = require('./lib/ready');
+ const { buildEnv } = require('./lib/env');
+ const { appendLog, writeReady } = require('./lib/ready');
+ // 110-jitless：兼容层唯一出口（必须在 import opencode.mjs 之前安装）。
+ // 判据只有 `typeof WebAssembly === 'undefined'`：jit 形态（有 ACL）一个动作都不做。
+ const { installIfNeeded } = require('./jitless');
 
 const FILES_DIR = process.env.HOME || process.env.USERPROFILE || '';
 const SERVER_LOG = process.env.ARK_SERVER_LOG || (FILES_DIR ? path.join(FILES_DIR, 'logs', 'server.log') : '');
@@ -113,7 +116,13 @@ function main() {
   process.argv = ['node', 'opencode.mjs', 'serve', '--hostname', HOST, '--port', '0'];
   log(`serve hostname=${HOST} port=0 entry=${entry} version=${VERSION}`);
 
-  // 顶层兜底：进程内 Node 的未捕获异常会 abort 整个 App（C5），这里只记录不退出
+ 
+   // ⑤ 110-jitless：在加载产物前安装纯 JS 兼容层（fetch / undici 危险面 / wasm 降级事实）。
+   // 顺序承重：先装兼容层、再 import opencode.mjs（后者首次触达 fetch 时垫片已就位）。
+   const jitlessFacts = installIfNeeded(log);
+   log(`jitless ${JSON.stringify(jitlessFacts)}`);
+ 
+   // 顶层兜底：进程内 Node 的未捕获异常会 abort 整个 App（C5），这里只记录不退出
   process.on('uncaughtException', (error) => {
     log(`uncaughtException: ${error && error.stack ? error.stack : String(error)}`);
   });

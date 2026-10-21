@@ -1,6 +1,7 @@
-import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
-import { window } from '@kit.ArkUI';
-import { Log } from '../common/Log';
+ import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
+ import { window } from '@kit.ArkUI';
+ import { Log } from '../common/Log';
+ import { NodeMode } from '../common/NodeMode';
 
 /**
  * OC Desktop Ark 主 Ability（工程规划 §4.2）。
@@ -19,26 +20,17 @@ export default class EntryAbility extends UIAbility {
       Log.warn('setColorMode 失败：' + JSON.stringify(error));
     }
 
-    // 调试通道：仅 debug 构建允许 `aa start ... --ps probeFlags "--jitless"`。
-    // release 构建一律忽略（宪法 S5）。
-    let flags: string = '--no-verify-heap';
-    const debugBuild: boolean = this.context.applicationInfo.debug;
-    if (debugBuild) {
-      const params: Record<string, Object> | undefined = want.parameters;
-      if (params !== undefined) {
-        const raw: Object | undefined = params['probeFlags'];
-        if (raw !== undefined) {
-          const text: string = raw as string;
-          if (text.length > 0) {
-            flags = text;
-          }
-        }
-      }
-    } else {
-      Log.info('probeFlags 调试通道在 release 构建中已禁用（applicationInfo.debug=false）');
-    }
-    AppStorage.setOrCreate<string>('nodeFlags', flags);
-    Log.info('onCreate flags=' + flags + ' debug=' + debugBuild + ' filesDir=' + this.context.filesDir);
+     // 110-jitless：Node 运行形态由**编译期常量** `BuildConfig.NODE_MODE` 决定（默认 compat）。
+     // 运行期**没有**任何形态切换入口（无 probeFlags / want 参数 / 设置项 / ACL 探测参与决策）——
+     // `--jitless` 是进程级形态，一次误判 = 整机不可用（见 common/NodeMode.ets 文件头）。
+     const decision: NodeMode.NodeModeDecision = NodeMode.resolve();
+     const flags: string = decision.flags();
+     const debugBuild: boolean = this.context.applicationInfo.debug;
+     AppStorage.setOrCreate<string>('nodeFlags', flags);
+     AppStorage.setOrCreate<string>('nodeMode', decision.mode);
+     Log.info('onCreate ' + decision.describe() + ' flags=' + flags
+       + ' debug=' + debugBuild + ' filesDir=' + this.context.filesDir);
+ 
   }
 
   onWindowStageCreate(windowStage: window.WindowStage): void {

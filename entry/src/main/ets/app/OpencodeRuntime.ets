@@ -4,9 +4,10 @@ import { NodeLogEntry, NodeRuntime, NodeRuntimeOptions } from '@fellow99/node-br
 import { EnvNames, Names, Stage, Timing } from '../common/Constants';
 import { Log } from '../common/Log';
 import { Ports, ReadyInfo } from '../common/Ports';
-import { HostCapabilities } from '../host/HostCapabilities';
-import { Connection } from './Connection';
-import { Payload, PayloadPlan, PayloadRoute } from './Payload';
+ import { HostCapabilities } from '../host/HostCapabilities';
+ import { NodeMode } from '../common/NodeMode';
+ import { Connection } from './Connection';
+ import { Payload, PayloadPlan, PayloadRoute } from './Payload';
 
 /** 启动结果（供页面直接渲染，成功/失败都带人读原因） */
 export class LaunchResult {
@@ -137,8 +138,10 @@ export class OpencodeRuntime {
        Log.warn('准备沙箱目录/作废 marker 失败（继续）：' + JSON.stringify(error));
      }
 
-    // 3/5 投递
-    onStage(Stage.STARTING);
+     // 3/5 投递
+     onStage(Stage.STARTING);
+     // 110-jitless：写形态证据（node-mode.json）——手机 hilog 对三方应用不可见，这是唯一可靠归因。
+     NodeMode.writeNodeModeEvidence(context.filesDir, NodeMode.resolve(), context.applicationInfo.debug);
     const options: NodeRuntimeOptions = {
       scriptPath: plan.scriptPath,
       entry: plan.entry,

@@ -17,8 +17,8 @@ import { Stage, Timing } from '../common/Constants';
 @Entry
 @Component
 struct Index {
-  @State stage: string = Stage.IDLE;
-  @State detail: string = '正在准备启动…';
+   @State stage: string = Stage.IDLE;
+   @State detail: string = '正在启动（Node 形态见 node-mode.json）…';
   @State url: string = '';
   @State failed: boolean = false;
   @State errorText: string = '';

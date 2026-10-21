@@ -83,7 +83,23 @@ if (existsSync(path.join(bridgePayload, 'host.js'))) {
 
 // 4) 本工程宿主脚本
 cpSync(path.join(root, 'payload/opencode-server.js'), path.join(out, 'opencode-server.js'))
-cpSync(path.join(root, 'payload/lib'), path.join(out, 'lib'), { recursive: true })
+ cpSync(path.join(root, 'payload/lib'), path.join(out, 'lib'), { recursive: true })
+ 
+ // 4.2) 110-jitless：纯 JS 兼容层（payload/jitless/ → resfile/opencode/jitless/）。
+ // opencode-server.js 用相对路径 `require('./jitless')`，故兼容层必须与入口同目录部署。
+ // 排除 selftest/（开发期工具，不进发布归档）。
+ const jitlessSrc = path.join(root, 'payload/jitless')
+ if (existsSync(jitlessSrc)) {
+   const jitlessDest = path.join(out, 'jitless')
+   mkdirSync(jitlessDest, { recursive: true })
+   cpSync(jitlessSrc, jitlessDest, {
+     recursive: true,
+     filter: (src) => !src.includes(path.sep + 'selftest' + path.sep) && !src.endsWith(path.sep + 'selftest'),
+   })
+   console.log('✓ jitless 兼容层已投放：resfile/opencode/jitless/（含 vendor，排除 selftest）')
+ } else {
+   console.warn(`⚠ jitless 兼容层源缺失（compat 形态将不可用，不阻断 collect）：${jitlessSrc}`)
+ }
 
 // 4.5) 工作区选择器插件（plugins/ → resfile/opencode/plugins/）。
 // opencode 的插件发现目录是 `XDG_CONFIG_HOME/opencode/plugin`；ArkTS 启动时把这里的插件

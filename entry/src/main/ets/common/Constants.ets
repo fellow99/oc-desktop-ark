@@ -25,7 +25,10 @@ export class Names {
   /** 工作区选择器插件目录（相对沙箱 config 根；opencode 的插件发现目录） */
   static readonly PLUGIN_DIR: string = 'opencode/plugin';
   /** 宿主能力桥文件信箱目录（Node 写 .req / ArkTS 泵读它；两侧同路径、同 UID） */
-  static readonly MAILBOX_DIR: string = 'host-mailbox';
+   /** 宿主能力桥文件信箱目录（Node 写 .req / ArkTS 泵读它；两侧同路径、同 UID） */
+   static readonly MAILBOX_DIR: string = 'host-mailbox';
+   /** 110-jitless：Node 运行形态证据文件（NodeMode 写，诊断/真机取证读） */
+   static readonly NODE_MODE_FILE: string = 'node-mode.json';
 }
 
 /** 环境变量名（与 payload/lib/env.js 镜像） */
