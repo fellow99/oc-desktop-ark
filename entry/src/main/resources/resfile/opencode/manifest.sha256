@@ -212,8 +212,8 @@
     },
     {
       "path": "assets/app-archive.bin",
-      "sha256": "9b77f7a6be5051f0b1a76d0b567a18d709abeb360ea1bdc9a50ed35ba3ecc9ca",
-      "size": 24121570,
+      "sha256": "fbcf5c8be05210977e2f1ad36008593e1894c49bdd57b1fc08fb399ccf8f4370",
+      "size": 24119393,
       "kind": "ui-archive"
     },
     {
@@ -505,6 +505,12 @@
       "kind": "asset"
     },
     {
+      "path": "lib/plugins.js",
+      "sha256": "5f14f3a1cfb1f2a3ebc4405ea9d2626e5b9e47bb4ffc04b49ebc5166dbf9f8ed",
+      "size": 8625,
+      "kind": "asset"
+    },
+    {
       "path": "lib/ready.js",
       "sha256": "8ae428cca12a73842b57d89ffb7bc691555863edb960f002140c7c0e0547cf2b",
       "size": 1390,
@@ -512,15 +518,4989 @@
     },
     {
       "path": "opencode-server.js",
-      "sha256": "51a0df638465f4e001abf27cc70d646c71094501ece98e6ed3f25d0c31f54047",
-      "size": 7485,
+      "sha256": "1f2e69312eda3266244d55bef6aa984211d8561e825b0a1ebcdc56c510a1012a",
+      "size": 8417,
       "kind": "asset"
     },
     {
       "path": "opencode.mjs",
-      "sha256": "1e50fda74fca29356af01aef994eebd30edf082ff047e05e9e27a9c150672dc2",
-      "size": 16454372,
+      "sha256": "413f195b27d265d76e5e09bc08ca1b9e16f7e3f23af145aebdb8b7f33deb7b75",
+      "size": 16452868,
       "kind": "entry"
+    },
+    {
+      "path": "plugins/oc-plugin-git/index.js",
+      "sha256": "828a3158a7971458a10f4f7ce510e108b87a5d3411764a54952225a2d3db7b45",
+      "size": 10684,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/auth.js",
+      "sha256": "fa35fbc933f4f28fcb9d8b71483bfbd9e40a681f63c9ab77ca4d87417f2cf9c8",
+      "size": 3727,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/credentials.js",
+      "sha256": "7c7351619fe9b8cb49f9736c326736c11199e424164ead1ef5169449860a37ec",
+      "size": 7868,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/diff.js",
+      "sha256": "892d64bd84daaebe1ba3716975c4584af590cbdd34dc0e603f6f6acd05f14b1f",
+      "size": 2976,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/fence.js",
+      "sha256": "f489d06d4ad4d92ec32d350d64c74e269a1342abc067acb85bb4a1bba0078457",
+      "size": 3477,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/fs-adapter.js",
+      "sha256": "e9378192d51a8fa74895dc20860f9ce79de1cdba4c3a16be7d4ae2df9b1ee00c",
+      "size": 3411,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/repo.js",
+      "sha256": "f4491d62f1f41b134762787add878429a3b5cdf49945a277330da70c0a40d6a9",
+      "size": 9083,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/report.js",
+      "sha256": "cd7d849bac1f2adeecb5211695b2c63786d5667a724fcb2865f05bfb27fc4f31",
+      "size": 5666,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/runtime.js",
+      "sha256": "78e635c0f15fbd70a9ccc18ccd47151f38ed26450ef7d3ac4ae8d0276f48d97c",
+      "size": 2890,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/add.js",
+      "sha256": "68b45e9a1e2a990d773e6d8ee27b24f6b1bcd7aa00107a226ab211d743842b5f",
+      "size": 1952,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/branch.js",
+      "sha256": "fd7624bf2f090446b8be79afb006d6f4818b783902fb52916134418cae78eb26",
+      "size": 3960,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/checkout.js",
+      "sha256": "0614605d533981b7cf85282443f139773126a85600df0daff3456490390f2cfa",
+      "size": 2094,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/clone.js",
+      "sha256": "8789d12412c68af8134a37960080f29fbfbccd4c1121d6714ed395fbcb6472dc",
+      "size": 2891,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/commit.js",
+      "sha256": "48ad97a66406d73d27eaa00131f8dce2561c42037327aa4515631213fa3b57e1",
+      "size": 2800,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/diff.js",
+      "sha256": "7eb60716285b3cac37bc763a37b08135244096747d2de1fea2b4dfc71e075d3f",
+      "size": 3673,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/fetch-pull.js",
+      "sha256": "fbb85c303061acfa478b8ecdb4c09baaaa8f1478fbabdadecfd12d2601158669",
+      "size": 5556,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/index.js",
+      "sha256": "af9a4e8f3780eb64667f5c8194159ba026aaedca31dab049da197b56c8f7fd3b",
+      "size": 2113,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/init.js",
+      "sha256": "1f439d79ed4d8a9c0776f9f5e5d7345dd2c5dd559d2c803a23371ccb52749a62",
+      "size": 1110,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/log-show.js",
+      "sha256": "42b6e067b1281fa97b6295c2cfd5e1439e8e60c5e0ab689de0763feaa5de540b",
+      "size": 4927,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/push-config.js",
+      "sha256": "2aa8eca3febdef5e512e18381c251e73b4981f665fa5a8cc31c0b2ce3b552747",
+      "size": 5878,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/remote.js",
+      "sha256": "01a58838779e4a21288a32fc29aa06e87f93995875a9af8e2d1f5c0a06b503a3",
+      "size": 4738,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/reset-merge.js",
+      "sha256": "e14fd7eff45e09416d6ad0dd8bb63100d147b91c15fc5722c9063d84ed7d6288",
+      "size": 9232,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/revert.js",
+      "sha256": "8fb78ba4fba2a38500f87a2ad4ea9736afd6c8a0186d19c169e11b002a9d95e0",
+      "size": 5676,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/shared.js",
+      "sha256": "4c1c9ebbebf76381a789752a93ce5dad6ac40e6bd5f4e189901b6fe0207755ac",
+      "size": 927,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/stash.js",
+      "sha256": "b998b5f79cc678056bff51e506202e122d7392b02b647caf67efeca828d0776f",
+      "size": 3279,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/status.js",
+      "sha256": "2f316904c3629be757cfd64527cb0d02e1e9443ff758fec093fa482604d36bce",
+      "size": 1460,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/tools/tag.js",
+      "sha256": "73a6c6b78bc92f72dc196dbd7383aa95397d915d614dc9c223a896337939052b",
+      "size": 2738,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/vcs.js",
+      "sha256": "a2ce02b9aa10c00a1bb5c0836840c90d4121e18d88fdefebc59dafe974127ffc",
+      "size": 7607,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/lib/walk-diff.js",
+      "sha256": "9cf26334b60c97774ad19a7571e38181548ef7bee59e10cd1e7cdabff5136ceb",
+      "size": 4140,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/materialize.json",
+      "sha256": "dabdd2605b6085128b3b697856d95b18c88126301532b3e18305cd1e921d01cc",
+      "size": 257,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/.package-lock.json",
+      "sha256": "a64b6c614b17e9424e126698fda05aed19e74e05f200622667da5bb245dfe5f0",
+      "size": 26795,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/abort-controller/browser.js",
+      "sha256": "f0af5e244e61bc520c46ba9fe30aca43a7edff1362be274b2d44785359b4f629",
+      "size": 394,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/abort-controller/browser.mjs",
+      "sha256": "329f011e53c3016b4da836c4f5e4d9e58fac4b79a2aec8cbd86fe5a75b177709",
+      "size": 337,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/abort-controller/dist/abort-controller.d.ts",
+      "sha256": "655ed305e8f4cb95d3f578040301a4e4d6ace112b1bd8824cd32bda66c3677d1",
+      "size": 1020,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/abort-controller/dist/abort-controller.js",
+      "sha256": "6b0b8d42ccfc69741b3f11b8268f094ce2a456715a5c8d2042ca5b2a033ea842",
+      "size": 3610,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/abort-controller/dist/abort-controller.js.map",
+      "sha256": "c447c5395f04e8af0bddaa5aaad770d6b99e401732f97009f8d178f401395abb",
+      "size": 6364,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/abort-controller/dist/abort-controller.mjs",
+      "sha256": "4ba744fba41125a08484b2e628146a68dbb5c98aeefde1d1a98e64981058eb4a",
+      "size": 3311,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/abort-controller/dist/abort-controller.mjs.map",
+      "sha256": "fa6a30e63b6bf4e8c451f38dde013fff3a11a87482932e59312175837be7fe01",
+      "size": 6312,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/abort-controller/dist/abort-controller.umd.js",
+      "sha256": "0e7718a4266ea9f6c8270dc00086fd9f2c6d9d06ff57279e4890d9b02f896220",
+      "size": 9266,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/abort-controller/dist/abort-controller.umd.js.map",
+      "sha256": "3a0d681a64b039754a7e783bc90765725081d46c1b7d4f85cbff7826953b81f5",
+      "size": 37381,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/abort-controller/LICENSE",
+      "sha256": "dbbf03317f0101fed5643cd87ca80fb769e358fa4f428445bf2315deeb23a154",
+      "size": 1071,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/abort-controller/package.json",
+      "sha256": "3d64dcdcf9d0a1d045eb6bcaa5013d486f15527a3668e64b1155839a797da164",
+      "size": 2915,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/abort-controller/polyfill.js",
+      "sha256": "84855b3fbb1a0f4eac737b57b3e2836c0d6f433856f4577ab85dba0635ef8eac",
+      "size": 558,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/abort-controller/polyfill.mjs",
+      "sha256": "ef4e46ca5faef86548f1744819f5adf461ed1f977c90de587068e7f87f720ef6",
+      "size": 535,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/abort-controller/README.md",
+      "sha256": "b42e41aeab0c4fcabffe3932a3097d8a8c66082dc972f6027583c9f83ec1a5d6",
+      "size": 3223,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/async-lock/AUTHORS",
+      "sha256": "4a58098622464e8b64ba775912e65c6b208a1356747c92efb0f5fb7efd0eba50",
+      "size": 858,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/async-lock/History.md",
+      "sha256": "0db8912a44bf18389d278af7a6fd0ba99a16d302a8ab6781cead9c0ea7e1d6f2",
+      "size": 2974,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/async-lock/index.js",
+      "sha256": "de0c2b3e665945323ebdcbd0c786fbff69f702b78ff2bc88c5cc11f2c4528715",
+      "size": 49,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/async-lock/lib/index.js",
+      "sha256": "95c28ce77a3edeeca2e655416d4f94bc70fd86091156996ae4a931ba54d14306",
+      "size": 7054,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/async-lock/LICENSE",
+      "sha256": "11e9f9acdfdfce6caa7b304c6ebb1a3269a61bb03d74bfcce629cc1462c06ddc",
+      "size": 1110,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/async-lock/package.json",
+      "sha256": "263125206ad1c4350b49af17f6e0cc113c447d0d6cf16aec5461dec8e7e3201f",
+      "size": 1123,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/async-lock/README.md",
+      "sha256": "e7eed10338ddc6c7ace893acbf8d007fefab0c535b227680b34b7e568a96aa73",
+      "size": 5087,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/available-typed-arrays/.eslintrc",
+      "sha256": "0694050195fc694c5846b0a2a66b437ac775da988f0a779c55fb892597f7f641",
+      "size": 43,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/available-typed-arrays/.github/FUNDING.yml",
+      "sha256": "8f9c7bc669bd9a71c6faf3117713cfde7badd582abe2b062d0df7543a0f9cf2e",
+      "size": 593,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/available-typed-arrays/.nycrc",
+      "sha256": "997785c50b0773e5e18bf15550fbf57823c634fefe623cd37b3c83696402ad0a",
+      "size": 139,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/available-typed-arrays/CHANGELOG.md",
+      "sha256": "67b62c4b815ddbc2bd8ced2b61343a93519f43705cea4f9d444747bd482ebdfc",
+      "size": 9183,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/available-typed-arrays/index.d.ts",
+      "sha256": "3b4c1fdd08083fa7a99162dce91aedbab82ae80c66eaabd5552634427517132d",
+      "size": 259,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/available-typed-arrays/index.js",
+      "sha256": "0b4e17ccda15822a701f951627b5eb898a6679ede6ef36a45dc93e80d4ec5d66",
+      "size": 475,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/available-typed-arrays/LICENSE",
+      "sha256": "6d0917530cf3b3dca12c1ab7798e4d38ad0a6798ecc1bd27849a3048ba91d265",
+      "size": 1067,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/available-typed-arrays/package.json",
+      "sha256": "ffce2bbb0b85b9a20bcc674e4c78307ead42af0299e1d28a9dfb249566e0a319",
+      "size": 2519,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/available-typed-arrays/README.md",
+      "sha256": "b83fdadad26cec83a2290070b31ddea5bff96b5c32e7813bf625d80e251e4774",
+      "size": 1989,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/available-typed-arrays/test/index.js",
+      "sha256": "97040802381eaa0947948fd0b461b7c561ce6353dd96e534af4eb787c3d7fa86",
+      "size": 502,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/available-typed-arrays/tsconfig.json",
+      "sha256": "bc6763e84836433ed7f9465ad6786247e09b38d544414a13077fc33727c81bf8",
+      "size": 3611,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/base64-js/base64js.min.js",
+      "sha256": "d2e82495607abf54f16e21de04d90ba9ce1605451667d88425babece988f148b",
+      "size": 2192,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/base64-js/index.d.ts",
+      "sha256": "96da6c81cd788939a7cf6546ea1f65ab5ca38952e5bd7d8c284bfe1f3c22dce7",
+      "size": 161,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/base64-js/index.js",
+      "sha256": "829eadd8a1a441d25be0cb93b00e16a0d0c20fd294db95d8f2ed87e6954b7182",
+      "size": 3932,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/base64-js/LICENSE",
+      "sha256": "5b37224c080cdcc97c871ada971c224e9926370fe74f11b539aa1cf9f3b1aca1",
+      "size": 1081,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/base64-js/package.json",
+      "sha256": "9758f3ab8c45e07bb9a368e32f9a8b3729623bbf47cbbb205b32d674ab2a91f0",
+      "size": 1115,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/base64-js/README.md",
+      "sha256": "057ef3ae4f4b4c9d3dcd257d3b2f38632de3c3a2ff068e5be14cb56a61d6daba",
+      "size": 1143,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/buffer/AUTHORS.md",
+      "sha256": "ca3d96437f69ceb38df1972db017fcd6303b02f57ea1f838ab9f9c3db3e789e0",
+      "size": 2788,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/buffer/index.d.ts",
+      "sha256": "4967529644e391115ca5592184d4b63980569adf60ee685f968fd59ab1557188",
+      "size": 9191,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/buffer/index.js",
+      "sha256": "c25853fd31addfce188b01061fe85bfe667d5fb6c7a7bbb1c83d0ddfd8627acc",
+      "size": 58353,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/buffer/LICENSE",
+      "sha256": "06bafa45fdad2579ba0e43b0c9b2c6290287c99c4203c300254a462b38a307f6",
+      "size": 1106,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/buffer/package.json",
+      "sha256": "5b105ac0abbf5985cbe62ad28a34032d85c7ef623e0eb01f39441b0feb419004",
+      "size": 2546,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/buffer/README.md",
+      "sha256": "115dd8925d8f387b2970bd492188a008695f179ed93319a993ce384fa470d3bf",
+      "size": 17295,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/.eslintrc",
+      "sha256": "dc98854dfa3be24e5f38a1b7a4a052388dd0c0b73e035c85a740c932be6c4d3c",
+      "size": 232,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/.github/FUNDING.yml",
+      "sha256": "ac7406f8f3f8eee59a2cefb2b2064ef232d01df43b7a9184cb7f48db7a8f7514",
+      "size": 594,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/.nycrc",
+      "sha256": "997785c50b0773e5e18bf15550fbf57823c634fefe623cd37b3c83696402ad0a",
+      "size": 139,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/actualApply.d.ts",
+      "sha256": "c3be462785155944edb70e9ac81c626a33e2daf88d03172ec912e5ef22560300",
+      "size": 23,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/actualApply.js",
+      "sha256": "1cbe921bb00b03294815ff0ece4212f276870466961773ce238802bc71474540",
+      "size": 280,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/applyBind.d.ts",
+      "sha256": "ac3fcf3b11ad534a6a6c1be0024bfa1810b33d306c9e2bfe8ddb436cf0f5092e",
+      "size": 614,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/applyBind.js",
+      "sha256": "3e65d83cecb93fa80dc5ad4d86d98f9e715e101ac3d8ec56d36ee669f1180bd0",
+      "size": 264,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/CHANGELOG.md",
+      "sha256": "66327c6e1f42173b24ddd1c04500518452d501c957c314c5c366a5e39bdfcc85",
+      "size": 1938,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/functionApply.d.ts",
+      "sha256": "9c5e0d0415fb0e4f7e9b5ed63f1589225fe6f4a6497a01137180a81fb9151811",
+      "size": 34,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/functionApply.js",
+      "sha256": "6170e997fbe03c6f8ff48946ada7d54c7aadc01531509af81f0edfdb7be00e27",
+      "size": 99,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/functionCall.d.ts",
+      "sha256": "ba70f88edbb43a82675128e26f497b940da4e5d1abeed986c3bb03427cc1d4ea",
+      "size": 33,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/functionCall.js",
+      "sha256": "22d50c812748973250e9aa1994882a880c6e3bfc90d45e41f609cab97beee3fe",
+      "size": 97,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/index.d.ts",
+      "sha256": "47f88260dacdcbb125448220446b7f71a48fb392267ec81db281f50fd380def2",
+      "size": 2226,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/index.js",
+      "sha256": "6a7ff51e964c2f1e24e3f3a90f41895bec230f07c3001eb29f45741ff99d7a83",
+      "size": 511,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/LICENSE",
+      "sha256": "5e325595b4ea8cfec3802f545b1def5d7b73e4a5b8e9ba63e32a320f67732292",
+      "size": 1071,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/package.json",
+      "sha256": "59639b628c6846f674857c6a613fd47e2e4d2a24036cdf0f7a62ac634f4c8a5f",
+      "size": 2480,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/README.md",
+      "sha256": "9505a31673f63c1d4fe2fa70fbfcbf6b6ad71a323911e2e94ad9bf6649c9e002",
+      "size": 2330,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/reflectApply.d.ts",
+      "sha256": "936d6687c6f1a960dc45ae615e6b6f0bf4afc828eeed1a5990d65fd216b66e1b",
+      "size": 82,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/reflectApply.js",
+      "sha256": "e3ee45fb4c54bdb5f76ad4ef42780da004412ddb6d668993de4b9014efe246ff",
+      "size": 132,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/test/index.js",
+      "sha256": "8f68f29a54d276f06f12fe2143196130180e839ea75171b09e73c242433efeea",
+      "size": 2658,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind-apply-helpers/tsconfig.json",
+      "sha256": "e85504b06a62ff3963fd69c1d30589c0808e5ce70c244e74efcaed46a8ea77c9",
+      "size": 115,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind/.eslintignore",
+      "sha256": "5c5daf48fdf4db42e16c29b5b3de54984bafe0c2ff367a186ca97f1d4ed48290",
+      "size": 10,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind/.eslintrc",
+      "sha256": "75b6d0b1401bed73efd3429ed52011077425266709cf4461867d577a5b7a69f4",
+      "size": 208,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind/.github/FUNDING.yml",
+      "sha256": "a044e97e01de6eef53bde25cb024443a21a04a84f339ad118031443d3427b8db",
+      "size": 580,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind/.nycrc",
+      "sha256": "997785c50b0773e5e18bf15550fbf57823c634fefe623cd37b3c83696402ad0a",
+      "size": 139,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind/callBound.js",
+      "sha256": "2b2fce7622fdd680256d28bcd59c30913546a825bf69d754d21a1d21ccc2928c",
+      "size": 413,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind/CHANGELOG.md",
+      "sha256": "71b0fcb9d1f0d30fc5c9bc6c66453b8ba4cd42447ef7e36f0c6b06739fcc1c25",
+      "size": 10319,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind/index.js",
+      "sha256": "ebf3d0dc319511810ccbaf38135eb5b08b249abee9f4687d5b572c7ba60889cf",
+      "size": 641,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind/LICENSE",
+      "sha256": "39c5ec504cf6bd5cd782a7c695828e09189df79f5d94840e4f08feb97b9fd416",
+      "size": 1071,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind/package.json",
+      "sha256": "c11be8b7f9bbe367c27d42fba734b8226c0b15e1e5e1c2d842822d9791f053c7",
+      "size": 2295,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind/README.md",
+      "sha256": "9fb37f60ca3cbcfb6563ccd122ecf8f585af10cdb935f44b74f07151ffd30ae8",
+      "size": 1984,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind/test/callBound.js",
+      "sha256": "67da6de7ea66108ea3f035648b367cb8bf7dac8148b798a54b5b9de8f7f6ef65",
+      "size": 2349,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bind/test/index.js",
+      "sha256": "477d80e45f5d5308c4becf887d4d9e0ce7e563baacb702d822c62eb486b0c55d",
+      "size": 4080,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bound/.eslintrc",
+      "sha256": "74e902a86f8225f37ee223801bbf5ac11f9d0a330a9b04c8909ef21147ffa412",
+      "size": 138,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bound/.github/FUNDING.yml",
+      "sha256": "c88d2ad0d92b2977876a4f81aa60c4151c5b3a9e12eefe0843c0fbb87997edc6",
+      "size": 581,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bound/.nycrc",
+      "sha256": "997785c50b0773e5e18bf15550fbf57823c634fefe623cd37b3c83696402ad0a",
+      "size": 139,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bound/CHANGELOG.md",
+      "sha256": "333cf17d395a3c807ba1f568ca16aac057d40c7f3e6ef8b1e2e4967d1d0d12a2",
+      "size": 2880,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bound/index.d.ts",
+      "sha256": "f8213a2dc5cb3a7b42d6708c68e36cbc2633552021ac89e618919cbecf6a2baa",
+      "size": 4651,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bound/index.js",
+      "sha256": "aaf524d09b5a4f8f732a516aa1c81e6e8c5d65ae3d01bce392e8fc1ac55c14ff",
+      "size": 687,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bound/LICENSE",
+      "sha256": "5e325595b4ea8cfec3802f545b1def5d7b73e4a5b8e9ba63e32a320f67732292",
+      "size": 1071,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bound/package.json",
+      "sha256": "dcc8abb3c4ad3774234272149020cb36d7b1a3d377a419454d1e7adb368dd9c3",
+      "size": 2507,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bound/README.md",
+      "sha256": "8c1e445125b0119718896686b7c7015d1078fcc727327b6d1c4955df0b7b2d10",
+      "size": 1897,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bound/test/index.js",
+      "sha256": "ff0e2917d84f9254d28466934577d67f0b00589d637bad08e637cb3278e43f22",
+      "size": 2418,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/call-bound/tsconfig.json",
+      "sha256": "97ce3d982a834f79a60b6c4b8dccc0e961711f2e74fac4c8c2e1b877f9bc8bb4",
+      "size": 137,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/clean-git-ref/lib/index.js",
+      "sha256": "2cc0dedd73dce9009c145c9797418a4a14effa9f53fa757401ab6cf295f36167",
+      "size": 994,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/clean-git-ref/package.json",
+      "sha256": "85c489423a88038349e92f2515e9f2d38dac5a2319a467357a1e8141b46613be",
+      "size": 818,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/clean-git-ref/README.md",
+      "sha256": "a12b8a4c89710e2fef75a02985b3e018bda77e19e170c8af29555ffeeba47098",
+      "size": 514,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/crc-32/bin/crc32.njs",
+      "sha256": "b76d04e65703660f18386c8446015dc7e3e47095769ac45f783c99154e1205d0",
+      "size": 3919,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/crc-32/crc32.js",
+      "sha256": "8450a98f18b8a24ed088d07d64c5134896e54079757f783945054167a9d2e75e",
+      "size": 3566,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/crc-32/crc32c.js",
+      "sha256": "5ad325e444f5bf52764f0d8d1100e4a7b28cefb411821a8bd82c20851d8ffe86",
+      "size": 3584,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/crc-32/LICENSE",
+      "sha256": "c542ba7851b5d39a5face477e47a27cb7c00a9759e321b66824e79718bffe1ac",
+      "size": 11355,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/crc-32/package.json",
+      "sha256": "2a96a3fe106da3dffa3479e8983c01c745f0f8c8f961ec9b6af5fb7ff35ce05d",
+      "size": 1106,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/crc-32/README.md",
+      "sha256": "d64c6599d3ccaa0147da7de2924b9a0b9342a292bdcd1e1f943f497651f28dd2",
+      "size": 6445,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/crc-32/types/index.d.ts",
+      "sha256": "e1e1e8a8d9b7e290797e25d3d73903f77ab2ded8b18618318d162c1ba2817e19",
+      "size": 463,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/crc-32/types/tsconfig.json",
+      "sha256": "f7ff5aea489b787f15fd45bff352c0bceac43121a0aa4100fe013f6f4923e8d0",
+      "size": 345,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/crc-32/types/tslint.json",
+      "sha256": "d854d5ad549b41d13350fca474c4f3f9982952d9b083a48e19929d5d50d93802",
+      "size": 261,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/decompress-response/index.d.ts",
+      "sha256": "7c272546f8957c2897f002f21a8ba4926d5cb93b40ebca4ce69e903b272cf0d9",
+      "size": 542,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/decompress-response/index.js",
+      "sha256": "682e0812a9f4f7e4cee568a94f3b51ba0d9e5aec3fb0ec3042d9d5444cf892cf",
+      "size": 1320,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/decompress-response/license",
+      "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "size": 1117,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/decompress-response/package.json",
+      "sha256": "8fb6b0b19d09cc1c5b2caad128ae39b2fd693a35bb3d440c4e1143bfb9d10080",
+      "size": 985,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/decompress-response/readme.md",
+      "sha256": "c0b4c1abab05fbf0414ef03385de06c3504787304f229f091e9ddeadad9cc1ab",
+      "size": 1508,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/define-data-property/.eslintrc",
+      "sha256": "500a324db044702f9df2aae5901a2bb474f31424a06c580373c9c766b3f897e1",
+      "size": 291,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/define-data-property/.github/FUNDING.yml",
+      "sha256": "df75ed2445c3bd41cd33a86e496f4ec7e279dab92d1a01e0cf58c1ae2a675209",
+      "size": 591,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/define-data-property/.nycrc",
+      "sha256": "948366fea3b423a46366326d0bb2e54b08abd1cf0b243678ba6625740c40da5a",
+      "size": 216,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/define-data-property/CHANGELOG.md",
+      "sha256": "505cff21a498c2186d643eba46dac80c6d71e25cefaff156e24dd2afe29e8924",
+      "size": 5390,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/define-data-property/index.d.ts",
+      "sha256": "654404bef397f9614f656d78d09c36d3ef38e005900cea77c8beacf0ee1e8f07",
+      "size": 315,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/define-data-property/index.js",
+      "sha256": "e34746e8c69bbf6ba2182b7362e9c4dc5fb3c19cace48091781ae967370bc065",
+      "size": 2336,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/define-data-property/LICENSE",
+      "sha256": "b41d08bc3624d8c436fc80237d73ebb361985a67f4504bbcd703e5ca2b27254c",
+      "size": 1071,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/define-data-property/package.json",
+      "sha256": "bde7f1465b344a24da2b10d2ee99f87edf8e0ecd177c28370b60ad9595de730e",
+      "size": 2856,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/define-data-property/README.md",
+      "sha256": "72ddfa32f732f61479cfb34852cb0f57162bc3037a97bf812c4e42679b3ff0b9",
+      "size": 2431,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/define-data-property/test/index.js",
+      "sha256": "db68bc8e54487d027c9699f4b6df2df865386de6f2b738619c7c6431c919767d",
+      "size": 10471,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/define-data-property/tsconfig.json",
+      "sha256": "df4b3b4bcc4f4a716f64eaa22530ad895e244489474d1583e866f5fd26efe462",
+      "size": 4883,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/CONTRIBUTING.md",
+      "sha256": "b5cc876e0e69332f1e8aa27f32ce9932d56c571692a05158d34e99b85f84d8b4",
+      "size": 988,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/dist/diff.js",
+      "sha256": "5773c7efb34715bb9a9b6a9ebf5b0ff00f85f9efa6d9fd69fc65e181364f7b2e",
+      "size": 111301,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/dist/diff.min.js",
+      "sha256": "b51a9d2885f2c090dc97b981027395f7e7e6558a46c75ae3747db267913a89ab",
+      "size": 37162,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/eslint.config.mjs",
+      "sha256": "701aca397f6a2842dda8f0cdfaeb732b90e1617336f75aa09078abd69e940e8d",
+      "size": 5395,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/convert/dmp.d.ts",
+      "sha256": "c49a2c2b75a2c37ee620759e00517d2a5b37231432e6606cbb9a6493591eb6c5",
+      "size": 388,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/convert/dmp.d.ts.map",
+      "sha256": "5262035a6160dc4a684530b9d103fa814862ecbfd721c5024c0367d909bfe9d6",
+      "size": 334,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/convert/dmp.js",
+      "sha256": "492e1ec0ffb5ea0f312fc85e1820aef743c80eb9917ca4e1f767cc55debb1aff",
+      "size": 701,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/convert/xml.d.ts",
+      "sha256": "b342336b75a5615111f5dba9bfefe4329015473c3fb61c1fb3d9257457aac201",
+      "size": 240,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/convert/xml.d.ts.map",
+      "sha256": "918618579cd70597d08cf7ce493013958ffbc0af79039a35fc24ce2ca8b3780a",
+      "size": 243,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/convert/xml.js",
+      "sha256": "16865f6ff0686110fd5c05eb2b8c92125fe00b39222b4375c086bbc17b29c5eb",
+      "size": 902,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/array.d.ts",
+      "sha256": "0a5634f7bbf1e77f453a8469795472ceef410f9a2a6902a38e830ee997e11aad",
+      "size": 1287,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/array.d.ts.map",
+      "sha256": "2d035d34ce7c9f6ed87f20ee3fe98e4a2aaab1d0013cf8971110b1bbb5823bda",
+      "size": 1307,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/array.js",
+      "sha256": "57857ba295ddf6bf6049a648e0a148578acab321340f6f48ca3ca2c3ffc9c928",
+      "size": 683,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/base.d.ts",
+      "sha256": "14cad32342459938e4dc3e43290c21815e8c50ff9987fbb6a707c20fab488a0c",
+      "size": 1460,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/base.d.ts.map",
+      "sha256": "f2586bf2f20ca3b260123b444adb5e7f8155c9f32346de79c15bed91b9e8035c",
+      "size": 1440,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/base.js",
+      "sha256": "9897b9222fa9b54c8bd9591932a8e753315cdeb702dcf94bc033b5f403c87dbf",
+      "size": 12094,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/character.d.ts",
+      "sha256": "4bd23b962c6702f2d842017b6fcbe35d63899e4524ff6af4facc74598c113522",
+      "size": 1317,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/character.d.ts.map",
+      "sha256": "b67af1c7447f40ea9f095bedcb148e97323cdac1af17ef42029ae2ece85c8ed2",
+      "size": 964,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/character.js",
+      "sha256": "4f78d19e7c9e76532b825e0e5fdd3caf72b10b355e616a513439c6c286c4d3fc",
+      "size": 543,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/css.d.ts",
+      "sha256": "60bd054853cda7ee357f147bf903e2f88cd78a9b3e37732c218a3493ae226986",
+      "size": 1163,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/css.d.ts.map",
+      "sha256": "cda76c7d614cca884b2548d7db489c7d273add402d252281130249f0c8c3dd16",
+      "size": 981,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/css.js",
+      "sha256": "e95da54d7873638cf7410af7a94632096b7636727c80bedbcf3b77588c310439",
+      "size": 580,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/json.d.ts",
+      "sha256": "fdd3335862781599d7de3dc5659b5a8135aa3954b9c1492723432bc0d484e85e",
+      "size": 1995,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/json.d.ts.map",
+      "sha256": "5d574296d689bab498fad7bd5d68f85e726cc670bb8d8893358b418e1b81f997",
+      "size": 1551,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/json.js",
+      "sha256": "a450d696f3e928efc5ddefab7bb700cdf9059e39dc6b1c0754feda7c58350840",
+      "size": 3264,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/line.d.ts",
+      "sha256": "8e7155b1873201785456300ffcdd7f0bcc869f995b7df50ad27ea33740b122a3",
+      "size": 2158,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/line.d.ts.map",
+      "sha256": "ce4b4da26c3d142302d7d4961995f8783d795958036f336ddb9c6131122aad21",
+      "size": 1749,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/line.js",
+      "sha256": "a456bb324508d58a3dd0db8fde805fe9913584a52c0bb31d73ae319a3f170021",
+      "size": 3021,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/sentence.d.ts",
+      "sha256": "d449145a9a77065e6438e42469cad4ddb83b92c53be6ec94ad2a87b21be3249e",
+      "size": 1838,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/sentence.d.ts.map",
+      "sha256": "02ba8e2ccc9dbc51dd466151d13120fa66bc44ddf2d8f3b5160b554c26d7b10e",
+      "size": 1000,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/sentence.js",
+      "sha256": "c1da80a96f63b0c7673880359d7c79ce5bd161eead23bd9e7f0423e6b31c751b",
+      "size": 2226,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/word.d.ts",
+      "sha256": "3f34c292613d80c8efdc20534366cd9cb08ff7cb60c92bef5658826ee095bc69",
+      "size": 2731,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/word.d.ts.map",
+      "sha256": "cc45ae7ed5dedee0779c81a180b8d4eba238a7baf85af256c1b2f75aea5a9141",
+      "size": 1966,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/diff/word.js",
+      "sha256": "be7d90a270ce7a254c800f6c5ffe03f86df5f2a2f18e4ea6d605127df7654f36",
+      "size": 14684,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/index.d.ts",
+      "sha256": "c3ee2fb2465660509cd53a26c5fa8df4b5f4d8d34d84f8c58b77656d714ad4a8",
+      "size": 2869,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/index.d.ts.map",
+      "sha256": "198e22bfb5f5c3d5e46227a817f4d3019bbcd86267f87b2df537854b8dd992d2",
+      "size": 2027,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/index.js",
+      "sha256": "49e8adffb233644578b4aef1c4fefa0b11da5d9fb6abe1f26c40eef2313f2c41",
+      "size": 6065,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/package.json",
+      "sha256": "560ea6123d6cdf8e30c003ddb5f9cbcc8b4343df27eeb46cecdc645782aa67b4",
+      "size": 39,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/apply.d.ts",
+      "sha256": "688962814dc9d6a47ba11ec5ded89fb6cc7e82a4390c23d51e6f479f80760049",
+      "size": 4702,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/apply.d.ts.map",
+      "sha256": "4a1f620f1a25e7ddd7a3f6537e5c0ebd56c9f023514f8de2fdfa1d8bf16dafa0",
+      "size": 1023,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/apply.js",
+      "sha256": "837f20a666db68ab084ccf5069172482fc1256f1e9ff95a11d7ddb53eb2a175d",
+      "size": 13320,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/create.d.ts",
+      "sha256": "299bd9b268b5bf44c02721cdc6d59cb6cb1ee3c628721460ce491d6c2a2f5045",
+      "size": 9218,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/create.d.ts.map",
+      "sha256": "e66113474ce37e287db490536547a2c6a3c77c184c86cbc8d125f2346e95ea82",
+      "size": 4798,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/create.js",
+      "sha256": "b6142fc6de57271f6d7e0ccdf2621264f12a3925e210ab41b7219cc670cefa38",
+      "size": 15455,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/line-endings.d.ts",
+      "sha256": "0eb5ff25a78fcc2a2088e0f28e36dfffce1a83a0accb6ed903f8b81f3964c14c",
+      "size": 1034,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/line-endings.d.ts.map",
+      "sha256": "166e856902edd31382a590d19c99584dbcc2482ae70270699e5da797741b2ad4",
+      "size": 731,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/line-endings.js",
+      "sha256": "a2cddea5004a8c274692061fff69539cf6b56b18da1bd17fd409e7450c4b8a6f",
+      "size": 2493,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/parse.d.ts",
+      "sha256": "222809ec2ea4e3c84748f0e19a3337df924de02a677c0fef728da0f345c2d798",
+      "size": 924,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/parse.d.ts.map",
+      "sha256": "23afb0bc1a65e8bc21a2a62ce7e2d34abcbbef673d7ef9cdb2059ac093f6c2b4",
+      "size": 238,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/parse.js",
+      "sha256": "d64b16ba5a9eeca2116e436a6e2dbe045ebc8420475a759e1c566eb70ea944dd",
+      "size": 23822,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/reverse.d.ts",
+      "sha256": "1d6fe13f2a2eb6d221907f9c6e29b32cc13e9c7593372996c1d34b3c6bd39b8a",
+      "size": 1600,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/reverse.d.ts.map",
+      "sha256": "7060a9b2abdd16a22b803a5c90e2de9529c8a592b9fa78dab40342b422dab451",
+      "size": 386,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/patch/reverse.js",
+      "sha256": "492cdd3bbc7accf15d7b183c9c47f63adfe8a0c934f859bd8876e57a43602060",
+      "size": 3168,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/types.d.ts",
+      "sha256": "c800ee866627d523f3b0633f97112b0ea942f64b23127a9f6efe64ee23447a7c",
+      "size": 14627,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/types.d.ts.map",
+      "sha256": "26fd7696da7cb84021ef8a18370a410f9601f46f089ee93ccb40a71c47c54f72",
+      "size": 4104,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/types.js",
+      "sha256": "d43aa81f5bc89faa359e0f97c814ba25155591ff078fbb9bfd40f8c7c9683230",
+      "size": 77,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/util/array.d.ts",
+      "sha256": "9b181c0e2b265d7c12205426643b366e7850e789dd9cdf48dd2452fe806e148d",
+      "size": 178,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/util/array.d.ts.map",
+      "sha256": "ed0fe147615d1348c03b2d7f4433f900fde05a1a0abbeb841da2d8f1d3043071",
+      "size": 277,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/util/array.js",
+      "sha256": "e1d66b3da1772e05bf8ce36b1033682910008a13a4c821f548df09b3a134094f",
+      "size": 529,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/util/distance-iterator.d.ts",
+      "sha256": "be1a5aebf79d0f7739f8c27a65393a23723535f39de3ab62ab088d22937bf9a7",
+      "size": 148,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/util/distance-iterator.d.ts.map",
+      "sha256": "d937c682f41787763b5f7ce5d19072e9a12c32c985554e2755106a4be22572a5",
+      "size": 247,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/util/distance-iterator.js",
+      "sha256": "efd38507d6f47459cf544098df0630cd1002b13985eb64d3012f0b3259e35f4e",
+      "size": 1587,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/util/params.d.ts",
+      "sha256": "90b80eea50f29206d12cff5377a443c97b69c0f0f766edf78b5e5b8d90903b83",
+      "size": 163,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/util/params.d.ts.map",
+      "sha256": "af149eeab485d9ce8a49deba23ff42717d672acc81a939c4bbab97166a2a5f34",
+      "size": 272,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/util/params.js",
+      "sha256": "247420b57246f4406ab2c84983397171808c212d16137d4b9fbf04ee49063823",
+      "size": 523,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/util/string.d.ts",
+      "sha256": "26c1c2ff9bf23092a17d2279654a572211357d6e62acb1c9ec7a2063df5ec613",
+      "size": 1861,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/util/string.d.ts.map",
+      "sha256": "3b4d262f26a214645dd70c9c9f35fd6b587155b015e801e33850d27f9c914158",
+      "size": 1198,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libcjs/util/string.js",
+      "sha256": "12cc9eecf8d1cc4c9c76ddcd475564599c5ed270cb05c4c111e80a6409afafda",
+      "size": 7664,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/convert/dmp.d.ts",
+      "sha256": "c49a2c2b75a2c37ee620759e00517d2a5b37231432e6606cbb9a6493591eb6c5",
+      "size": 388,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/convert/dmp.d.ts.map",
+      "sha256": "5262035a6160dc4a684530b9d103fa814862ecbfd721c5024c0367d909bfe9d6",
+      "size": 334,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/convert/dmp.js",
+      "sha256": "05bad2211249703a43f2d4250fb0e0831511a32aed763cd21890c1b5ee7032c4",
+      "size": 580,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/convert/xml.d.ts",
+      "sha256": "b342336b75a5615111f5dba9bfefe4329015473c3fb61c1fb3d9257457aac201",
+      "size": 240,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/convert/xml.d.ts.map",
+      "sha256": "918618579cd70597d08cf7ce493013958ffbc0af79039a35fc24ce2ca8b3780a",
+      "size": 243,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/convert/xml.js",
+      "sha256": "c9dfceeb2ab8248f6dee37f0ce253317939fe1302ffb4483ccf777400a3ac552",
+      "size": 781,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/array.d.ts",
+      "sha256": "0a5634f7bbf1e77f453a8469795472ceef410f9a2a6902a38e830ee997e11aad",
+      "size": 1287,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/array.d.ts.map",
+      "sha256": "2d035d34ce7c9f6ed87f20ee3fe98e4a2aaab1d0013cf8971110b1bbb5823bda",
+      "size": 1307,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/array.js",
+      "sha256": "5bcc1320c7ee74e565421a556d81ed3fdd82ff2f366e6151beebac6b425f528f",
+      "size": 370,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/base.d.ts",
+      "sha256": "14cad32342459938e4dc3e43290c21815e8c50ff9987fbb6a707c20fab488a0c",
+      "size": 1460,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/base.d.ts.map",
+      "sha256": "f2586bf2f20ca3b260123b444adb5e7f8155c9f32346de79c15bed91b9e8035c",
+      "size": 1440,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/base.js",
+      "sha256": "faa81734df6ea7f8034efc5572ad1bbf19c50b300fdd183baf0d7813c5eec3b2",
+      "size": 12008,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/character.d.ts",
+      "sha256": "4bd23b962c6702f2d842017b6fcbe35d63899e4524ff6af4facc74598c113522",
+      "size": 1317,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/character.d.ts.map",
+      "sha256": "b67af1c7447f40ea9f095bedcb148e97323cdac1af17ef42029ae2ece85c8ed2",
+      "size": 964,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/character.js",
+      "sha256": "75677c2b3c5990099675493b415ce59f92f5de4709de59fa481b9fb563168deb",
+      "size": 228,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/css.d.ts",
+      "sha256": "60bd054853cda7ee357f147bf903e2f88cd78a9b3e37732c218a3493ae226986",
+      "size": 1163,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/css.d.ts.map",
+      "sha256": "cda76c7d614cca884b2548d7db489c7d273add402d252281130249f0c8c3dd16",
+      "size": 981,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/css.js",
+      "sha256": "db85fa43d4e4d4bbe3707d9e575de338589deb9a4cc8243c7f15fa5e2c87724d",
+      "size": 275,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/json.d.ts",
+      "sha256": "fdd3335862781599d7de3dc5659b5a8135aa3954b9c1492723432bc0d484e85e",
+      "size": 1995,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/json.d.ts.map",
+      "sha256": "5d574296d689bab498fad7bd5d68f85e726cc670bb8d8893358b418e1b81f997",
+      "size": 1551,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/json.js",
+      "sha256": "c97ec8c04a7c4fc37a605d5863018ead1cac1c19128a7333bcb19d33fa6771b7",
+      "size": 2914,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/line.d.ts",
+      "sha256": "8e7155b1873201785456300ffcdd7f0bcc869f995b7df50ad27ea33740b122a3",
+      "size": 2158,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/line.d.ts.map",
+      "sha256": "ce4b4da26c3d142302d7d4961995f8783d795958036f336ddb9c6131122aad21",
+      "size": 1749,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/line.js",
+      "sha256": "e3ef2d8c8c3a56f6b9fb04609f545b2aae2f84a02c31c5de3201aef1b0545f90",
+      "size": 2629,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/sentence.d.ts",
+      "sha256": "d449145a9a77065e6438e42469cad4ddb83b92c53be6ec94ad2a87b21be3249e",
+      "size": 1838,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/sentence.d.ts.map",
+      "sha256": "02ba8e2ccc9dbc51dd466151d13120fa66bc44ddf2d8f3b5160b554c26d7b10e",
+      "size": 1000,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/sentence.js",
+      "sha256": "dad3b5952b2d8f29d8a01618580661c1757ed0bcce5e2af969b17eff613ca93b",
+      "size": 1904,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/word.d.ts",
+      "sha256": "3f34c292613d80c8efdc20534366cd9cb08ff7cb60c92bef5658826ee095bc69",
+      "size": 2731,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/word.d.ts.map",
+      "sha256": "cc45ae7ed5dedee0779c81a180b8d4eba238a7baf85af256c1b2f75aea5a9141",
+      "size": 1966,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/diff/word.js",
+      "sha256": "c1d6a6c52ef517e4ea9df6d71465fa520ce677d1b4e127425e3c2d8cf14f7a22",
+      "size": 13933,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/index.d.ts",
+      "sha256": "c3ee2fb2465660509cd53a26c5fa8df4b5f4d8d34d84f8c58b77656d714ad4a8",
+      "size": 2869,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/index.d.ts.map",
+      "sha256": "198e22bfb5f5c3d5e46227a817f4d3019bbcd86267f87b2df537854b8dd992d2",
+      "size": 2027,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/index.js",
+      "sha256": "b1f400fd24da44377867ede7ab847a34940423f8bbf3fc5475d8c7647759a2aa",
+      "size": 1914,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/package.json",
+      "sha256": "5e433a0d28d7f422b2c6fbc3058b931d19d29bdc49c154b312099680e992e3f5",
+      "size": 37,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/apply.d.ts",
+      "sha256": "688962814dc9d6a47ba11ec5ded89fb6cc7e82a4390c23d51e6f479f80760049",
+      "size": 4702,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/apply.d.ts.map",
+      "sha256": "4a1f620f1a25e7ddd7a3f6537e5c0ebd56c9f023514f8de2fdfa1d8bf16dafa0",
+      "size": 1023,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/apply.js",
+      "sha256": "f8096efdfda914e9b85a8cb270dfb1a57f0d483656368327c89b80098955589e",
+      "size": 12892,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/create.d.ts",
+      "sha256": "299bd9b268b5bf44c02721cdc6d59cb6cb1ee3c628721460ce491d6c2a2f5045",
+      "size": 9218,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/create.d.ts.map",
+      "sha256": "e66113474ce37e287db490536547a2c6a3c77c184c86cbc8d125f2346e95ea82",
+      "size": 4798,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/create.js",
+      "sha256": "f29a276d2b036858b2f6a509b1e6e147efa572d4820317ee7285d6fe4f2888de",
+      "size": 15125,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/line-endings.d.ts",
+      "sha256": "0eb5ff25a78fcc2a2088e0f28e36dfffce1a83a0accb6ed903f8b81f3964c14c",
+      "size": 1034,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/line-endings.d.ts.map",
+      "sha256": "166e856902edd31382a590d19c99584dbcc2482ae70270699e5da797741b2ad4",
+      "size": 731,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/line-endings.js",
+      "sha256": "65af590b9426800782d692a7b1923ad1d6d6bbc1c74e9863053c6cfe1d97f3f4",
+      "size": 2334,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/parse.d.ts",
+      "sha256": "222809ec2ea4e3c84748f0e19a3337df924de02a677c0fef728da0f345c2d798",
+      "size": 924,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/parse.d.ts.map",
+      "sha256": "23afb0bc1a65e8bc21a2a62ce7e2d34abcbbef673d7ef9cdb2059ac093f6c2b4",
+      "size": 238,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/parse.js",
+      "sha256": "0d8c9a406b8ee41be2e1e6d32f7ccece5c04f6995e6f1f71d4bf4485a5c1bce9",
+      "size": 23719,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/reverse.d.ts",
+      "sha256": "1d6fe13f2a2eb6d221907f9c6e29b32cc13e9c7593372996c1d34b3c6bd39b8a",
+      "size": 1600,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/reverse.d.ts.map",
+      "sha256": "7060a9b2abdd16a22b803a5c90e2de9529c8a592b9fa78dab40342b422dab451",
+      "size": 386,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/patch/reverse.js",
+      "sha256": "8d4e2d14cff3632a9c9a6d42d52aca16593d97812efe8c185e39094ceb7badf2",
+      "size": 3061,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/types.d.ts",
+      "sha256": "c800ee866627d523f3b0633f97112b0ea942f64b23127a9f6efe64ee23447a7c",
+      "size": 14627,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/types.d.ts.map",
+      "sha256": "26fd7696da7cb84021ef8a18370a410f9601f46f089ee93ccb40a71c47c54f72",
+      "size": 4104,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/types.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+      "size": 11,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/util/array.d.ts",
+      "sha256": "9b181c0e2b265d7c12205426643b366e7850e789dd9cdf48dd2452fe806e148d",
+      "size": 178,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/util/array.d.ts.map",
+      "sha256": "ed0fe147615d1348c03b2d7f4433f900fde05a1a0abbeb841da2d8f1d3043071",
+      "size": 277,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/util/array.js",
+      "sha256": "8bbc0246a6d709eb776531a7a2062066a77916643364945c1a713a00eca33e46",
+      "size": 390,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/util/distance-iterator.d.ts",
+      "sha256": "be1a5aebf79d0f7739f8c27a65393a23723535f39de3ab62ab088d22937bf9a7",
+      "size": 148,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/util/distance-iterator.d.ts.map",
+      "sha256": "d937c682f41787763b5f7ce5d19072e9a12c32c985554e2755106a4be22572a5",
+      "size": 247,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/util/distance-iterator.js",
+      "sha256": "41e12ebbedb76278e3bd37ede510e009a5952897a3e748e9673b4e5c8ae660e5",
+      "size": 1487,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/util/params.d.ts",
+      "sha256": "90b80eea50f29206d12cff5377a443c97b69c0f0f766edf78b5e5b8d90903b83",
+      "size": 163,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/util/params.d.ts.map",
+      "sha256": "af149eeab485d9ce8a49deba23ff42717d672acc81a939c4bbab97166a2a5f34",
+      "size": 272,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/util/params.js",
+      "sha256": "bb76a1c299071b6f8314bb7195ad701af06f092c629aed8b4fef4a7474ab3759",
+      "size": 410,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/util/string.d.ts",
+      "sha256": "26c1c2ff9bf23092a17d2279654a572211357d6e62acb1c9ec7a2063df5ec613",
+      "size": 1861,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/util/string.d.ts.map",
+      "sha256": "3b4d262f26a214645dd70c9c9f35fd6b587155b015e801e33850d27f9c914158",
+      "size": 1198,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/libesm/util/string.js",
+      "sha256": "0836eacdebdb30c8aba0e898f9c7a45e236d036848ccfb058f56745f5ff020d3",
+      "size": 7127,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/LICENSE",
+      "sha256": "eda81a415869e67809f6a9f3fd6056062cb83a462118e07eec5e92b2e0c40ce9",
+      "size": 1546,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/package.json",
+      "sha256": "1c625fe9bba43722c8d8fbd8c2b70edcab5473d75f8d66a862f9800b415aa014",
+      "size": 3776,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/README.md",
+      "sha256": "79d02cee5a2ae6d2634f9a513f08360050ec5b8cefdb6f0079ac82c88a15f044",
+      "size": 35757,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff/release-notes.md",
+      "sha256": "5502028b897961ddcc3390af0998a0611eac8bbedb54029867c99a68aad5a704",
+      "size": 44629,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff3/.npmignore",
+      "sha256": "c0f3c41d2bfb28dcaf7a1b545cdf9b9d9d280fdd8b0e2d95a5da6b2b2169ceab",
+      "size": 529,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff3/diff3.js",
+      "sha256": "a2cf76d0acfaae0e098434307a1180d24ebf86451b70cbfc81704df55c54896f",
+      "size": 7851,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff3/onp.js",
+      "sha256": "6970cf6907e5f3e62a95cf6942eb4199858ce9d42af866e064901f6183319a70",
+      "size": 5393,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff3/package.json",
+      "sha256": "c73baaf5f0de24083e0101e7dd6fb7ac30a3373e10850e6a04adfcca6185bc5a",
+      "size": 505,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/diff3/README.md",
+      "sha256": "52547d4ea46d3c097ccb0183056e15b04a3fefecbe0cae14714cfecaaaa52e52",
+      "size": 446,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/.eslintrc",
+      "sha256": "0694050195fc694c5846b0a2a66b437ac775da988f0a779c55fb892597f7f641",
+      "size": 43,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/.github/FUNDING.yml",
+      "sha256": "aa11a9d937d72381b6fc36c2fa3ea4e7bb3d9650c5d2604e14f2998be4e9a643",
+      "size": 583,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/.nycrc",
+      "sha256": "948366fea3b423a46366326d0bb2e54b08abd1cf0b243678ba6625740c40da5a",
+      "size": 216,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/CHANGELOG.md",
+      "sha256": "889ec6c5fd3b8b18d431c60a36d643f357d22a8aa1c9c9e6fd8ffecd89c67f13",
+      "size": 1547,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/get.d.ts",
+      "sha256": "7c2f315cfb64dc1827f84eb89e84c0db072e109379173e3869de7c13160623d2",
+      "size": 121,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/get.js",
+      "sha256": "9671388b2fa2cbce2f4b8645cc1dedae2f182113a78c93dd142d987c2517dacf",
+      "size": 980,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/LICENSE",
+      "sha256": "2b770a704c15de238c3f622b01b0044ddd60b49ee30608ea6991ebf19db7a7a1",
+      "size": 1073,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/package.json",
+      "sha256": "24df71008e4225c858f389dd2728b76cf66b752256d42a38ed7930aacae7fe2b",
+      "size": 2108,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/README.md",
+      "sha256": "a04f8e67cb76f7d636860dd5d9fc6edd07ec3d41c6672897045573977c8e762a",
+      "size": 1907,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/set.d.ts",
+      "sha256": "1cafbbee16530370af0b1116ffea5f9dec7db15bb0c9d417c37c76505954bf50",
+      "size": 144,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/set.js",
+      "sha256": "627dfab99b492879fca53b5d648a7263fc16181bfee148e7d29f7fa0f47bd24d",
+      "size": 1276,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/test/get.js",
+      "sha256": "cd6c3e2cc078652bac3005445b7d9f36108b61e67c4ced535307165cb2487a26",
+      "size": 1143,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/test/index.js",
+      "sha256": "35268fab42edb06d406b44b1805d6b7d037a585474fde87a246adfd463b97637",
+      "size": 51,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/test/set.js",
+      "sha256": "80fd77e5232099dfb76b64e61edef17cf8567e46adbd3a71bdd05679b12bc6a7",
+      "size": 1695,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/dunder-proto/tsconfig.json",
+      "sha256": "5c01887c6c8539144c0fc5fae6f5115073b6e26ecbeae8434a0329f46f9169c6",
+      "size": 116,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-define-property/.eslintrc",
+      "sha256": "317b53d336fef735ecf930b9518869a5692c1bd1b80ea2d53ce6a86b36919c67",
+      "size": 144,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-define-property/.github/FUNDING.yml",
+      "sha256": "fdd23eb2a51d498f6bbc1d709eb6fad3778bbb0205126bc9548d4c59b714a402",
+      "size": 564,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-define-property/.nycrc",
+      "sha256": "997785c50b0773e5e18bf15550fbf57823c634fefe623cd37b3c83696402ad0a",
+      "size": 139,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-define-property/CHANGELOG.md",
+      "sha256": "fe3c3c181877529ccb5cce2f34779fa3fd28a5c5d239ca4c2a36e617dc3589b7",
+      "size": 2296,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-define-property/index.d.ts",
+      "sha256": "26f10cc22a24b23db7cd41ff339c907121ef7f518e0fe347b48a05f1bf0f7cbf",
+      "size": 93,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-define-property/index.js",
+      "sha256": "92d23d0217808c68692a1881369c207db1a35fc09dd24b98dd5f1a07d6bb3ed0",
+      "size": 288,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-define-property/LICENSE",
+      "sha256": "5e325595b4ea8cfec3802f545b1def5d7b73e4a5b8e9ba63e32a320f67732292",
+      "size": 1071,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-define-property/package.json",
+      "sha256": "3a2cb30dae30a96705dcd9aa2d5fb190cf8200f27badccfa5a81a4374e5708b4",
+      "size": 2129,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-define-property/README.md",
+      "sha256": "5ce564bb53fafd87b543f144e04955d128199205cf07bff442f3b875ca90d422",
+      "size": 2056,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-define-property/test/index.js",
+      "sha256": "2f27838dd904c0f4691d65239cf7a9dfb00f976634d616572b0acaf18f31e674",
+      "size": 1299,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-define-property/tsconfig.json",
+      "sha256": "2ff433185c049374ca38887ac82b549215cd40f0090d4c350f8ee6c549fb076d",
+      "size": 138,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/.eslintrc",
+      "sha256": "0694050195fc694c5846b0a2a66b437ac775da988f0a779c55fb892597f7f641",
+      "size": 43,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/.github/FUNDING.yml",
+      "sha256": "5cffdeeee604fdf21f64369bf526c2c707377f01fdf1d816b204422cde144ce9",
+      "size": 555,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/CHANGELOG.md",
+      "sha256": "f21ce3b58b9c00181c38429f5f5f07438675fb519c749e4cc9edd7c661a00daf",
+      "size": 1833,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/eval.d.ts",
+      "sha256": "82e8fde67d906608c18ede0ee67f0ec2221e13fb7de1576f9fc59e91158de2e6",
+      "size": 68,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/eval.js",
+      "sha256": "d3161a97f162b483206e9849e41bb17fd54166810c76ebaa1df068133e54caae",
+      "size": 75,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/index.d.ts",
+      "sha256": "032af142c4e06fcd215e4519d4d1c9c60dbaa63d033cb116abb5b5a4f6336fbf",
+      "size": 56,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/index.js",
+      "sha256": "28fee350e89561019cf27ea37a313b4b4995f521fd087198fa235a8f135962de",
+      "size": 66,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/LICENSE",
+      "sha256": "5e325595b4ea8cfec3802f545b1def5d7b73e4a5b8e9ba63e32a320f67732292",
+      "size": 1071,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/package.json",
+      "sha256": "1a0a0bcccc76b915cb64073317312840cf6363e9144b96f406d0059774dd5278",
+      "size": 2174,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/range.d.ts",
+      "sha256": "7ab8a9b5b7d60cd76c021039f87509f5a13ba0292a3984fb1381b4ba4d79c26c",
+      "size": 71,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/range.js",
+      "sha256": "e376220f3a0226bd5b09b6d5a1411bbac274db8d2d9f7eb723142b7e676374be",
+      "size": 77,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/README.md",
+      "sha256": "176ec91db928c929508abf9917ebc35dd66e5ea1a989ac3e7ab290496d32c0d6",
+      "size": 2114,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/ref.d.ts",
+      "sha256": "c736bb4552777f1dba23aa0152b8e41c20a09bbc02fca1dde4ea4d1180fefb04",
+      "size": 83,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/ref.js",
+      "sha256": "31945f1740a0a2143fb8c38943afc6cce5de5ba6fab7af42d17b7874a19a0900",
+      "size": 79,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/syntax.d.ts",
+      "sha256": "7a47e9178209435c05b910d1aac6fc939721c2cf45a878759c9a855b0b67551f",
+      "size": 74,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/syntax.js",
+      "sha256": "56574ecd3eb54c06efd319080cc8923992791e430c914520b85e92c2f5e373f5",
+      "size": 79,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/test/index.js",
+      "sha256": "14e2b88a10618ac3947289f93011dcfc5a2c27fcb585f453f99de8ee739185f8",
+      "size": 356,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/tsconfig.json",
+      "sha256": "539cacffe5895fcf9a9eb59e3a6a9fadbb41ba3e05339d97e3b55da34d2c85a4",
+      "size": 3170,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/type.d.ts",
+      "sha256": "bf83d189c911c5d6f970c3c6a0ddf5637efe3deafaad89c31ef4418a2f90487a",
+      "size": 67,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/type.js",
+      "sha256": "c71b2f41c15edb3824f50dd24df900495c8caaba5b6e9a80851b82bb2309827b",
+      "size": 75,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/uri.d.ts",
+      "sha256": "ccbb8676063c7d4446b57e51b13d2f3d24a48ad419f9495b5bb21bd86f8c9374",
+      "size": 65,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-errors/uri.js",
+      "sha256": "e1e5591bde037a2ffeda822fa03fac22ff7c93c7b269ed9adf1cbea0e21614b0",
+      "size": 73,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/.eslintrc",
+      "sha256": "945b2b35c8d6dc3bb008e7a6391fb98f8d4103ca0dc64652b13dcbea0dd090e1",
+      "size": 229,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/.github/FUNDING.yml",
+      "sha256": "3a6cc965019e4c28527969955cb0fe7b8f8e456bcf9c5557b2fdd6c6cea2f9b6",
+      "size": 555,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/CHANGELOG.md",
+      "sha256": "a3b70f7caa0d82112311303675233cf100b600ea33c25f74fdbcd5dccc288321",
+      "size": 2622,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/index.d.ts",
+      "sha256": "82cfb73ba05567cb297bb8066b03cfa1364be56c3e46d29875b6eb087b5d0349",
+      "size": 59,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/index.js",
+      "sha256": "44ee7a57ed1c50c4c5fd2a6fcaee8772f4b7d0869326eed0aadcef87bc305212",
+      "size": 67,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/isObject.d.ts",
+      "sha256": "9f1934de45bfb908c1daca737e1c9762d892a74b2f6b9c29f205f99de266f9c8",
+      "size": 104,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/isObject.js",
+      "sha256": "c253c90b894493019432019026378b8fc6e65ba2617da6792e2e6634212f56c2",
+      "size": 161,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/LICENSE",
+      "sha256": "5e325595b4ea8cfec3802f545b1def5d7b73e4a5b8e9ba63e32a320f67732292",
+      "size": 1071,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/package.json",
+      "sha256": "e4b7882975d10c68457945c883e1060d0b058af5b1216215c872263f42e12fc9",
+      "size": 2249,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/README.md",
+      "sha256": "7ed12f453b83efdb7ace289312b40ff3eaf810d548347636b8274f56b4af9244",
+      "size": 2603,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/RequireObjectCoercible.d.ts",
+      "sha256": "2045b0793cf40da407a831c1c70de9c091a9d628bec71bb47da7a21a714df2b1",
+      "size": 123,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/RequireObjectCoercible.js",
+      "sha256": "52db42daa35deb84c5301c7dc5cd274593d72ad3ce77c64d2f9d71b46784b0c5",
+      "size": 313,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/test/index.js",
+      "sha256": "e0b98cb59959ac9e9aa0f056aa2a6a6afc637458caec77a4f9ff1a7cdbcf54b5",
+      "size": 1097,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/ToObject.d.ts",
+      "sha256": "a13501abcba87c7de858dfb38777ba334d1ffa02d2c8ef54a808fc4e6b9f6466",
+      "size": 352,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/ToObject.js",
+      "sha256": "deab7682047e003d3bdaa5c17ac4466783a6d4503aeb97724315936967ed860b",
+      "size": 250,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/es-object-atoms/tsconfig.json",
+      "sha256": "22c713482377f2492fcad1e7cb33ef479cf8c1151b0ea2c8c3a49d20d4369988",
+      "size": 112,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/event-target-shim/dist/event-target-shim.js",
+      "sha256": "927f1aa229bf227acec02b374b7120b5c971dc97136e55152ce5d49b4c20cbf5",
+      "size": 23692,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/event-target-shim/dist/event-target-shim.js.map",
+      "sha256": "839f40662b31d5a7ee38173f785b6ac31f620a30ac126f8cfb0bb1560c557108",
+      "size": 37070,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/event-target-shim/dist/event-target-shim.mjs",
+      "sha256": "b0ef9133c4a14f35516accd98bbd51af5e297589398ce8078ed59b29b61773f3",
+      "size": 23411,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/event-target-shim/dist/event-target-shim.mjs.map",
+      "sha256": "b5b497ba92f6f66321b6a21b4ad505ca5ebdbf24a1118c3653fbfe56e25bb08c",
+      "size": 37059,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/event-target-shim/dist/event-target-shim.umd.js",
+      "sha256": "8685d3687e11cb426b3e86987fe301433da8a058903009becff23c44e2cf75e4",
+      "size": 6994,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/event-target-shim/dist/event-target-shim.umd.js.map",
+      "sha256": "0b45a8106aaf541a84a097e2b7bb23c2bde5923fd15c41df11450d00c2e5fd36",
+      "size": 37362,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/event-target-shim/index.d.ts",
+      "sha256": "2859adaa4f2db3d4f0fc37ad86f056045341496b58fba0dbc16a222f9d5d55b1",
+      "size": 10757,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/event-target-shim/LICENSE",
+      "sha256": "97d87142793695cd73243de7258694abe85b3b6060fca7f247b0a2afa8219678",
+      "size": 1082,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/event-target-shim/package.json",
+      "sha256": "980bdd7706c72d04a4df2e3ee2c8ffccf3bc72bd8e7cd13ca38be00cafc6e8db",
+      "size": 2559,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/event-target-shim/README.md",
+      "sha256": "46a21a91883eba449693ed647a7aa8c11e6e85435471e230fb081bdcaa07156f",
+      "size": 8897,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/.airtap.yml",
+      "sha256": "d01a03fa317aeaa58b1320b04d4f8f4da05e7fac0dfd1e5ec8aaf0917a7bb835",
+      "size": 289,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/.github/FUNDING.yml",
+      "sha256": "d58171950381e5b7762b6bc87fe1b39a0a0d8d61778f620bb43bdc8fe0faa0d4",
+      "size": 646,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/.travis.yml",
+      "sha256": "56ef04599f203e820b7f2d538e25fc065643e9f3c07670eb9d4b156989c87ee4",
+      "size": 671,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/events.js",
+      "sha256": "b6d7d26a2395a94dd1b9dc0d06e699bb50b4ec664589fd477ce7cc344e20e172",
+      "size": 14890,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/History.md",
+      "sha256": "10735f184ed358cf45254c9a1959026720d234c3dfb242ba064c53bc1706052a",
+      "size": 3253,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/LICENSE",
+      "sha256": "631987b7616a325a5b97566c232418481ddf7dbb5ecadefb991e791876cc2599",
+      "size": 1081,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/package.json",
+      "sha256": "878ad3687fef7efe3757c1872a3af998c95197129a7445d632486a9591ee542e",
+      "size": 859,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/Readme.md",
+      "sha256": "abcf6084be683da8cb82f5066b3a6897514eff7b5606608e8bd7423fee640fc9",
+      "size": 2314,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/security.md",
+      "sha256": "612dfd309edc618a1c6e5fd0657b9dc902f70252234e0b19f160805bc5ae9767",
+      "size": 294,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/add-listeners.js",
+      "sha256": "9d648890256dcd43b02ffb9a05bb47a6ea7f024067504399946111623df47da8",
+      "size": 3792,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/check-listener-leaks.js",
+      "sha256": "804da4c17e6495f853cf0a67457733c8a3e3b14f25f7d2608218c92e11c3b6fd",
+      "size": 3461,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/common.js",
+      "sha256": "fac1be2fe753041a6a6a79722745c3dc90c13202fe939fea271b2f2b7d90302b",
+      "size": 3204,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/errors.js",
+      "sha256": "cc78e2ce310d71c85a17c7f9724e6a22e58cd0eefc2716c6bfb6b0c6250e3cf0",
+      "size": 344,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/events-list.js",
+      "sha256": "219ea13f83b5dd25bf845902f6d072125a8ee5814a5877f7a6fad18bc888617a",
+      "size": 813,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/events-once.js",
+      "sha256": "05a27b086f704a3b7013064aa642cdb44711d90547fd44cadc906e634e081a3c",
+      "size": 6115,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/index.js",
+      "sha256": "0a0254b664208de977128e17ff4529531815ca13f2f0246d3dae220b462886ce",
+      "size": 1840,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/legacy-compat.js",
+      "sha256": "2064a239d05e6839791a9515756e67c427d3747e830706e97f61e686628de342",
+      "size": 296,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/listener-count.js",
+      "sha256": "d3bd0cd9e280c9b23d5203237d555044265c7c904bf91287aa76da734428fb9a",
+      "size": 1687,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/listeners-side-effects.js",
+      "sha256": "87df770d35f8d97341b590bdfc3c6ba81696a826e3b55ee29b5ff20fe9e81af3",
+      "size": 2102,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/listeners.js",
+      "sha256": "a36961378e6ef900f77ee527b40532e5dbeea8f02d02647aa883c5a74e34744e",
+      "size": 5336,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/max-listeners.js",
+      "sha256": "6239272f7d96f6dfa837978e448aa769ed43510c5b082f78c03a636267c8fb91",
+      "size": 2068,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/method-names.js",
+      "sha256": "a847ea81c9d1b31776f65b91c52f3724c2cec0e9d952342531fbafaf59f09a42",
+      "size": 1665,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/modify-in-emit.js",
+      "sha256": "f5912a1c0ad4d51218e9a4a8a2295d30cab1c2efda3e75ed68f73f75ff25e5c2",
+      "size": 3225,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/num-args.js",
+      "sha256": "47a439fb5c7651db08ee704c138b36670c59bf3975a5956d2409af1b8a9eb9d0",
+      "size": 2217,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/once.js",
+      "sha256": "0d13fe132b97bff9c03233dd8b933748b4d10419101e22b0548a852c7664b5af",
+      "size": 2650,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/prepend.js",
+      "sha256": "657f12c4c9c7dd06f105924afb93c6a078938617fff0a1fb775c733e54e7300c",
+      "size": 833,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/remove-all-listeners.js",
+      "sha256": "b34b9637ec7c6ad832f0ab6d80b66fc6f2c9e415d12bc209dbf3dbedb815d178",
+      "size": 4733,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/remove-listeners.js",
+      "sha256": "deb03ca0bc9bc215010d50cd28b5457098109883fe9d05827f4cd63103444c0d",
+      "size": 6597,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/set-max-listeners-side-effects.js",
+      "sha256": "17e1b7766736a28427fa17eec8ccf70411eedddd06f1461f7ecaad5e73f6376c",
+      "size": 1445,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/special-event-names.js",
+      "sha256": "684b12eae6f8c942af6ee14b1035f813ff80e73f37be5723c8790f0a949bf9f2",
+      "size": 1420,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/subclass.js",
+      "sha256": "89ff22cef671e99183041e7ad77d6c21569751050b3c561d8707263623b6f98d",
+      "size": 2011,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/events/tests/symbols.js",
+      "sha256": "ac4dcee3660fd53eac9aded315f8fa6244c464f1cd35a1bae5472dc69993177f",
+      "size": 627,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/for-each/.editorconfig",
+      "sha256": "aa897018d852d9779a9006be21c269d556d1af2d3da23762da46a11580bd9cd1",
+      "size": 286,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/for-each/.eslintrc",
+      "sha256": "77eb26ed78380134f1f95d3c3853056dd39519b74ef264bc6e3ec4edbbb6b61a",
+      "size": 618,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/for-each/.github/FUNDING.yml",
+      "sha256": "e0f54f64698f2bf1eed4ec8be11fa7b9468e2f7be048b13d25e7307526fbfa1b",
+      "size": 579,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/for-each/.github/SECURITY.md",
+      "sha256": "dd880fbe091e1b4fe671ef6e4879f7d144a64c0a3b21ce9b498c62c082ff3e50",
+      "size": 157,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/for-each/.nycrc",
+      "sha256": "738b8298b4121a36f4c8dc4403c46a2dfff06e03c3f345144659510f863241b7",
+      "size": 129,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/for-each/CHANGELOG.md",
+      "sha256": "44a1a8c244da3118ffc16b58419e0d7d0c4f42ddd3b9aa0e28c3ed88a1288e55",
+      "size": 8896,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/for-each/index.d.ts",
+      "sha256": "ce79eb102c4a0a95a1ae5012b8d5eca8c17ee146447573a86ed0b53c52a76df9",
+      "size": 1067,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/for-each/index.js",
+      "sha256": "53cd78ccaacfbf0fd2629f3c762197ad55e031f9306832581d3a7fc245b8c0c7",
+      "size": 2374,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/for-each/LICENSE",
+      "sha256": "d07913d776eef217a95d7ee3ee83577fc3c365b9c870f5a3411f785b81090614",
+      "size": 1075,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/for-each/package.json",
+      "sha256": "789a488ade1ea7535497f7c86fded54281c4e7ff861fe8e0e667772a00680711",
+      "size": 1975,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/for-each/README.md",
+      "sha256": "1d801c9066c2b7761ecc24aef3d7958507ff1c1e97033504107f218e7a4d9203",
+      "size": 718,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/for-each/test/test.js",
+      "sha256": "05326c56002b57d9819cfa975237872ff7ebb31535d5337bbdbb81bbd5c8ba95",
+      "size": 5947,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/for-each/tsconfig.json",
+      "sha256": "308facf5b8d827006c5b667e60cf6d0e37ddfa881bef3f8b3bc9126579551477",
+      "size": 94,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/function-bind/.eslintrc",
+      "sha256": "d1ef27c0f368368a239a99363dc04d7c2dbcb9b62d1a4107390a6dc52b901f1f",
+      "size": 253,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/function-bind/.github/FUNDING.yml",
+      "sha256": "728efc32ee016ce1b42d6b8848548b7f3540d5e0ba2966efca1774d132493d52",
+      "size": 584,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/function-bind/.github/SECURITY.md",
+      "sha256": "dd880fbe091e1b4fe671ef6e4879f7d144a64c0a3b21ce9b498c62c082ff3e50",
+      "size": 157,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/function-bind/.nycrc",
+      "sha256": "948366fea3b423a46366326d0bb2e54b08abd1cf0b243678ba6625740c40da5a",
+      "size": 216,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/function-bind/CHANGELOG.md",
+      "sha256": "c44d3c98a0cf4f95fef7845da104deca900d24853589767bbeb380406ce1dab2",
+      "size": 13812,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/function-bind/implementation.js",
+      "sha256": "5c52eb40601e0716dafff9759cf28d8d4af3e2fc2e2c96384f43dbfd0f7370b5",
+      "size": 2043,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/function-bind/index.js",
+      "sha256": "12fa1b92429db25599f6fe118cbbb877f7f62b83cb9bfe2fc896b2d6a8110647",
+      "size": 126,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/function-bind/LICENSE",
+      "sha256": "773e131a7684726005a7e4688a80b4620033bc08499bc1404dd1a1eb3bca725e",
+      "size": 1052,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/function-bind/package.json",
+      "sha256": "edb1c4faf4148e6e3d74ed8dbac1a1dc359a647ff4207aad4851396dc7a3559a",
+      "size": 2262,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/function-bind/README.md",
+      "sha256": "305fc05a184a5afa3766893be87d24e4c0f2e8561b66463a51aee4b196b1dc48",
+      "size": 1755,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/function-bind/test/.eslintrc",
+      "sha256": "63cdaa0cb9c27170eab17635114928f01e23665054b7ac15538b7be2fc3eb495",
+      "size": 176,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/function-bind/test/index.js",
+      "sha256": "32ba00e232dc250a945bdb23461a7346f6029d31b595aa2046bf386aab6a91e9",
+      "size": 8991,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-intrinsic/.eslintrc",
+      "sha256": "e580467ddfd72cbbd80b8d84ec237d2809f62d357b0cd7189e8c2ba55c0d89ca",
+      "size": 647,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-intrinsic/.github/FUNDING.yml",
+      "sha256": "24cafae83831c946115236f57f58e0d4797a3e7f6bcc8ad87b88a69d15a520c6",
+      "size": 584,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-intrinsic/.nycrc",
+      "sha256": "997785c50b0773e5e18bf15550fbf57823c634fefe623cd37b3c83696402ad0a",
+      "size": 139,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-intrinsic/CHANGELOG.md",
+      "sha256": "e73856f1e09b5743933e57e3ecc153d3d81bf1a1d5ead38d8472bf4e0fd14cf5",
+      "size": 15537,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-intrinsic/index.js",
+      "sha256": "c3bc7278af37cede0da2db32724fa0b89a07c44205c44c4f5db0e4d8d497d49c",
+      "size": 14439,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-intrinsic/LICENSE",
+      "sha256": "39c5ec504cf6bd5cd782a7c695828e09189df79f5d94840e4f08feb97b9fd416",
+      "size": 1071,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-intrinsic/package.json",
+      "sha256": "45b14763baacc59b0fd7b39e3ad983d5d2aaf7f5ed682f2fce9edb469826c999",
+      "size": 2576,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-intrinsic/README.md",
+      "sha256": "15f5365e3e1d4182780423363296e53408ff4254dc958a6e52a05a7dcee324b4",
+      "size": 2791,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-intrinsic/test/GetIntrinsic.js",
+      "sha256": "7541f692c80dc65187896456ed4c0dab3a8c5dfd61b088f5cbaea13f3bce8e80",
+      "size": 8758,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/.eslintrc",
+      "sha256": "f234bdd351b6201bfbe156b83e1ec1372fe18d669d26670398c3919b5e21c630",
+      "size": 104,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/.github/FUNDING.yml",
+      "sha256": "efc240256bdc771e8b442e1e88b40157e9fd51f5a1b2cb510da770087b77719c",
+      "size": 580,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/.nycrc",
+      "sha256": "997785c50b0773e5e18bf15550fbf57823c634fefe623cd37b3c83696402ad0a",
+      "size": 139,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/CHANGELOG.md",
+      "sha256": "11759506474827be4b01f43de7d038f1f23effaada2c84ae430459c2aa4dc205",
+      "size": 1054,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/index.d.ts",
+      "sha256": "7538ce3a26100e7dca4c6d51b9315e91ab2088a1bb0f2033f752f506311df206",
+      "size": 126,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/index.js",
+      "sha256": "ee310261ff252b6d90c1a9fc4b9eceb63ddb963e7eec5125631cf169daad38c1",
+      "size": 821,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/LICENSE",
+      "sha256": "be46ce1e3b0479af9ce82d22b465a6d7d2ff084fca0aaf3d54172da2b5eb5781",
+      "size": 1071,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/Object.getPrototypeOf.d.ts",
+      "sha256": "b741a7e634a760b535687ff4b64e2477ea9ec085fb90a57013a8dd478d679b81",
+      "size": 125,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/Object.getPrototypeOf.js",
+      "sha256": "66d51243588d269eb28f5bc8236e111a9a36e010e9b5b9b496be2963882a9e28",
+      "size": 156,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/package.json",
+      "sha256": "73839e012ac7134a632c9d9fc6bdb700ac9ab5553cce39eb789ba2b65663e734",
+      "size": 2176,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/README.md",
+      "sha256": "5a3c611a2e47ccbe9b01df7ee9f6bce0a2035fd35acbff028e5ceef77a1331ee",
+      "size": 1794,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/Reflect.getPrototypeOf.d.ts",
+      "sha256": "9be2e264638db3866380db1e22f491a565e70c2f8c5a6cf6a085b24bbfb6e336",
+      "size": 67,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/Reflect.getPrototypeOf.js",
+      "sha256": "bab0332997a67c0eb3d2ab24ee9ae5d106d275a8ef5bde2a711faa1c96899c59",
+      "size": 150,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/test/index.js",
+      "sha256": "1f4edb40034d0c23400ab56be0d20fd8bc2cee1aeb4298905b2eb5e78e946a56",
+      "size": 2359,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/get-proto/tsconfig.json",
+      "sha256": "2f3c811aa59dd8b9d58e160110c7ad919cab9827c1fa89f580e328da3c573db4",
+      "size": 118,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/gopd/.eslintrc",
+      "sha256": "f441ce02cf8246250be17c235fc77a2f674a6e538847c3c8b0639377efb253e8",
+      "size": 224,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/gopd/.github/FUNDING.yml",
+      "sha256": "14a29231a020201285cec832f4d4c90b7296bc45f9117e3f2a28c5e51a430cae",
+      "size": 575,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/gopd/CHANGELOG.md",
+      "sha256": "aba458bfc8c4bdc9cfdc3b2e879d5820b0d03950bcefcaaaac3620dad727283b",
+      "size": 3077,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/gopd/gOPD.d.ts",
+      "sha256": "dd965f7c0c2aa6f08e154a854d004141ab769c1b981037e1cb48e753c1e764e1",
+      "size": 42,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/gopd/gOPD.js",
+      "sha256": "48a04dcb3fb5cccb6c8541a3a8227b8d9f881ea3ffef3177ac4bb0338556b839",
+      "size": 97,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/gopd/index.d.ts",
+      "sha256": "395aa7e2c154e81a0d7e20f2732369e4c875c3f23336b270a3db75ca3019c64e",
+      "size": 173,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/gopd/index.js",
+      "sha256": "8f8092ee3aaa2932a71e9f264a9b273dc33f7c52f4cdb0815956fccf80230d8c",
+      "size": 206,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/gopd/LICENSE",
+      "sha256": "d90bf0a089da4cf43d644ed240a0b3825dcdb705e64e38371d56995a4cc9e4c5",
+      "size": 1071,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/gopd/package.json",
+      "sha256": "33ace32dc861f6da9d1fd9d0a44c66e8c6ff3b13358d070683c1c2978ff5f19f",
+      "size": 2070,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/gopd/README.md",
+      "sha256": "a5adda11eb1b5c4a225289ccc2e1f01bdc27e1635b85039ad327ec37082ad3d4",
+      "size": 1562,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/gopd/test/index.js",
+      "sha256": "09dc70d20fa4d40c2749508868750a0d677d7c2b472a7d984271134b7af76d42",
+      "size": 656,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/gopd/tsconfig.json",
+      "sha256": "6346ee4c020f341387588479dd83740a65ab902a462b8c6b3b8bf51f032c6795",
+      "size": 116,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-property-descriptors/.eslintrc",
+      "sha256": "3c44806873d9cebea2128bdb0ed0a00bd82bec5b1debea514bc54670d9f4859d",
+      "size": 173,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-property-descriptors/.github/FUNDING.yml",
+      "sha256": "aac113d18c37526f0d5d92f28d9be805d85037520e9d4b822a20cfe71d9acd40",
+      "size": 595,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-property-descriptors/.nycrc",
+      "sha256": "997785c50b0773e5e18bf15550fbf57823c634fefe623cd37b3c83696402ad0a",
+      "size": 139,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-property-descriptors/CHANGELOG.md",
+      "sha256": "0fe548702d98dac2c17e3049b83ebb62953ef585ef88619f24ef71952688cc9d",
+      "size": 2648,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-property-descriptors/index.js",
+      "sha256": "d5415d5957de8e923fb1a976cb3f2524f1800ecf5e3b958a4d76183d2a9dee91",
+      "size": 588,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-property-descriptors/LICENSE",
+      "sha256": "0f0ca96f50793990031ebc488a38f7292ff70bce8ab6a8e5eeda674abc32ccdf",
+      "size": 1067,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-property-descriptors/package.json",
+      "sha256": "59a91e2cf32e4303d248708999a9ec3afd8e3649a87ba7abcf2177dc1984e3d5",
+      "size": 2090,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-property-descriptors/README.md",
+      "sha256": "948751362d23b03b9a2fcefc39f6b6f379f7a2b79b25deaf21cbe0512131cff0",
+      "size": 2206,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-property-descriptors/test/index.js",
+      "sha256": "00b7ccd4fb74b70387244e1c0774cb75192cdaea8fba3a6809c7cf2c28885155",
+      "size": 1405,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/.eslintrc",
+      "sha256": "15b0bd2d80ee6d32af3c8761fc9007606a5ec9cf605e4ca2a214eef8be564fce",
+      "size": 164,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/.github/FUNDING.yml",
+      "sha256": "e777d06bafdcd1d459abcbdc03ac52357b59c248614dc6143d8d02ebfb4aef15",
+      "size": 582,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/.nycrc",
+      "sha256": "997785c50b0773e5e18bf15550fbf57823c634fefe623cd37b3c83696402ad0a",
+      "size": 139,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/CHANGELOG.md",
+      "sha256": "ad7ead4963a1958ead230596f27a721645617e8f63640a59f87d333ec8dbe917",
+      "size": 9431,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/index.d.ts",
+      "sha256": "1b02a2f85850a7a5af11ce050ac42126041b89f7bb319f8b6e107b19512ef98d",
+      "size": 73,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/index.js",
+      "sha256": "fd9bef8dd0d913bc8beac3156a0019d1a83a6e091498d1af1cbdbd536776e189",
+      "size": 447,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/LICENSE",
+      "sha256": "206c1adcf206dc0031b11232f5b054ec5f1662407ab1ca415247921cab2068ab",
+      "size": 1071,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/package.json",
+      "sha256": "5190268c0e3308d7446d1f7c036238f329f786938453e6017cb90980b3612e7a",
+      "size": 2974,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/README.md",
+      "sha256": "a062b27ee12e84e310041d05d10d69ac2d7076cba1fc698bae8a4e40a15897ec",
+      "size": 2044,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/shams.d.ts",
+      "sha256": "05ea7bb0c9370e097da841bf955be2bee13ea698c7de94a00a713d7755879cae",
+      "size": 69,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/shams.js",
+      "sha256": "41277ab2db4a31094dc6f4ca2c3cbbe5576da5e5bddac4bda6c1f0d9c0e0c417",
+      "size": 1922,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/test/index.js",
+      "sha256": "b2eddc5a76e6a43738847679126ef698ec8ad36993045207cc1323d1f89710d6",
+      "size": 654,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/test/shams/core-js.js",
+      "sha256": "92fe765a1b83f04811a8e75219c55dfe1c8f374892fc2708e9296f6e17625970",
+      "size": 797,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/test/shams/get-own-property-symbols.js",
+      "sha256": "89f4eeab0b85306f45c1d6238cabf3e42c4306f2f1d48772e280ed24a1495cfb",
+      "size": 760,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/test/tests.js",
+      "sha256": "30e827ff7c7a906135fec45a3eabf281f2384ad5479027793841f759df5f1ccc",
+      "size": 2139,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-symbols/tsconfig.json",
+      "sha256": "b9b19c254344aae6fec9086e109040f9a13369c0d061c9a018e9b26dfe94a1c8",
+      "size": 143,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/.eslintrc",
+      "sha256": "0694050195fc694c5846b0a2a66b437ac775da988f0a779c55fb892597f7f641",
+      "size": 43,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/.github/FUNDING.yml",
+      "sha256": "5af2fc8a34665542659d4ce1520f5df2054affc3754edc49001e65d0c200e2e5",
+      "size": 586,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/.nycrc",
+      "sha256": "948366fea3b423a46366326d0bb2e54b08abd1cf0b243678ba6625740c40da5a",
+      "size": 216,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/CHANGELOG.md",
+      "sha256": "6c721d97055e8381694c7fa7a14f1bf2def9ea072488bcfe4b51073717b53810",
+      "size": 3543,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/index.d.ts",
+      "sha256": "365c4ff8b3415bed8253b793eb1dedec93fe9cb007dadb85ca2ba92774048a37",
+      "size": 70,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/index.js",
+      "sha256": "14e192d4c15b0fc042629b25bc9c3f07aaf23b937ea46785f5e288a1a0f9beb9",
+      "size": 196,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/LICENSE",
+      "sha256": "e2560e002e13281578c75c850061d9255c33d16d732939e8c2db64c2506642fa",
+      "size": 1067,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/package.json",
+      "sha256": "30ab773c52021a6b800ea48f251abeeb1f6e378300f819204dfbb38d6e43f3ad",
+      "size": 2838,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/README.md",
+      "sha256": "bcf8eec2c348d4509573a3b85c98705b5bdf1b59e903a9f621fb5a33be0532cb",
+      "size": 2190,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/shams.d.ts",
+      "sha256": "d038bb6f5519fbb044b9520b2c3ded20d7f47f884e056c6bad4962aa93dc2d9f",
+      "size": 80,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/shams.js",
+      "sha256": "e5e0b7bbca35fa5911487361da2bc00b880d62114be6f3be87a876a59037020b",
+      "size": 189,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/test/index.js",
+      "sha256": "870b05394a7ac2daa373f50db4d6e0782587472f7442d15cdca42a2d7d2efbeb",
+      "size": 679,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/test/shams/core-js.js",
+      "sha256": "8ef6ccae4ddd5b8d6f918c66a3a358793b14dfd3f0f42fd1d305db92e9aec4e3",
+      "size": 935,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/test/shams/get-own-property-symbols.js",
+      "sha256": "f959db77cdc23a8a071158a76da43fe5f0da97f0b83b1dbf87fa4024a77c7219",
+      "size": 828,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/test/tests.js",
+      "sha256": "ab4ee069a833e5eb2f8bf58f7228c5a8fdc54cba37096b14ea6e68544e7875d2",
+      "size": 532,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/has-tostringtag/tsconfig.json",
+      "sha256": "b772fc0e85fe374bb32302cdbc08c8854d6a679bcf7f4f7b8da28098e2979521",
+      "size": 3611,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/hasown/.github/FUNDING.yml",
+      "sha256": "4a8aadc5bb4e3fcb59ced104864f1440a8a0b82c57d7a69ef3845223590039cc",
+      "size": 552,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/hasown/.nycrc",
+      "sha256": "948366fea3b423a46366326d0bb2e54b08abd1cf0b243678ba6625740c40da5a",
+      "size": 216,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/hasown/CHANGELOG.md",
+      "sha256": "dbb1b9d059ec30fa69b146d123969dbf8396cbcac3e725ecdaecd81220baad3c",
+      "size": 4078,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/hasown/eslint.config.mjs",
+      "sha256": "d93d3e9ef95505eba19cb8d48506df45f4a4d6fda2efe0b9b1c0d7afaf8e1763",
+      "size": 136,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/hasown/index.d.ts",
+      "sha256": "19bcd679cc9cb312683bf10390a1aadb929af6439b33eb60f06119ee2d702761",
+      "size": 117,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/hasown/index.js",
+      "sha256": "8f875520f41a3d711566013882af290c840969316cc72cd6b35f7e81d7dfc6d2",
+      "size": 206,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/hasown/LICENSE",
+      "sha256": "bf9b0d665be2a689851eea667ca9f42066ea1d903b38349c51e6a44b2577680a",
+      "size": 1083,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/hasown/package.json",
+      "sha256": "40b750c55a8bacf2c5ac316f5299dd44d48acc101c189a00cd59d39376b5eb89",
+      "size": 2258,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/hasown/README.md",
+      "sha256": "a922ab2a0abcdcbd99c1484c7bd83d69a04b5e11ab53064d2c9aa557df1c52b4",
+      "size": 1613,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/hasown/tsconfig.json",
+      "sha256": "29ef530207266f2859676c048073e7f746db37a0a20e2a75bc2ef2b3893fbf40",
+      "size": 73,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/ieee754/index.d.ts",
+      "sha256": "1eb4db5f83679b3b6f8683611c93938948aa2d5d5e3988755f9e3a289388b75e",
+      "size": 332,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/ieee754/index.js",
+      "sha256": "fe3e2b20c1ebb57c3b390c8f685ad1e04e6f493517fa7e432f4351bb77a1a4d0",
+      "size": 2154,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/ieee754/LICENSE",
+      "sha256": "18d45466ba3253deae04667e267a91ea8de8548f18c1125264d1c9db28194cc1",
+      "size": 1465,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/ieee754/package.json",
+      "sha256": "a8004b9c8dffe2e1b01a058ecf968a5d50beabcabc43cc98c655184ba6afc050",
+      "size": 1194,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/ieee754/README.md",
+      "sha256": "27827383727dcc6bb9f6f591e4b9204e35b6389bfba60df7a400371dac23b3ed",
+      "size": 1651,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/ignore/index.d.ts",
+      "sha256": "f93da46fb9ef4fcbd215803da411b209a281fbb0d86617c0ff7a7a8a66683490",
+      "size": 1499,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/ignore/index.js",
+      "sha256": "e9b9c1096d5425d2c77bca01085a335a92f9a15f37d29d0554697a367fb05cab",
+      "size": 16412,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/ignore/legacy.js",
+      "sha256": "bc45b3a2230bd09a9c0a8d2af0b11e3e6f51a3daec7fb50b4a2adff703f132a8",
+      "size": 20754,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/ignore/LICENSE-MIT",
+      "sha256": "9c94db23dc4b1e9aaee5d195668b916afc71efed54af226b66cf0ccc4389c1c0",
+      "size": 1095,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/ignore/package.json",
+      "sha256": "a9f40bd310889f21ed824bc19ce140714b7459d658f6708041af53e9855258a6",
+      "size": 2072,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/ignore/README.md",
+      "sha256": "2deb493c03d8ab0e0c3059b521bed9a79eb56e21e46e63818770dd7ee7f2fb2f",
+      "size": 11798,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/inherits/inherits_browser.js",
+      "sha256": "ad322a7b1dec60f3d2ebda2091816469efb55b567d241cf3cf0fa4c5a4afe500",
+      "size": 753,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/inherits/inherits.js",
+      "sha256": "bb380f32bef5feb18678f0f45f88073fed5d7a0069a309132cb2080cd553d5c7",
+      "size": 250,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/inherits/LICENSE",
+      "sha256": "5ffe28e7ade7d8f10d85d5337a73fd793dac5c462fb9a28fbf8c5046c7fbca3b",
+      "size": 749,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/inherits/package.json",
+      "sha256": "be645800bc94fd8de29c8ae91690549b316cc437100108aeea7b2f347693cc80",
+      "size": 581,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/inherits/README.md",
+      "sha256": "b33c8be1ca837d9e4c9b0e04a550feacbc101556164d3cdbb875aed6ccbb8a29",
+      "size": 1625,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-callable/.editorconfig",
+      "sha256": "2d3fea39605373a49de25407eafa74b1c02ca506108c33643e833d1943ac8676",
+      "size": 457,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-callable/.eslintrc",
+      "sha256": "9cbc8359954b9106241f2c6dfe84a0866f0b4fc8c3f4f7d50722f2e957847021",
+      "size": 126,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-callable/.github/FUNDING.yml",
+      "sha256": "ac97f78583380657d2414f4c053982206b48b86e42c7f3edfbbbc497f7a53580",
+      "size": 582,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-callable/.nycrc",
+      "sha256": "997785c50b0773e5e18bf15550fbf57823c634fefe623cd37b3c83696402ad0a",
+      "size": 139,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-callable/CHANGELOG.md",
+      "sha256": "6e20c5da11c9ab04b3d6e79c560ba579dfb000c56c677c1163fdb37aa68f8471",
+      "size": 9148,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-callable/index.js",
+      "sha256": "6364203119a7e9d75d9bc481406d9840c35ee914227278dae7cd4bfc1832f4c8",
+      "size": 3224,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-callable/LICENSE",
+      "sha256": "c61652db3d2808f667b48af0a358f0d85fd07ad4a0d0b1a50882dec3b764c522",
+      "size": 1082,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-callable/package.json",
+      "sha256": "0d0981565f03ca488d263c94d038717ec4face8b129b8ff18e792dabae2af755",
+      "size": 2698,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-callable/README.md",
+      "sha256": "af48342c566c4c7e8e8074d0808ce8d829942b3c143a9fe0d730f05fa4439015",
+      "size": 3550,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-callable/test/index.js",
+      "sha256": "eb8dc2db5aea75b114dc1bf79ed3dbf6a14024ee21f37027a145a86bffaeb0f2",
+      "size": 7944,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-typed-array/.editorconfig",
+      "sha256": "0a73be687a86b6f0e5494b1be555fcfbb886108794948837170c28f18820aae2",
+      "size": 286,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-typed-array/.eslintrc",
+      "sha256": "17b605b9a183ae665ebe013ff3b8e558979cf8c272c5ad70c76943d279739ed6",
+      "size": 148,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-typed-array/.github/FUNDING.yml",
+      "sha256": "6022ca681ed10d2ba69b38845a6f2edc94a44277f59b0a93b17414da00a0c7b0",
+      "size": 585,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-typed-array/.nycrc",
+      "sha256": "997785c50b0773e5e18bf15550fbf57823c634fefe623cd37b3c83696402ad0a",
+      "size": 139,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-typed-array/CHANGELOG.md",
+      "sha256": "31e7bb218f9fe64e81b4b3329bc9de04f7e5d3ed009bdbae1a2bf2c29f47bcce",
+      "size": 9128,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-typed-array/index.d.ts",
+      "sha256": "6243848868bca876dbb86800a873ff8e537382b8b41b61663d180f1cde91c1e1",
+      "size": 222,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-typed-array/index.js",
+      "sha256": "d5791fb8f8610beff388ddfd49c96088eee19af62f1e46eef34c9e8ec058a2ed",
+      "size": 180,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-typed-array/LICENSE",
+      "sha256": "c61652db3d2808f667b48af0a358f0d85fd07ad4a0d0b1a50882dec3b764c522",
+      "size": 1082,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-typed-array/package.json",
+      "sha256": "51dcf15ccc424ce76b36bef2ef64df7a53e75294cbddf08b4f7e639133145cc5",
+      "size": 3332,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-typed-array/README.md",
+      "sha256": "fa1ea87b3cff0ebc480cdf47ae728f6c4edd319b7561e9d8cd0fe8762807edd8",
+      "size": 3121,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-typed-array/test/index.js",
+      "sha256": "90f286969197a3f5b618c2a7123c77084a2a5216a7c2377e254a889a9d708cee",
+      "size": 3631,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/is-typed-array/tsconfig.json",
+      "sha256": "c61ecd17c60bddd673c7308ccee49fd68e9a85ba72574254ea2a83bc2beafa5f",
+      "size": 68,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isarray/index.js",
+      "sha256": "9b8c691372802da788c9c5f4e1ca2f1ed0b88ab8722176c2aea15e38ec86d249",
+      "size": 132,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isarray/LICENSE",
+      "sha256": "68f12f6e2c33688699249c01d8f9623c534da20aa71989c57b061b7bc1676d14",
+      "size": 1096,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isarray/package.json",
+      "sha256": "b0802c09bce6bf067d3e5f52390ea26972e11c88bb6ae38991316ac83ca14127",
+      "size": 991,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isarray/README.md",
+      "sha256": "a262a04ce7a41ff46a2dc873aa6b5c93e6397ebd7ee620d711b8d4e24467d5ac",
+      "size": 1211,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/cli.cjs",
+      "sha256": "5242408e610cae4a741a4b7f84e0675f7c880e366b89eae7564ebc8f9b266b4f",
+      "size": 987,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/http/node/index.cjs",
+      "sha256": "a93cb94ccd68f4808ba6aad19dd05cd5e9b1592923858c81cb835dbf7528ee4f",
+      "size": 6650,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/http/node/index.d.cts",
+      "sha256": "8e0822d1973ef5e14a2d05ce3d7849d432048beba94e0e327323011ab9574990",
+      "size": 2182,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/http/node/index.d.ts",
+      "sha256": "3b5d1245d307b242bdf79a5474378e297e90083f6721ce476e922b2c7f56230d",
+      "size": 2148,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/http/node/index.js",
+      "sha256": "f6a0034d38b993ae8fca13dbf992f8e61f849673caa2021f8377c56245dd81e9",
+      "size": 6425,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/http/node/package.json",
+      "sha256": "a1637cb9d69e4bd317d04f616483c84818e3ad2060563dcaf1797fb61f42840e",
+      "size": 96,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/http/web/index.cjs",
+      "sha256": "efa79527b8c6bcf85d72f297c6356fd3ea16c6be8f1dfcd5f7b3268adc3487e0",
+      "size": 4740,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/http/web/index.d.cts",
+      "sha256": "2da3902205c036442f1d295549299c43174bc279085bca3818c9ce662d00c585",
+      "size": 2175,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/http/web/index.d.ts",
+      "sha256": "ad39d2642686e288241a42846343061ebdd4841022701f29584168a4133eb6f5",
+      "size": 2141,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/http/web/index.js",
+      "sha256": "150e8247d46c84c40635825c6816d3ed4296cb747f9e74f09f22dc5c383ad3ff",
+      "size": 4651,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/http/web/index.umd.js",
+      "sha256": "90fab305e89896e25de8a7f51fbb3abe036a4974e2256107afd51774f998061e",
+      "size": 5362,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/http/web/package.json",
+      "sha256": "89819ff21a163cb91bf3146ccb30163c37ac21cfb1ebf1690c383113842a559d",
+      "size": 123,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/index.cjs",
+      "sha256": "b2142bba9e651fce83d6c1d266d32fc5eefa748544c452f9f22fada4e33dc367",
+      "size": 567147,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/index.d.cts",
+      "sha256": "fda8fa1ada72d8b09a3cf49f9e0871cacad25f3ce7b8381281dfff5456df0292",
+      "size": 190342,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/index.d.ts",
+      "sha256": "6f706b4178de5f95024318e41f0080fce6a5b97d0d9c064182895eca67de6830",
+      "size": 190308,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/index.js",
+      "sha256": "66c20b7d890a6d48819f0be5f7bb1c5aab69937e6318ec912295c501028a5084",
+      "size": 565191,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/index.umd.min.d.ts",
+      "sha256": "6f706b4178de5f95024318e41f0080fce6a5b97d0d9c064182895eca67de6830",
+      "size": 190308,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/index.umd.min.js",
+      "sha256": "89c712e538366ac1d7cc01fde803c7e2a63a483a2f8ea34fcd576554408e3b9d",
+      "size": 266118,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/index.umd.min.js.map",
+      "sha256": "5d999974be3caa3095213b0606eae5dc0d6e720201590fa0120612041693a58a",
+      "size": 1430765,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/LICENSE.md",
+      "sha256": "b916888fb16893c3a1df138543f994b96bb6892d74b6777c3a080d9cd2520c48",
+      "size": 1073,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/managers/index.cjs",
+      "sha256": "134c33d64620ac98b2ae56bc9e064d6c52238c05aec68819a9ddb0f2d67ba099",
+      "size": 205759,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/managers/index.d.cts",
+      "sha256": "451cefff05aba642bc9f3cf521d764d49cacd0c64f85898d089aaf3aa8f41ae3",
+      "size": 33036,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/managers/index.d.ts",
+      "sha256": "d4356bbe963e0aa83328c708c4d6b7277ac52223891533e5295993a0bf6e0040",
+      "size": 33002,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/managers/index.js",
+      "sha256": "8496a37c68f1974b7d6702c0cc5e53b14885c6bc1a01ab4430e3e1ff93e59663",
+      "size": 205011,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/managers/index.umd.min.js",
+      "sha256": "8efa4011b5fcf16ee464efbddfe5fcbd2a864e99015a78478714692a734f6d86",
+      "size": 156141,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/managers/index.umd.min.js.LICENSE.txt",
+      "sha256": "21e371e59f24622318dd11ccda43df003ed70e44cf993958244562e87eea7f85",
+      "size": 1286,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/managers/index.umd.min.js.map",
+      "sha256": "58c9b922a975f73d451bbbf4eae6ca09c7dc6784e1289a4253e9366798acf0e8",
+      "size": 787166,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/models/index.cjs",
+      "sha256": "61af39ef1d4de0882ffd6ab859c3b764f61216941bd683763f73c2d5c286e2ba",
+      "size": 20155,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/models/index.d.cts",
+      "sha256": "3460e9a9511a244d1e508b5d1817e266676e34dfc10467881e449d45c7af4f93",
+      "size": 4370,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/models/index.d.ts",
+      "sha256": "91a79f5a7cdf2151cf59c0b5c5654351b629ce3cc3b2c97c8805a6c07b07177c",
+      "size": 4336,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/models/index.js",
+      "sha256": "07a49b6292bab2fde758584d029351104d2593acd0ec9ce6b48f7af1a437ed30",
+      "size": 19930,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/models/index.umd.min.js",
+      "sha256": "b612ce392d6424bee969c75c33677784f3ca2b2c4cf6b6ebb98ca6e31fc53b49",
+      "size": 6420,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/models/index.umd.min.js.LICENSE.txt",
+      "sha256": "1306df91151061d73fd49455df881076f852c46d3bc69b953ada8f96b4349030",
+      "size": 910,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/models/index.umd.min.js.map",
+      "sha256": "1042d4dca5c80cc9669551f6e9973f2f31061fda4f2d98e7d1276c385daa30b6",
+      "size": 35612,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/package.json",
+      "sha256": "41f4615e03a26adc7e37cf6316b1546e3fc7919c49d686c076183544ef98d72a",
+      "size": 4823,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/isomorphic-git/README.md",
+      "sha256": "891c1adce9b5ace7eaba8f892813f3491ab67b478a01c3aad5b37739d09b019e",
+      "size": 66336,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/.eslintrc",
+      "sha256": "945b2b35c8d6dc3bb008e7a6391fb98f8d4103ca0dc64652b13dcbea0dd090e1",
+      "size": 229,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/.github/FUNDING.yml",
+      "sha256": "a038b7ce2a1e3b2a4dfb7956d262943a084f40d16ddd1a5c19e29a439409db50",
+      "size": 561,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/abs.d.ts",
+      "sha256": "e2535a3ae028d92692873993a284117fb65c7d883b3b1490fdb7c12a80060a9f",
+      "size": 18,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/abs.js",
+      "sha256": "276961e4323370f3632410c6da81dda018b78c0cfb2a83ea72d48c80a3eaaeb1",
+      "size": 73,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/CHANGELOG.md",
+      "sha256": "1868f81797e7249a210cf6f1811b0700a2c582ab9bed97575ced127b4f9b328a",
+      "size": 1466,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/constants/maxArrayLength.d.ts",
+      "sha256": "64e4968fb47e712d4d520a7952321f1991f744b1cde959403ceb33f353a7739a",
+      "size": 71,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/constants/maxArrayLength.js",
+      "sha256": "0f267bd9824ebe59456bd6bc6ba41a541ddf0a92c6b3d18201daefd0cc40613e",
+      "size": 110,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/constants/maxSafeInteger.d.ts",
+      "sha256": "e6b03543ab87ec705c58c866be6026030b4c08712239a178017e26d5c7f6b41e",
+      "size": 77,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/constants/maxSafeInteger.js",
+      "sha256": "576a7c935f4154a6f2eaf69446560e36371afb55120774f05563f06ab261df85",
+      "size": 231,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/constants/maxValue.d.ts",
+      "sha256": "cf85d615baada714fd113a268df580caff678b674f68fca52138506c88a2b4f9",
+      "size": 71,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/constants/maxValue.js",
+      "sha256": "a920a974645eca8557c75d4fecf745c68a272621a57d5ed4ca6ffc73ded366e2",
+      "size": 197,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/floor.d.ts",
+      "sha256": "f1084c18879dbfa7a5ecbe75fe5ff9053948cac70b8204da034da8fd3730a357",
+      "size": 20,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/floor.js",
+      "sha256": "ea904c30b45d6fbbc1780f4db7d78c360bbecf98ecd789f0c817156102714c3f",
+      "size": 77,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/isFinite.d.ts",
+      "sha256": "af90daf7f9ee2597f0dab8adfb96c27a8c5b7840b8d593444e87d1a844e80970",
+      "size": 80,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/isFinite.js",
+      "sha256": "7045afb6184ca183449f97d519cf9dea5e46583121c01266ed4eedae3825650b",
+      "size": 262,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/isInteger.d.ts",
+      "sha256": "05946fbc1b0c47364192b32b186950c7302b2742f490980c625f5d36a1df238c",
+      "size": 87,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/isInteger.js",
+      "sha256": "22c5144c94c4da5be94fb4d3d735f5f65fe3b9fbe28b6d2cf4fe8541bc53e915",
+      "size": 410,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/isNaN.d.ts",
+      "sha256": "36c498c8fa3bfb40195a2cf394d79efe540f4e08f26d5b6b0be18c5eb9d1151d",
+      "size": 22,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/isNaN.js",
+      "sha256": "1aa84179527aef8df84457dd8d4e828d76d58fd9170e7a9893ee7e0e774534e8",
+      "size": 121,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/isNegativeZero.d.ts",
+      "sha256": "20117f7b2f84fc2fe571f799d74313962adb100de456f9fc1629747576aaccb6",
+      "size": 79,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/isNegativeZero.js",
+      "sha256": "8b83fd56780ffb96eb5a31c073fd7ca24d03b1259b8aae90ef7eac311e1ded34",
+      "size": 143,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/LICENSE",
+      "sha256": "2b770a704c15de238c3f622b01b0044ddd60b49ee30608ea6991ebf19db7a7a1",
+      "size": 1073,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/max.d.ts",
+      "sha256": "c7ad791cd3947a3c9a1dcc564e06a2a05c3e8d4fa620e96c0695e1dcae90cec2",
+      "size": 18,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/max.js",
+      "sha256": "92326f3eab1e40148bd68fb65a85d2c3f18fc32a03be27353b2054ba27ba7409",
+      "size": 73,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/min.d.ts",
+      "sha256": "0a8c36167cea0494e244014714defcdc06e4c47fb114176fa507d9414ae16bb2",
+      "size": 18,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/min.js",
+      "sha256": "b78c68ab96cb2764df12ff8038f5b05b05376b4c39608a7a25b3b0b168e7c2e2",
+      "size": 73,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/mod.d.ts",
+      "sha256": "d57a361edc8bd8b57c5ec48723b8f4bbecb8c67c09b03c48cb5fc446f1521541",
+      "size": 76,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/mod.js",
+      "sha256": "0a5d968b563d027bad91e35bd3b244a749c2bf8357f33f93e0abf8c8d3d4a625",
+      "size": 218,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/package.json",
+      "sha256": "39d74aa5a354153130706286dd60a2d8409ce0c8f66546eff2edcac0afff17e1",
+      "size": 2670,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/pow.d.ts",
+      "sha256": "576836e98c9b42b6ccafbb3cff69eee063d11ff35de760fbda2961fb57478ab8",
+      "size": 18,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/pow.js",
+      "sha256": "8dd625bd4c7b31b7656ab99babc9fea1617f36c35f5dbd339ebdc2d0f4bd97d2",
+      "size": 73,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/README.md",
+      "sha256": "9ac2e749aed9f8259749e0fa1f8caebf3112340ac8d27ba88071744bde8f9b7e",
+      "size": 1884,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/round.d.ts",
+      "sha256": "e0a30d85998f4a458d7b916103c6d93790a83e68dbcea489a5b698c84f8e50e5",
+      "size": 20,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/round.js",
+      "sha256": "1d4794c5869d554732cdc82208f954df348e4035f3cbd09ab758c553a207dc1e",
+      "size": 77,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/sign.d.ts",
+      "sha256": "60fcb026e19e792e4044c8f24c8da7b98debefcaa9f043a818193582f5092d19",
+      "size": 57,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/sign.js",
+      "sha256": "aef51335e4671ddd0f55a81e2e4395b1d96afee20102b50e33e2b485f7cd2598",
+      "size": 214,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/test/index.js",
+      "sha256": "883f9e369aefcb654c5001e0699631343a413a700fe3f079ca4e17deb8a21036",
+      "size": 6320,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/math-intrinsics/tsconfig.json",
+      "sha256": "0e570d88a16e1e96c7b5ff8f4b44e50a6e7f49e5fc5e1affab9a3a8946964f80",
+      "size": 36,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/mimic-response/index.d.ts",
+      "sha256": "3f69dcc939c762ba024dad37843cd3db9cc1d7542c05790331939cd6096bb6ee",
+      "size": 599,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/mimic-response/index.js",
+      "sha256": "5fe21e8b7a51ea8f6bdddc198ec62b523033c12c60c2f95fef6446779200daf0",
+      "size": 1581,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/mimic-response/license",
+      "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "size": 1117,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/mimic-response/package.json",
+      "sha256": "ff358428a418a46fb2431a2c48b396fb01c8291fec9e1f14434ade01196c8e9c",
+      "size": 768,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/mimic-response/readme.md",
+      "sha256": "777c0925baf283767a4b0b5e4a6c5f652ad17fea49b29cbd6d68c09e479836a8",
+      "size": 1938,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/.eslintrc",
+      "sha256": "6400f90470adf27be5eead803ad0425a97afc8562138cb2968039c80f88ee900",
+      "size": 511,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/.github/FUNDING.yml",
+      "sha256": "0986be78800817dc0885d8fc0b1694f5d6646c6e3c171862129defd97bf50822",
+      "size": 579,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/.nycrc",
+      "sha256": "eaacff31c45b07c9b5e804d4e0e8eb35e0c430faf9f79fdd98d43b26c42e93df",
+      "size": 229,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/CHANGELOG.md",
+      "sha256": "f6c131dccabc16cce09e3266131868c4fd936ac1c57682d0f77251381d51623a",
+      "size": 21542,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/example/parse.js",
+      "sha256": "455d394742f158414af7197eb4259d75d71b97fd638cbd83c58c860ce1edbee3",
+      "size": 84,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/index.js",
+      "sha256": "9cf5e83d36697a92d8af11e000f513ac30a3464bbb024850f9ffdeb1edf59848",
+      "size": 6196,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/LICENSE",
+      "sha256": "435a6722c786b0a56fbe7387028f1d9d3f3a2d0fb615bb8fee118727c3f59b7b",
+      "size": 1073,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/package.json",
+      "sha256": "252881f6a068a3e70386706d88a694b5e8e9e053b6d9f309fd9a329e651bbf81",
+      "size": 1788,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/README.md",
+      "sha256": "a56e078a4586bb86dd00ffad4347bc2b027c7dcbd445f7f681b57fb7fd1583fb",
+      "size": 3609,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/all_bool.js",
+      "sha256": "f31578148a98d95d0877c68064800beba40b4b2d5eb3ff89b21ab136e5a67ad3",
+      "size": 675,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/bool.js",
+      "sha256": "9f2b918a3c01e5bbfc36144a43771fd76f1c832335601da09af163df1fb5f80e",
+      "size": 3575,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/dash.js",
+      "sha256": "aa6b9628dbdad63cafdab97234845ac73a17f8c21d7e349aa1d7cbeaf2cf2a0f",
+      "size": 1245,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/default_bool.js",
+      "sha256": "40d0d6bc29bf51341bca9552f0b7f961fb24ffd498a542ee083c62d3e50bbcb0",
+      "size": 713,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/dotted.js",
+      "sha256": "e6376a4431810c86bf9f6804f23f0bf916a261583f98d2f2cf107bd5fb573b6b",
+      "size": 586,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/kv_short.js",
+      "sha256": "c28239ce38d211ffee0cb5e01948506046b987ea6f9393498ed946a744403eba",
+      "size": 660,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/long.js",
+      "sha256": "c529a253f4561344fe001a1b206140c08351c14af75a28d4289e9c0fd8f52bf1",
+      "size": 649,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/num.js",
+      "sha256": "abdaeff736123a46d37ca48ca0e164f3819034a8542a1dd675766b1dfef6046f",
+      "size": 792,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/parse_modified.js",
+      "sha256": "585fc719e4518408ed8c35e4e09f56be1628e1594edb9c3c91fa549ac437584c",
+      "size": 237,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/parse.js",
+      "sha256": "2913bbcb005feda47329f4ef39bb824f403b162b53d0130d089c969310018be1",
+      "size": 4086,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/proto.js",
+      "sha256": "e7d76717f8147efce380dcef05713ef2c7b4ea9eacd9c41f788b778c53d036f2",
+      "size": 1741,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/short.js",
+      "sha256": "4c95f30cb99b076c7e295b5ace4060d94010919478494aa2765f81bbd1aaf05c",
+      "size": 1295,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/stop_early.js",
+      "sha256": "8bcd4a8a41cc38af9a93b62782c2bfdfb776f93ed7a12ba77fbad364ba3dbaa0",
+      "size": 312,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/unknown.js",
+      "sha256": "2c8e34600ff6a1b07e55e0a9c25be77f973899c375ff2f41dc7ad9ce5f357302",
+      "size": 2106,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimist/test/whitespace.js",
+      "sha256": "ad9cf3d4f9a41e7a92a765ae5588f8f701cb9fcc612f3f07c0b0caa86046446d",
+      "size": 194,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimisted/.bmp.yml",
+      "sha256": "ba9ad3a32349db5dc55a818a42b2a06fe6205683d637bf2ed6c872dbb7b9ab1d",
+      "size": 128,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimisted/.editorconfig",
+      "sha256": "d1db08b01b1753a1b5c12dce846ec3a7752ffaf1a8fe9a4404096a39c6edc604",
+      "size": 103,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimisted/.github/workflows/ci.yml",
+      "sha256": "db84c3dd592048b2e40817aa06368741ab042d4e934f6b4ff309d4a289fdfce7",
+      "size": 277,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimisted/index.js",
+      "sha256": "681457562a9a944c51ad05ad088065570f67121f0f42c21c72bc4fb2c0a45439",
+      "size": 473,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimisted/package.json",
+      "sha256": "d1355aac6eac8eaa4077ad92a03ef7b9884b89ba3225ced3e46582192262aa0d",
+      "size": 737,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimisted/README.md",
+      "sha256": "d7db593c946b46377d89cbb02362a5694d1ea5c6304ffdcdb54133ea215eb813",
+      "size": 1371,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/minimisted/test.js",
+      "sha256": "56ed56730827e3fb78ed97f1dd8a4fdd5bbca35b30d1f75fea252513221668e8",
+      "size": 404,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/once/LICENSE",
+      "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b",
+      "size": 765,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/once/once.js",
+      "sha256": "3db73e347ecbdbafdf8d0db85145c877e133f5372e767360ef90c09f70ac5103",
+      "size": 935,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/once/package.json",
+      "sha256": "33840d74c14c94bfb75c76374765b635531b1eacb88d7f1f2f380c94d0ea1328",
+      "size": 574,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/once/README.md",
+      "sha256": "43b6d72bb23aff98af3243ab7e8d23d9af339ec46cdbdc81ded537c9899fa650",
+      "size": 1772,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/CHANGELOG.md",
+      "sha256": "8d3b2a5ff30f052a33ff5a2a0d32fea9c22228a2eff08deb76856eac3bd31090",
+      "size": 4138,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/dist/pako_deflate.js",
+      "sha256": "da1738ff3bc96b16f25390d329f4cf90f409f73c2a3fc9ef00a14fa0240d7f9f",
+      "size": 128125,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/dist/pako_deflate.min.js",
+      "sha256": "2494cd81fab386095b70c85be95e06432733f828c4ba02f940ed05c54087114b",
+      "size": 27503,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/dist/pako_inflate.js",
+      "sha256": "ec7e5936c652800e132c63cc1fcd00c23103a6a10a294ed3736bab70e38fc592",
+      "size": 108583,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/dist/pako_inflate.min.js",
+      "sha256": "2ca27e9a8dae569cdeac42752ed1aed1afeff7f19282d3cc12c0aaa54a08bc04",
+      "size": 22682,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/dist/pako.js",
+      "sha256": "f407f7f15b7a0fc3af813a8cc526869e088c70801cadc31132a195fcb6f7b133",
+      "size": 221496,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/dist/pako.min.js",
+      "sha256": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+      "size": 45988,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/index.js",
+      "sha256": "e7ec4e35d94d01a2e4ee5dca62b8fb08ac7411596edb54b398651f4eb563561d",
+      "size": 347,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/deflate.js",
+      "sha256": "a19a5dee5ac13a5bec54c15629bcd3449a0a7f15410d0ab582c1efc797a01bb0",
+      "size": 11074,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/inflate.js",
+      "sha256": "18b7dd3b012a1105f3280737107a5a6f32a97c7036849dba7bd1f1e54cda9f53",
+      "size": 12412,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/utils/common.js",
+      "sha256": "6e7878274f7e0f42e7cfb379933b447df3045b9139501f797ed29adf1affde14",
+      "size": 2444,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/utils/strings.js",
+      "sha256": "bf827ddd52c2e998196adb640ae1192f7dc49ce5e6e5926e86198feeb94542a8",
+      "size": 5293,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/zlib/adler32.js",
+      "sha256": "99618eb68a96858148e2dd56f478aa7e4321c434f5f2ee6c57f59c0c568f0596",
+      "size": 1656,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/zlib/constants.js",
+      "sha256": "e0c4148ed267a27f03aba9f9a34cba4bade2090c0f12905907539e38c842abbc",
+      "size": 2312,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/zlib/crc32.js",
+      "sha256": "213f85e8b2e52e2cf6f7634897197400f7ddaed587274f160045f0b548ec21da",
+      "size": 1750,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/zlib/deflate.js",
+      "sha256": "4b9b71ae7f42e506fe1fb134f1c21b944ef2b7ef79667ba1fe59eb963c353d22",
+      "size": 61184,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/zlib/gzheader.js",
+      "sha256": "8fa0b4995cea477be96b8783a7d6c7cf5fec96765c2108c3bd52e77104bfdbd3",
+      "size": 2240,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/zlib/inffast.js",
+      "sha256": "b1beb3b55270e8338f23fc397132d179942d5866153ca4e9be264200b00c0d44",
+      "size": 12668,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/zlib/inflate.js",
+      "sha256": "d31799a23f2ae87f0c52d21241c92278b41d23bb5365b452f2706d41b00c4245",
+      "size": 50284,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/zlib/inftrees.js",
+      "sha256": "75f75d8ae4a7bed86f90a4a38f70c5d95e807515e9326801f9a073a7f2bf8bc7",
+      "size": 12500,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/zlib/messages.js",
+      "sha256": "eec5f5d6b8120ada9cd48a3ca0a253c64777906e835477b090e053434d38cf6c",
+      "size": 1538,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/zlib/README",
+      "sha256": "d8b499598e43d755ea8918448128259ff01820c50d94d5a48c8883d0a594ddb1",
+      "size": 2180,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/zlib/trees.js",
+      "sha256": "718adbbf68f4343bf17d61edffd9d0788a96a93e4e191d857459d95257e614cf",
+      "size": 39879,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/lib/zlib/zstream.js",
+      "sha256": "5fa10c7a59ca99113cf92d1260e56cbd6282e15afa85dc8a0eb8e8d6d2321298",
+      "size": 1811,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/LICENSE",
+      "sha256": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+      "size": 1104,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/package.json",
+      "sha256": "0014f350a6834ed6a2d1211e0a2e3aa471cb426edf63379c785f9647ea2b4e01",
+      "size": 1026,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pako/README.md",
+      "sha256": "8174ca473d9df9da15064d199064e8e3ff88d46beb66b545e048756e6f0fb469",
+      "size": 6066,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pify/index.js",
+      "sha256": "b0ef75e266ad1643909df3e8d276798d6ada05cd90371c07b538ca24fc0a73a6",
+      "size": 1676,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pify/license",
+      "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0",
+      "size": 1109,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pify/package.json",
+      "sha256": "6f3beed79477c32ec1533609a75bef5cc3998e96657277519b3d66bfcc6d046d",
+      "size": 828,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/pify/readme.md",
+      "sha256": "1785366d67030aed3969a50c16bd41fae1d38df0e02b436a5c605c0c29e4a683",
+      "size": 3621,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/possible-typed-array-names/.eslintrc",
+      "sha256": "0694050195fc694c5846b0a2a66b437ac775da988f0a779c55fb892597f7f641",
+      "size": 43,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/possible-typed-array-names/.github/FUNDING.yml",
+      "sha256": "bdb08e519e61bd07c1acc03e2a103d60b6532b7a4243f1e66ada7aa44629bf9f",
+      "size": 572,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/possible-typed-array-names/CHANGELOG.md",
+      "sha256": "1a03f7938ef67dd6c3c0902c5273f81b33cbfae2a9c1f461d5ffed332f1f10c7",
+      "size": 2439,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/possible-typed-array-names/index.d.ts",
+      "sha256": "cf9cb501e9166ed163dc81dc383b96d3ff9ab0fbd78e4ce4be0f729101aef927",
+      "size": 242,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/possible-typed-array-names/index.js",
+      "sha256": "62df611325b009f56810f26498ea91cfb5b2acae7021bd20231a5f41dc84307e",
+      "size": 264,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/possible-typed-array-names/LICENSE",
+      "sha256": "5e325595b4ea8cfec3802f545b1def5d7b73e4a5b8e9ba63e32a320f67732292",
+      "size": 1071,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/possible-typed-array-names/package.json",
+      "sha256": "0ff73753495cfff4556a5f8b7847ba1c06530341986e642a8637c6db74d87894",
+      "size": 2325,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/possible-typed-array-names/README.md",
+      "sha256": "48369b1d0e7dc23b73cd39514c99ecb5a8617441017b0c71466e083b068e5a1d",
+      "size": 2156,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/possible-typed-array-names/test/index.js",
+      "sha256": "0475952876e720c1512d22a23accba57a9285eb3e2c413eafe279d2b4581fc12",
+      "size": 470,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/possible-typed-array-names/tsconfig.json",
+      "sha256": "90a5061d8920dcef03fe1989e27da32588cbf475d235a3b3030f419f5ea02fe3",
+      "size": 116,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/process/.eslintrc",
+      "sha256": "3c200368c8a56fdbc1b5c52eff1b8ef48b00ce36b5ef7dfc7a395ba306e8b930",
+      "size": 435,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/process/browser.js",
+      "sha256": "a199f9fdd8f0f94be4bfe5407c4969d261aa6f080c372c1a359815dc6187f32c",
+      "size": 5418,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/process/index.js",
+      "sha256": "6d7fc57639a3deb4b7cbd55eafae4d9e7b377873b9ce5e6a689e47711965912a",
+      "size": 96,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/process/LICENSE",
+      "sha256": "59a400d04c5078579acc27ddd6452c1bdf763f9506e01364700935fbb1a7c91b",
+      "size": 1098,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/process/package.json",
+      "sha256": "8501b4909630e60c9e9f68c4ca8ccb1964688500e61c60408a26d5480a9dd3d4",
+      "size": 609,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/process/README.md",
+      "sha256": "f0d9aa902c0aa262b7443cede10b98b29244cbe4780dc6ba0343a404b9b4bebc",
+      "size": 1359,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/process/test.js",
+      "sha256": "22067afbb201ba00a54446214f07447cec8c5b2a7b9fb11f1a6e79c64b8fcd4f",
+      "size": 6310,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/_stream_duplex.js",
+      "sha256": "5468175cffc6c7657e84616e24e61f27e654f94630a6c8d7eca51be267581075",
+      "size": 116,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/_stream_passthrough.js",
+      "sha256": "c406e8f9cd1dd4c2205a6187bea6e1dcd369335fe1415bcbae50969388222024",
+      "size": 121,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/_stream_readable.js",
+      "sha256": "ba6f6374420c357e3519d9c3c7782186eb13b5dba1feaa31b589991220c8ad5b",
+      "size": 118,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/_stream_transform.js",
+      "sha256": "f835aa24250faecf0c78f2c3274a802695f1b602a4b99f19e42b1a1d869cdbb8",
+      "size": 119,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/_stream_writable.js",
+      "sha256": "17cea3607f0f56197f14635039fe6651091d05cb42774490237645c87f6bdaf7",
+      "size": 118,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/shims/process.js",
+      "sha256": "7fbfe14aa0da40fbf8f00d350e93ebc18ca42da4b0a26476788dc1ef7bf12e2c",
+      "size": 553,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/add-abort-signal.js",
+      "sha256": "ae439fce5363fe06de088a6d05bae035e45204d06c7e39da41554da683f234d4",
+      "size": 1768,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/buffer_list.js",
+      "sha256": "c8a1206970857cf3d1df0b8dfa54be336b93fce9ecafdcc3e630f25b6f4415d7",
+      "size": 3862,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/compose.js",
+      "sha256": "b3b00a0bd8e885dabb93e82629fde89826a76371f6df513933df609e4eed1075",
+      "size": 5159,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/destroy.js",
+      "sha256": "3a310d33de60497858a4f3b8dde6c93744c2cf463583e14842cb59d1f1533d45",
+      "size": 7173,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/duplex.js",
+      "sha256": "b0c5ba644550c6d8fd7c46f7e8a6f55acbee9747eb03988405b48450324e7939",
+      "size": 4847,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/duplexify.js",
+      "sha256": "431c0b5682c9ad5ccfda3ce03acc5c89377931bad639d7f617412854f2bcacb7",
+      "size": 9134,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/end-of-stream.js",
+      "sha256": "546f96fb8e2a0b3b9527345ec5ef5bf261088df60031f1373d50aa30af7f7f62",
+      "size": 8690,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/from.js",
+      "sha256": "78ea2e72713c468a2637411b7e7e5f929dde2f64869e4a65668c1f7ab4b1efe1",
+      "size": 2613,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/lazy_transform.js",
+      "sha256": "f7d2a8cff50279ded19e9210d409d9af8e1efe487f6a05a936bae546671a2c9d",
+      "size": 1573,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/legacy.js",
+      "sha256": "dd9a43a2bd07f31e52a7d82ae8acf5f75b9fada04def48248a7914cd155b5682",
+      "size": 3062,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/operators.js",
+      "sha256": "d0f2fbacb921c71d452500111b78c94d41901cb235f129fa21c753b130385f70",
+      "size": 12858,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/passthrough.js",
+      "sha256": "ca81a4020f70d788d91166cb2cff2802371a35070b68984ded4084e8e669bb2d",
+      "size": 1748,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/pipeline.js",
+      "sha256": "f6b4abab8f1f8bc1128b408239cd7a34ade2f4a7c30fffbccf037671cf8a6787",
+      "size": 12928,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/readable.js",
+      "sha256": "074ac032951d84369edb7ff3fc49cceff5d5f80e21cad0f98982a0e670497270",
+      "size": 42855,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/state.js",
+      "sha256": "6b75f041bfcd3343d28692a2af49ef1b2eef1e169be23e28e06ef1113b30a14b",
+      "size": 1316,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/transform.js",
+      "sha256": "835ed1ce041a4f0455226aaa5b9258e5e048e98ef231f964e6272a70481eb923",
+      "size": 7098,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/utils.js",
+      "sha256": "7e1ccce441ef100776ea40f3ae95417d2079541800d4715d7565aaf86a8c1bf0",
+      "size": 11386,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/streams/writable.js",
+      "sha256": "39b00ebbb960da11ea0ed76e6957ea0dc10aba7c664f3d3175678d915d3912ce",
+      "size": 25925,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/internal/validators.js",
+      "sha256": "e7a11dce260566449ae38764ccd3b7fb9cbc48739c846cd3c33f187eafb484a1",
+      "size": 14450,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/ours/browser.js",
+      "sha256": "712392d354ca5435754dea316c2b6568f27e42f44d37376d450b8176b0707079",
+      "size": 1299,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/ours/errors.js",
+      "sha256": "45d098df354b167e00400d769931ff0c02f929d50d29d3751293580bd6134bdb",
+      "size": 10135,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/ours/index.js",
+      "sha256": "be4ac97ddba69576924376e43792a8c1a7882c5557725edc3d40953366db7195",
+      "size": 2435,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/ours/primordials.js",
+      "sha256": "0a0beaa19ee8bc6a976331af836d83cd05c70b7306c22e08745ddc00e220867b",
+      "size": 3323,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/ours/util.js",
+      "sha256": "ec4fd4de5a5120855c605dc271dd05b7844bc2ab7abda2b6031b74eebd705e1b",
+      "size": 3992,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/ours/util/inspect.js",
+      "sha256": "02031609cb7ae9cd10ce15be81f3b34388ba226159946328150e980dbad11e41",
+      "size": 1723,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/stream.js",
+      "sha256": "76b4ba307f4cfee5e819803469881f2ecd22f9026f4fae97b6ec3be0a5bf0416",
+      "size": 4771,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/lib/stream/promises.js",
+      "sha256": "310c85f47b48350573ec4f57c191a566740593352d19ac6b9c5b5317c3b1f4d7",
+      "size": 1008,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/LICENSE",
+      "sha256": "ec62dc96da0099b87f4511736c87309335527fb7031639493e06c95728dc8c54",
+      "size": 2337,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/package.json",
+      "sha256": "556669bd6ac945c4ecc6bf4886aaa26b0b9a65d79446a33f44c31857362be62f",
+      "size": 2667,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/readable-stream/README.md",
+      "sha256": "a08ab6b2c4e52f12c2b0b3d8838dcc65da0d7149297da22a657fd12c7d25d458",
+      "size": 5420,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/safe-buffer/index.d.ts",
+      "sha256": "5e379df3d61561c2ed7789b5995b9ba2143bbba21a905e2381e16efe7d1fa424",
+      "size": 8738,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/safe-buffer/index.js",
+      "sha256": "184d5c4a83512e3f49d4d5b52f7073f601f933bad11f1fbb3ad364ca5e6478e1",
+      "size": 1670,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/safe-buffer/LICENSE",
+      "sha256": "c7cc929b57080f4b9d0c6cf57669f0463fc5b39906344dfc8d3bc43426b30eac",
+      "size": 1081,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/safe-buffer/package.json",
+      "sha256": "e4018fdbfe625433371f48274fee26f520bbe865e0d8c85bf3aa07424134b90c",
+      "size": 1057,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/safe-buffer/README.md",
+      "sha256": "d301a850808775718ddb510d4bf2a922d9b0afa72894e67137daa20fbeafac05",
+      "size": 19555,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/set-function-length/.eslintrc",
+      "sha256": "015178c037e4db81415aab3d6acd2a4ef66341ec500f900eeca61349802a3fb6",
+      "size": 404,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/set-function-length/.github/FUNDING.yml",
+      "sha256": "bb2f341b76359bfe3f959fb2b1a922212cfdba4edb48d108ef848d8a39ec6bf1",
+      "size": 563,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/set-function-length/.nycrc",
+      "sha256": "948366fea3b423a46366326d0bb2e54b08abd1cf0b243678ba6625740c40da5a",
+      "size": 216,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/set-function-length/CHANGELOG.md",
+      "sha256": "0081798e43cb0864824314c375eca40b031fa009f6ed27cf6f24e856d01ff759",
+      "size": 4876,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/set-function-length/env.d.ts",
+      "sha256": "3aa1d02aaaad7915a3f62b8a679ba9c81ffce8539089127eabc60fc50d5c39dc",
+      "size": 222,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/set-function-length/env.js",
+      "sha256": "51e8f137dff2d3987c98bcbd677bdec7306734a936f6c731e4da154a5c69c372",
+      "size": 867,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/set-function-length/index.d.ts",
+      "sha256": "f1dbfe4e162ab9e9dd14d9bc5ce5974c4ebc4fedf5b682d634d8d5013637566c",
+      "size": 256,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/set-function-length/index.js",
+      "sha256": "a523e45ae8c58b13795b66841fcaf104ac3e394ab123197bd46dd09088cabcd5",
+      "size": 1273,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/set-function-length/LICENSE",
+      "sha256": "bf9b0d665be2a689851eea667ca9f42066ea1d903b38349c51e6a44b2577680a",
+      "size": 1083,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/set-function-length/package.json",
+      "sha256": "2c81bab7f7a60d625164bd840d863548e3f9d4d1aa976b9d2966e5e1e36132a7",
+      "size": 2704,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/set-function-length/README.md",
+      "sha256": "54212493dcec62fec941c5a8231d65f57770db3a3f68897ce838d7e8243f4d37",
+      "size": 2167,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/set-function-length/tsconfig.json",
+      "sha256": "6346ee4c020f341387588479dd83740a65ab902a462b8c6b3b8bf51f032c6795",
+      "size": 116,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/.eslintrc",
+      "sha256": "f90c1293a476b1fc50be027a2921b3679b8bcec964659c899178b4fcd57e3b66",
+      "size": 1022,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/bin.js",
+      "sha256": "d5edb11655a31402573ac3ec78d6f3eb242d409306409de3a9fe14756db548cd",
+      "size": 1040,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/CHANGELOG.md",
+      "sha256": "47c684597423523eb2c6a57d0447c87157e2e5484f9f7f949cbe73d9845b2340",
+      "size": 32173,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/hash.js",
+      "sha256": "5755cb8f4ba12e2552b784d6ad3d87020dd40d34659de997008c46799cd2ea98",
+      "size": 1899,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/index.js",
+      "sha256": "11ecac23200703e24364e3f733b62cc975f30cb9b38293bd7ce084fb345682a5",
+      "size": 517,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/LICENSE",
+      "sha256": "58dcf38be1438f739412b87eb70d64bf00e9976d529bb119f700d8b3167924f0",
+      "size": 2557,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/package.json",
+      "sha256": "de7af2f085793d09119bf049f5bec4cf81e68d751d13d90fe027c85ccc31b125",
+      "size": 1584,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/README.md",
+      "sha256": "6bcda8d702c686325becbe3c7f8850342dcd00b93a9d53787c09ccb1d55cb84a",
+      "size": 1789,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/sha.js",
+      "sha256": "04d4c3536aba137275b8f55f44caf7bf5a30944ec357b1cd2e69a26bae10ce90",
+      "size": 1950,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/sha1.js",
+      "sha256": "aa22b7aeab6cb36171515be7de16b17bdfc71ece3decdbdce003cf9d6a4983d2",
+      "size": 2066,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/sha224.js",
+      "sha256": "13661a9d720f48514b24cc270db25bc99acfd5c52e245a9250bda03f9403d177",
+      "size": 1114,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/sha256.js",
+      "sha256": "0a87a79896cd0d84a7c4588145498c46f761b6eaae796ae5a19c34ae08c798cb",
+      "size": 3367,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/sha384.js",
+      "sha256": "586bbbd949dea30aca86168c205f2c95652c547c71062a6868df0ad630c21bcd",
+      "size": 1185,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/sha512.js",
+      "sha256": "d7552361d4d41ac1262e49b648216ba22210c076b88e8ead222f67010d2cb855",
+      "size": 7280,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/test/hash.js",
+      "sha256": "643c517a8687ef4f789ba158cb83a6102473830666a49c5ec0ce52438d0432a9",
+      "size": 1564,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/test/test.js",
+      "sha256": "5ff05add38db64b5953d3dee7d8e1586f8af81dd44995d7398328ec467179c06",
+      "size": 3404,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/sha.js/test/vectors.js",
+      "sha256": "1ed5bfbd4f37b20e49216017e03a40237de01f543036b471872634e86c87d3ff",
+      "size": 1562,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/simple-concat/.travis.yml",
+      "sha256": "368566d774f3fca611f3b8fd5abc74283f891616925b7c23b95a9d75e6e03258",
+      "size": 37,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/simple-concat/index.js",
+      "sha256": "fbd2a589ece8138da87d9a5e3d537afbbc32f08582bec0939cd3c494002259a4",
+      "size": 392,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/simple-concat/LICENSE",
+      "sha256": "d4c2065e2b936e62a4eb400efb4576edec9ca1388a9f78aa288e147275e7bc8b",
+      "size": 1081,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/simple-concat/package.json",
+      "sha256": "d6ae2e35a0c64b4469f1e531a3244efd50be7c115ef42d1422e54d14d9359e99",
+      "size": 1032,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/simple-concat/README.md",
+      "sha256": "d7d98a8abc0be19d7d06c204b7fdeb9ee3bc582c0e95d6da9c3c21d95803978d",
+      "size": 1257,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/simple-concat/test/basic.js",
+      "sha256": "855070c71eef83b431ea9e87f642d147880fa08eeb47eca8c2e647af3f287011",
+      "size": 825,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/simple-get/.github/dependabot.yml",
+      "sha256": "c4982ac89f48fbd97008135057e2768adcdc8bb1581197e3dc2ba87ded910277",
+      "size": 300,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/simple-get/.github/workflows/ci.yml",
+      "sha256": "81797e1b59d82968b131bf5d086fb900a6a0e9b7e733048cec1d630d358156ec",
+      "size": 483,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/simple-get/index.js",
+      "sha256": "99f995e5d499ad052b9a03a0f1e0d5c24a9705a64d1ac025463ffcbe9522aff6",
+      "size": 4057,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/simple-get/LICENSE",
+      "sha256": "d4c2065e2b936e62a4eb400efb4576edec9ca1388a9f78aa288e147275e7bc8b",
+      "size": 1081,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/simple-get/package.json",
+      "sha256": "8337ba9774d6d8199a5861c6dfa57058f162bfb6210362c01db38f0a593f96d6",
+      "size": 1444,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/simple-get/README.md",
+      "sha256": "2659d199c76750c6a4b1d865c3fd685f07d89c5d0a65a3e967750aed7deec764",
+      "size": 7606,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/string_decoder/lib/string_decoder.js",
+      "sha256": "f1d36d47b2c579063392c1a68963467f2d4f51a069af09eb068d974c63ee3b37",
+      "size": 9465,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/string_decoder/LICENSE",
+      "sha256": "11f2aafb37d06b3ee5bdaf06e9811141d0da05263c316f3d627f45c20d43261b",
+      "size": 2338,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/string_decoder/package.json",
+      "sha256": "31984c85cd4f3df0aa75075acdec98c25961496897d1f46d04ed4a701f129c54",
+      "size": 823,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/string_decoder/README.md",
+      "sha256": "64417fec74bed1e4160c792189c85e6f37f4232a179e2beb04f32d80df76c4cf",
+      "size": 1801,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/to-buffer/.github/FUNDING.yml",
+      "sha256": "083094da981e30000ea79f1b7295490cbf2a9bb007c3365bf45d4a69c75ff8da",
+      "size": 591,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/to-buffer/CHANGELOG.md",
+      "sha256": "5f5ccb2337513cce924d68b1f455af0b227a5cf3dbaa4767d284d2947abce461",
+      "size": 5995,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/to-buffer/index.js",
+      "sha256": "4c9e09c0035634346ea81cde19f85b04f3a99fe2518cca118eb3021ba691a1e6",
+      "size": 3049,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/to-buffer/LICENSE",
+      "sha256": "6a134e51aa31496c15a741592fc5d782b2dbf8d8b6b8524e15c8520ae0cd6374",
+      "size": 1079,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/to-buffer/package.json",
+      "sha256": "b9a28e593c952536fd850edc56098bf40679a21e7d1aa6e64a762921af663ef7",
+      "size": 1664,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/to-buffer/README.md",
+      "sha256": "92345de68a71c2e3d752217d434e4336bd88ae1c23255d637c836401990e45ac",
+      "size": 1627,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/typed-array-buffer/.eslintrc",
+      "sha256": "317b53d336fef735ecf930b9518869a5692c1bd1b80ea2d53ce6a86b36919c67",
+      "size": 144,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/typed-array-buffer/.github/FUNDING.yml",
+      "sha256": "7ba3c8ae9f4e66982e64c123e24124ef48f7ad7b9f53cbf3b6ca64cad45a6c5c",
+      "size": 564,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/typed-array-buffer/.nycrc",
+      "sha256": "948366fea3b423a46366326d0bb2e54b08abd1cf0b243678ba6625740c40da5a",
+      "size": 216,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/typed-array-buffer/CHANGELOG.md",
+      "sha256": "20f23ff4cc6a16626624ae85eb96a74e5e6837ce0259dd6fc42d3f7784edfc32",
+      "size": 4283,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/typed-array-buffer/index.d.ts",
+      "sha256": "2df868944d2cc6aaaef1d679d9a7b8b4ade8e7ddf66ae56fda53a429213b7f7d",
+      "size": 227,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/typed-array-buffer/index.js",
+      "sha256": "a7307b979eb962b163dd56618cea0466f5788d8b335d19add766d6473b3c6783",
+      "size": 591,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/typed-array-buffer/LICENSE",
+      "sha256": "b41d08bc3624d8c436fc80237d73ebb361985a67f4504bbcd703e5ca2b27254c",
+      "size": 1071,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/typed-array-buffer/package.json",
+      "sha256": "f0f933ad37d3be61efcb8c4fe64088cd97a4bc86038d5bc19f33df1e995bac56",
+      "size": 2277,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/typed-array-buffer/README.md",
+      "sha256": "a8dbdf7949429097ea9374c7bc819733c1ffd5f6ea83bdb5ae90614728fd31bf",
+      "size": 1998,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/typed-array-buffer/test/index.js",
+      "sha256": "ce462d766d09c2af8dfa36b6efab817671c5177f4c00a96fa75b5747f0ce5cab",
+      "size": 728,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/typed-array-buffer/tsconfig.json",
+      "sha256": "6346ee4c020f341387588479dd83740a65ab902a462b8c6b3b8bf51f032c6795",
+      "size": 116,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/which-typed-array/.editorconfig",
+      "sha256": "0a73be687a86b6f0e5494b1be555fcfbb886108794948837170c28f18820aae2",
+      "size": 286,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/which-typed-array/.github/FUNDING.yml",
+      "sha256": "31291dc68bc074258d0a3ecb268d3c710c31dd4df505f5f07f303186fd1b4448",
+      "size": 588,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/which-typed-array/.nycrc",
+      "sha256": "948366fea3b423a46366326d0bb2e54b08abd1cf0b243678ba6625740c40da5a",
+      "size": 216,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/which-typed-array/CHANGELOG.md",
+      "sha256": "f37cdd8aa5142245ea9e39148aeae6114fdccb985a456a5326e2d242acaf0479",
+      "size": 28445,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/which-typed-array/index.d.ts",
+      "sha256": "f841a6f15a93abaa6257ad23fc27ce387f92787fb2fd6670ecc66cb12f26a6c0",
+      "size": 12928,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/which-typed-array/index.js",
+      "sha256": "3c8d063b41eb891a92dff22ee81647ff83b4c0e3752fa6dd60f76a3b9f7ffe92",
+      "size": 3774,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/which-typed-array/LICENSE",
+      "sha256": "c61652db3d2808f667b48af0a358f0d85fd07ad4a0d0b1a50882dec3b764c522",
+      "size": 1082,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/which-typed-array/package.json",
+      "sha256": "e175b4177a92cd5f7ae31bc7954edd57369dd059d6faf5f1100f1ab962c6ef01",
+      "size": 3370,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/which-typed-array/README.md",
+      "sha256": "cd83d175bd940032c386f80a2e811b2539bfcd48c4dfc1119e7effa523f99c64",
+      "size": 3328,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/which-typed-array/tsconfig.json",
+      "sha256": "74335c59b7422e48251031621e7ec380e43d066de9a29b1b9af305aa4f124694",
+      "size": 123,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/wrappy/LICENSE",
+      "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b",
+      "size": 765,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/wrappy/package.json",
+      "sha256": "712ac9c4c3cef8bc79f42cf6075ff18551f4cb768f35158214fd643853ad7abc",
+      "size": 606,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/wrappy/README.md",
+      "sha256": "0d2537e86a9e5ae85d8e53910d779895179035c9daa35555874ec19f1225c224",
+      "size": 685,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/node_modules/wrappy/wrappy.js",
+      "sha256": "153453c4d84a3c2f13589c37055a7daff61d48475dcce554f7eedad15fc7b3e5",
+      "size": 905,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/package.json",
+      "sha256": "0937c1d1d576a7d9f4c8186921e82b1a3790104d192ef981fcd622759def7e65",
+      "size": 322,
+      "kind": "asset"
+    },
+    {
+      "path": "plugins/oc-plugin-git/README.md",
+      "sha256": "18cf849e53bcaeaa8689fae38c7f0def07dda03def6c01979fedffbb02e8bfcf",
+      "size": 5099,
+      "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-workspace-roots/index.mjs",
@@ -530,7 +5510,7 @@
     }
   ],
   "totals": {
-    "count": 86,
-    "bytes": 65577764
+    "count": 916,
+    "bytes": 73716419
   }
 }

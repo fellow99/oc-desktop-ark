@@ -26,3 +26,6 @@
 
 # hvigor 本地缓存
 /.hvigor/
+
+# 108-git-plugin：插件依赖在构建期物化（不入库；由 scripts/collect-plugins.mjs 生成）
+/plugins/*/node_modules/

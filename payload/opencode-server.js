@@ -149,7 +149,23 @@ function main() {
   process.argv = ['node', 'opencode.mjs', 'serve', '--hostname', HOST, '--port', '0'];
   log(`serve hostname=${HOST} port=0 entry=${entry} version=${VERSION}`);
 
-   // ⑤ 110-jitless：在加载产物前安装纯 JS 兼容层（fetch / http 惰性 undici 面 / wasm 降级事实）。
+   // ⑤ 108-git-plugin：启动期把插件从只读载荷根投放进**可写**配置目录（幂等；C3「谁写谁读」）。
+   // 时序承重：上游只在**启动时**发现插件 ⇒ 必须在 import(opencode.mjs) 之前完成。
+   try {
+     const { materializePlugins } = require('./lib/plugins');
+     const configPluginDir = path.join(
+       process.env.XDG_CONFIG_HOME || path.join(FILES_DIR, 'config'), 'opencode', 'plugin');
+     const pluginFacts = materializePlugins({ sourceRoot: RUN_ROOT, configDir: configPluginDir, log });
+     log(`plugins facts=${JSON.stringify({
+       ok: pluginFacts.ok,
+       reason: pluginFacts.reason,
+       plugins: pluginFacts.plugins.map((p) => `${p.name}:${p.action}`),
+     })}`);
+   } catch (error) {
+     log(`插件投放失败（工具/界面/凭据将不可用；不阻断启动）：${error && error.message ? error.message : String(error)}`);
+   }
+
+   // ⑥ 110-jitless：在加载产物前安装纯 JS 兼容层（fetch / http 惰性 undici 面 / wasm 降级事实）。
    // 顺序承重：先装兼容层、再 import opencode.mjs（后者首次触达 fetch 时垫片已就位）。
    // bundle 标记探测（I5）：只读前 8 MiB + 三处字符串判定，避免把 16MB bundle 整体传进兼容层。
    const bundleMarks = probeBundleMarks(entry);

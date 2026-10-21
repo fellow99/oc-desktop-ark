@@ -131,8 +131,10 @@ export class OpencodeRuntime {
     this.ensureDir(context.filesDir + '/config/' + Names.PLUGIN_DIR);
     // 宿主能力桥文件信箱目录（Node 写 .req / ArkTS 泵读它；两侧同路径、同 UID）
     this.ensureDir(context.filesDir + '/' + Names.MAILBOX_DIR);
-    // 投放工作区选择器插件（只读直读：resfile 插件 → 沙箱 config 插件目录；每次启动覆盖写）
-    this.provisionPlugin(context);
+    /* 插件投放**不在这里做**（108-git-plugin / 宪法 C3「谁写谁读」）：
+     * 插件目录里带物化依赖（56 包 / 800+ 文件），逐文件走 ArkTS 的 @ohos.file.fs 又慢又易错；
+     * 改由 Node 侧 `payload/lib/plugins.js#materializePlugins()` 在 import 产物前整棵 copy（幂等）。
+     * 这里只保证**承载目录**存在，避免插件投放时因父目录缺失而失败。 */
     try {
       if (fs.accessSync(readyPath)) {
         fs.unlinkSync(readyPath);
@@ -250,49 +252,4 @@ export class OpencodeRuntime {
     }
   }
 
-  /**
-   * 投放工作区选择器插件（只读直读：resfile 插件目录 → 沙箱 config 插件目录）。
-   *
-   * 幂等：每次启动覆盖写（插件是纯 JS，无版本态）。源缺失（collect 未投放）时如实记日志、不阻断启动。
-   * opencode 的插件发现目录 = `XDG_CONFIG_HOME/opencode/plugin`（= `<filesDir>/config/opencode/plugin`），
-   * 因此这里把 resfile 里的插件原样复制到该目录，opencode 启动时即可发现并注册其 RPC。
-   *
-   * ⚠️ 源在 `resfile/opencode/plugins/...`：HAP 里**只有 resfile 是真实磁盘目录**（安装时落盘），
-   *    因此必须走真实 fs（`accessSync` + `copyFileSync`），与 `Payload.plan` 判据同语义；
-   *    不能用 `resourceManager.getRawFileContentSync` —— 它读的是 `rawfile/`，而插件不在 rawfile 里。
-   */
-  private provisionPlugin(context: common.UIAbilityContext): void {
-    const srcDir: string = context.resourceDir + '/' + Names.PAYLOAD_DIR + '/plugins/oc-plugin-workspace-roots';
-    const destDir: string = context.filesDir + '/config/' + Names.PLUGIN_DIR + '/oc-plugin-workspace-roots';
-    try {
-      this.ensureDir(destDir);
-      const srcFile: string = srcDir + '/index.mjs';
-      if (!fs.accessSync(srcFile)) {
-        Log.warn('工作区选择器插件源缺失（跳过投放；collect-opencode 是否已投放 resfile 插件？）：' + srcFile);
-        return;
-      }
-      const destFile: string = destDir + '/index.mjs';
-      /* 原子覆盖：先拷到同目录 tmp，再 rename 覆盖目标。
-       * - 不先删旧文件：删完再拷失败（ENOSPC / 读 resfile 失败）会留下「没有插件」，
-       *   而且每次启动都会重演（投放现在是每次都跑）。
-       * - rename 对已存在目标是原子替换，且不会读到半截文件。 */
-      const destTmp: string = destFile + '.tmp';
-      if (fs.accessSync(destTmp)) {
-        fs.unlinkSync(destTmp);
-      }
-      fs.copyFileSync(srcFile, destTmp);
-      const srcSize: number = fs.statSync(srcFile).size;
-      const tmpSize: number = fs.statSync(destTmp).size;
-      if (srcSize !== tmpSize) {
-        /* 截断拷贝必须可见（OpenHarmony copyFileSync 的已知风险点）。 */
-        Log.warn('插件拷贝长度不符（放弃替换，保留旧文件）：src=' + srcSize + ' B tmp=' + tmpSize + ' B');
-        fs.unlinkSync(destTmp);
-        return;
-      }
-      fs.renameSync(destTmp, destFile);
-      Log.info('工作区选择器插件已投放：' + destFile + '（' + tmpSize + ' B）');
-    } catch (error) {
-      Log.warn('投放工作区选择器插件失败（选择器将不可用；不阻断启动）：' + JSON.stringify(error));
-    }
-  }
 }

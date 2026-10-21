@@ -20,6 +20,7 @@ import {
 } from 'node:fs'
 import { execFileSync, spawnSync } from 'node:child_process'
 import path from 'node:path'
+import { materializeGitPlugin } from './collect-plugins.mjs'
 import { fileURLToPath } from 'node:url'
 
 const APPLY = process.argv.includes('--apply')
@@ -73,10 +74,41 @@ if (!existsSync(path.join(bridgePayload, 'bootstrap.js'))) {
  * @returns {{anchor: string, occurrences: number, applied: boolean}}
  * @throws {Error} 锚点数量异常 / 回读校验失败 / `node --check` 失败
  */
-function applyPhotonGuard(file, stage) {
-  const anchor = 'var photon_rsExports=requirePhoton_rs();'
-  const replacement = 'var photon_rsExports=(typeof WebAssembly==="undefined"'
-    + '&&globalThis.__PI_JITLESS_PHOTON__)?globalThis.__PI_JITLESS_PHOTON__:requirePhoton_rs();'
+const PHOTON_ANCHOR = 'var photon_rsExports=requirePhoton_rs();'
+const PHOTON_REPLACEMENT = 'var photon_rsExports=(typeof WebAssembly==="undefined"'
+  + '&&globalThis.__PI_JITLESS_PHOTON__)?globalThis.__PI_JITLESS_PHOTON__:requirePhoton_rs();'
+
+/**
+ * 110-jitless（任务：shell 工具纯 JS 解析）：命令扫描器在 compat 下改走**纯 JS portable 扫描器**。
+ *
+ * 上游 `scan$2` 只有一条分叉：
+ *     return tn?.portable ? yield* scanPortable(...) : yield* scanLegacy(...)
+ * `scanLegacy` 走 web-tree-sitter（WASM）⇒ compat 下 `shell` 工具直接抛
+ * `WebAssembly is not defined`。而 `scanPortable` 用的是 bundle 自带的**纯 JS**
+ * `ShellScan`（`scan(命令, "bash"|"zsh"|"posix")` / `scanPowerShell`），无 WASM 依赖。
+ *
+ * ⇒ 把分叉条件补上「compat 形态」：`tn?.portable || typeof WebAssembly === "undefined"`。
+ *   · jit 形态：`WebAssembly` 存在 ⇒ 表达式与原值等价，行为零变化（配置项仍由用户决定）；
+ *   · compat 形态：强制 portable，命令解析不再依赖 WASM。
+ * 若上游把 portable 扫描器判成 `opaque`，工具会**明确报错**（"cannot analyze command"），不静默放行。
+ */
+const SHELL_SCANNER_ANCHOR = 'return tn?.portable?yield*scanPortable(ct,$t,en):yield*scanLegacy(ct,$t,en)'
+const SHELL_SCANNER_REPLACEMENT = 'return (tn?.portable||typeof WebAssembly==="undefined")'
+  + '?yield*scanPortable(ct,$t,en):yield*scanLegacy(ct,$t,en)'
+
+/**
+ * 对 staged bundle 做**一处**锚点替换，并过三闸。
+ *
+ * 三闸：① 锚点恰好出现 1 次（多/少都拒绝，绝不模糊替换 16 MB 文本）；
+ *      ② 回读落盘内容断言「无旧锚点、恰有 1 处新式」且长度符合预期；
+ *      ③ 对改后文件跑 `node --check`。
+ *
+ * 按 Buffer 处理：bundle 是 UTF-8 文本，用字符串往返会把非法字节静默改成 U+FFFD，
+ * 而 manifest 的 sha256 是**改后**再算的（改坏了也自洽）。
+ *
+ * @throws {Error} 任一闸不通过（调用方清理 staging 后退出）
+ */
+function patchBundleOnce(file, stage, label, anchor, replacement) {
   const anchorBytes = Buffer.from(anchor, 'utf8')
   const replacementBytes = Buffer.from(replacement, 'utf8')
 
@@ -84,7 +116,7 @@ function applyPhotonGuard(file, stage) {
   const original = readFileSync(file)
   const occurrences = countOccurrences(original, anchorBytes)
   if (occurrences !== 1) {
-    throw new Error(`photon 守卫锚点数量异常（期望 1，实测 ${occurrences}）：${anchor}`
+    throw new Error(`${label} 锚点数量异常（期望 1，实测 ${occurrences}）：${anchor}`
       + ' ｜ 上游 bundle 结构变了 ⇒ 必须人工确认新锚点后再投放（拒绝模糊替换）。')
   }
   const at = original.indexOf(anchorBytes)
@@ -96,24 +128,43 @@ function applyPhotonGuard(file, stage) {
   const written = readFileSync(file)
   const expectedSize = original.length - anchorBytes.length + replacementBytes.length
   if (written.length !== expectedSize) {
-    throw new Error(`photon 守卫回读长度不符：期望 ${expectedSize} B，实测 ${written.length} B`)
+    throw new Error(`${label} 回读长度不符：期望 ${expectedSize} B，实测 ${written.length} B`)
   }
   if (countOccurrences(written, anchorBytes) !== 0) {
-    throw new Error('photon 守卫回读仍有旧锚点（替换未生效）')
+    throw new Error(`${label} 回读仍有旧锚点（替换未生效）`)
   }
   if (countOccurrences(written, replacementBytes) !== 1) {
-    throw new Error('photon 守卫回读找不到新表达式（替换未生效）')
+    throw new Error(`${label} 回读找不到新表达式（替换未生效）`)
   }
 
   /* ③ 语法闸：Node 解析改后的 ESM */
   const check = spawnSync(process.execPath, ['--check', file], { encoding: 'utf8' })
   if (check.status !== 0) {
-    throw new Error(`photon 守卫改后文件语法检查失败（exit=${check.status}）：${(check.stderr || '').slice(0, 400)}`)
+    throw new Error(`${label} 改后文件语法检查失败（exit=${check.status}）：${(check.stderr || '').slice(0, 400)}`)
   }
 
-  console.log(`守卫 photon 初始化：1 处锚点已替换 + 回读/语法校验通过（${path.relative(stage, file) || file}）`)
+  console.log(`${label}：1 处锚点已替换 + 回读/语法校验通过（${path.relative(stage, file) || file}）`)
   return { anchor, occurrences, applied: true }
 }
+
+/** photon 初始化守卫（compat 下取纯 JS 替身，jit 仍走原生）。 */
+function applyPhotonGuard(file, stage) {
+  return patchBundleOnce(file, stage, '守卫 photon 初始化', PHOTON_ANCHOR, PHOTON_REPLACEMENT)
+}
+
+/** shell 命令扫描器守卫（compat 下走纯 JS portable 扫描器）。 */
+function applyShellScannerGuard(file, stage) {
+  return patchBundleOnce(file, stage, '守卫 shell 命令扫描器', SHELL_SCANNER_ANCHOR, SHELL_SCANNER_REPLACEMENT)
+}
+
+/**
+ * 本工程的**全部** bundle 级守卫（顺序无关；逐个独立三闸）。
+ * 新增守卫时只往这里加一条，`assemble()` 会自动执行并回传到诊断行。
+ */
+const BUNDLE_GUARDS = [
+  { name: 'photon', label: 'photon 初始化', apply: applyPhotonGuard },
+  { name: 'shellScanner', label: 'shell 命令扫描器', apply: applyShellScannerGuard },
+]
 
 /** 在 Buffer 里数非重叠出现次数。 */
 function countOccurrences(haystack, needle) {
@@ -143,8 +194,12 @@ function assemble(stage) {
     cpSync(path.join(distNode, 'assets'), path.join(stage, 'assets'), { recursive: true })
   }
 
-  /* 110-jitless：bundle 级 photon 守卫（compat 形态启动期不触达 WASM）。 */
-  const bundleGuard = applyPhotonGuard(path.join(stage, 'opencode.mjs'), stage)
+  /* 110-jitless：bundle 级守卫（compat 形态不触达 WASM）；逐条锚点唯一 + 回读 + 语法闸。 */
+  const bundleFile = path.join(stage, 'opencode.mjs')
+  const bundleGuard = {}
+  for (const guard of BUNDLE_GUARDS) {
+    bundleGuard[guard.name] = guard.apply(bundleFile, stage)
+  }
 
   // 2) 裁剪：只删「非目标平台」的二进制子包与不可执行 ELF
   const pruneDirs = [
@@ -218,6 +273,11 @@ function assemble(stage) {
     pluginCopied = true
   }
 
+  /* 4.6) 108-git-plugin：插件本体 + **构建期物化**的依赖（node_modules，56 包）。
+   * 断言在 collect-plugins 里：版本 pin、传输入口、包数、体积、无原生库、无软链。
+   * 失败即抛错（由 assemble 的调用方清理 staging 后退出），绝不产出空目录。 */
+  const gitPluginAudit = materializeGitPlugin(path.join(stage, 'plugins/oc-plugin-git'))
+
   // 5) 清单（JSON）
   const files = []
   function walk(dir, prefix) {
@@ -257,7 +317,7 @@ function assemble(stage) {
     },
   }
   writeFileSync(path.join(stage, 'manifest.sha256'), JSON.stringify(manifest, null, 2) + '\n')
-  return { manifest, removed, jitlessAudit, pluginCopied, bundleGuard }
+  return { manifest, removed, jitlessAudit, pluginCopied, bundleGuard, gitPluginAudit }
 }
 
 function safeBunVersion() {
@@ -334,7 +394,7 @@ try {
   console.error(`✗ 组装失败（已清理 staging）：${error && error.message ? error.message : String(error)}`)
   process.exit(1)
 }
-const { manifest, removed, jitlessAudit, pluginCopied, bundleGuard } = result
+const { manifest, removed, jitlessAudit, pluginCopied, bundleGuard, gitPluginAudit } = result
 const previous = readPreviousManifest()
 const report = audit(manifest, previous, jitlessAudit)
 
@@ -342,8 +402,12 @@ console.log(`── collect 审计${APPLY ? '（--apply）' : '（dry-run；加 
 console.log(`文件总数 ${manifest.totals.count} / ${(manifest.totals.bytes / 1048576).toFixed(1)} MB`)
 console.log(`裁剪平台子包 ${removed.length} 个${removed.length ? '：' + removed.join(', ') : ''}`)
 console.log(`jitless 兼容层：${report.jitlessCount} 个文件入库（另排除 selftest 项 ${jitlessAudit.skippedSelftest}）`)
-console.log(`bundle 守卫（photon 初始化）：${bundleGuard.applied ? '已注入（jit 形态仍走原生）' : '未注入'}`)
+console.log('bundle 守卫：' + BUNDLE_GUARDS
+  .map((guard) => `${guard.label}=${bundleGuard[guard.name]?.applied ? '已注入' : '未注入'}`)
+  .join(' ｜ ') + '（jit 形态行为不变）')
 console.log(`工作区选择器插件：${pluginCopied ? '已投放' : '⚠ 源缺失，未投放（不阻断）'}`)
+console.log('git 插件：' + `${gitPluginAudit.stats.packages} 包 / ${gitPluginAudit.stats.count} 文件 / `
+  + `${(gitPluginAudit.stats.total / 1048576).toFixed(2)} MB（含物化依赖 node_modules）`)
 if (previous === null) {
   console.log('旧清单：不存在（首次投放或 resfile 已被清理）')
 } else {
