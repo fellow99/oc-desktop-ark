@@ -94,3 +94,9 @@
 | 重装后 RPC | ✅ `roots` 三根；`browse{sandbox}` 返回 `count/total/truncated`；`mkdir` 空名 → `invalid-name` |
 | 重装后 UI | ✅ 三 Tab；文档 → 两按钮；`请求权限` → 可照抄指引（宿主桥仍可用）；下载 → 列表；新建默认名「未命名文件夹 2」（同级去重）；创建后选择行 `/storage/Users/currentUser/Download/未命名文件夹 2/` |
 | ArkTS 编译 | ✅ BUILD SUCCESSFUL（含 `withTimeout` 清定时器） |
+
+## 八、设备上的测试残留（不影响仓库）
+
+- 下载根：`未命名文件夹`、`未命名文件夹 2`（本轮 UI 新建验证产生）。
+- 沙箱根：`未命名文件夹`（含嵌套 `未命名文件夹`）、`tc203a`、`tc203-shot.jpeg`（看图分析附件）。
+- 设备项目列表里有一条乱码路径记录（`/storage/Users/currentUser/Download/δ…`）：本轮早期用 shell 直接拼中文路径调 API 所致；`/api/project` 无删除端点（DELETE 返回 404），无法通过接口清理，留在设备上无害（指向不存在的目录）。后续如需清理，用 UI 的「更多选项」或清应用数据。
