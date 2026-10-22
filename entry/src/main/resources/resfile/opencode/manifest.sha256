@@ -212,8 +212,8 @@
     },
     {
       "path": "assets/app-archive.bin",
-      "sha256": "fbcf5c8be05210977e2f1ad36008593e1894c49bdd57b1fc08fb399ccf8f4370",
-      "size": 24119393,
+      "sha256": "f6e4a73c1a3275c5bfa23e0c548c281391a76f21978799cd1d312941b3dff64f",
+      "size": 24121947,
       "kind": "ui-archive"
     },
     {
@@ -524,7 +524,7 @@
     },
     {
       "path": "opencode.mjs",
-      "sha256": "413f195b27d265d76e5e09bc08ca1b9e16f7e3f23af145aebdb8b7f33deb7b75",
+      "sha256": "bd531a1fe05a64515049fbd135c50c6767555798b02b5ccf304266de14dbd3ac",
       "size": 16452868,
       "kind": "entry"
     },
@@ -704,7 +704,7 @@
     },
     {
       "path": "plugins/oc-plugin-git/materialize.json",
-      "sha256": "91e04e291d9992794eb6e3196314681e8915e819161ada88a73eded79b2b11e1",
+      "sha256": "3cafd9cab12e5393b34c6135e64d225b98fb459cfaf5e3b8cf5af2e114920711",
       "size": 257,
       "kind": "asset"
     },
@@ -5504,13 +5504,13 @@
     },
     {
       "path": "plugins/oc-plugin-workspace-roots/index.mjs",
-      "sha256": "3c3095e033d9bd0471eefd4ecb84509047b523ac02fded308bfe0731600c247f",
-      "size": 15359,
+      "sha256": "1fbfe82e8c212071bd2890202330f5dc1db87fe026f3e0b8f36eae96b4f761ce",
+      "size": 20602,
       "kind": "asset"
     }
   ],
   "totals": {
     "count": 916,
-    "bytes": 73716914
+    "bytes": 73724711
   }
 }

@@ -4,7 +4,7 @@
 **版本：** 2.0.26（`versionCode 20026`）
 **技术栈：** ArkTS / ArkWeb · `@fellow99/node-bridge`（Node v24.2.0）· opencode v2.0.26 · `node:sqlite`
 **生成方式：** `specs-as-built`（以源码与规划为事实源；技术无关的 `spec.md` + 技术具体的 `plan.md` 成对）
-**最后更新：** 2026-10-18
+**最后更新：** 2026-10-22（新增 203 工作区选择器）
 
 ---
 
@@ -16,8 +16,9 @@
 | 整体 | 整体规格文档 | 4 | overall-spec / overall-plan / overall-data-model / overall-test-cases |
 | 模块 | 运行时与服务（101–103） | 6 | 接入、载荷、渲染壳 |
 | 模块 | 能力与适配（104–106） | 6 | 宿主能力、鉴权、上游适配 |
-| 模块 | 治理与质量（107–109） | 6 | 合规、版本库插件、回归 |
-| **合计** | **9 目录 / 18 模块文档 + 10 顶层文档** | | |
+| 模块 | 治理与质量（107–110） | 6 | 合规、版本库插件、回归、无 JIT 双形态 |
+| 模块 | 业务功能（203） | 4 | 工作区选择器（spec/plan/tasks/test-cases） |
+| **合计** | **10 目录 / 22 模块文档 + 10 顶层文档** | | |
 
 > 按需求约定：**不生成** `API.md` / `overall-api.md`。
 
@@ -135,6 +136,23 @@
 | 功能规格 | [109-regression/spec.md](./109-regression/spec.md) | 四件套与阈值、结论四态 |
 | 技术方案 | [109-regression/plan.md](./109-regression/plan.md) | `regress.mjs` 子命令、指纹触发、追加式记录 |
 
+## 五之二、业务功能（201–299）
+
+> 编号段 `2NN` 与 `oc-desktop-hos` 的需求编号对齐（同一需求在两工程各自成 spec），
+> 但**本段只落在本工程** `specs/`，不进父工程 `specs/`（需求约定）。
+
+### 203 — 工作区选择器（Workspace Picker）
+
+> 选择工作区目录对话框保留「沙箱 / 文档 / 下载」三根：沙箱直接列举；文档/下载先手动授权，
+> 有权限显示列表，无权限显示「请求权限」「刷新」两按钮。能力经壳专用插件 RPC，界面走上游幂等补丁。
+
+| 文档 | 链接 | 说明 |
+|------|------|------|
+| 功能规格 | [203-plugin-workspace-picker/spec.md](./203-plugin-workspace-picker/spec.md) | 三根、浏览围栏、权限门、新建文件夹、回退 |
+| 技术方案 | [203-plugin-workspace-picker/plan.md](./203-plugin-workspace-picker/plan.md) | 插件 `mkdir`、补丁 `0007`、browse 列举、状态机 |
+| 任务清单 | [203-plugin-workspace-picker/tasks.md](./203-plugin-workspace-picker/tasks.md) | T1–T6 与判据 |
+| 测试用例 | [203-plugin-workspace-picker/test-cases.md](./203-plugin-workspace-picker/test-cases.md) | TC-203-S/B/R/U/E |
+
 ---
 
 ## 六、模块编号一览
@@ -150,6 +168,8 @@
 | 107 | 合规与上架 | compliance | 治理与质量 |
 | 108 | 版本库插件 | git-plugin | 治理与质量 |
 | 109 | 回归基线 | regression | 治理与质量 |
+| 110 | 无 JIT 双形态兼容 | jitless | 治理与质量 |
+| 203 | 工作区选择器（三根 + 权限门） | plugin-workspace-picker | 业务功能（插件） |
 
 > 编号跳号规则：新增模块**追加**，不回填；`1NN` 与 `docs/000-工程规划.md` §14.2 保持一致。
 

@@ -116,18 +116,30 @@ function statRoot(p) {
   }
 }
 
-/** 列目录（上限 500 项，按名称排序；错误结构化返回，不抛） */
+/** 单层列举的展示上限（超出即截断，并**如实上报** total/truncated，见 NFR-203-002） */
+const LIST_LIMIT = 500;
+
+/** 列目录（按名称排序；截断如实上报；错误结构化返回，不抛） */
 function listDir(p) {
   try {
     const entries = fs.readdirSync(p, { withFileTypes: true });
     const items = entries
       .map((e) => ({ name: e.name, type: e.isDirectory() ? 'directory' : 'file' }))
-      .sort((a, b) => (a.type === b.type ? a.name.localeCompare(b.name) : a.type === 'directory' ? -1 : 1))
-      .slice(0, 500);
-    return { ok: true, code: '', message: '', entries: items, count: items.length };
+      .sort((a, b) => (a.type === b.type ? a.name.localeCompare(b.name) : a.type === 'directory' ? -1 : 1));
+    const total = items.length;
+    const visible = items.slice(0, LIST_LIMIT);
+    return {
+      ok: true,
+      code: '',
+      message: '',
+      entries: visible,
+      count: visible.length,
+      total,
+      truncated: total > visible.length,
+    };
   } catch (e) {
     const code = e && e.code === 'EACCES' ? 'EACCES' : e && e.code ? e.code : 'error';
-    return { ok: false, code, message: (e && e.message) || String(e), entries: [], count: 0 };
+    return { ok: false, code, message: (e && e.message) || String(e), entries: [], count: 0, total: 0, truncated: false };
   }
 }
 
@@ -139,6 +151,17 @@ function outcome(code, message) {
 
 /** 三个主目录解析（路径 + 是否存在 + 是否需要授权）。 */
 async function handleRoots() {
+  // 沙箱根是**应用自有**目录（不需要授权）：按契约必须自动创建，否则删掉 `<HOME>/workspace` 后
+  // 默认 Tab 会变成「不可用」，用户连入口都没有（FR-203-004 / AC-203-02）。
+  // 只对沙箱做，用户目录**绝不**创建（那是别人的家目录）。
+  const sandbox = rootPath('sandbox');
+  if (sandbox) {
+    try {
+      fs.mkdirSync(sandbox, { recursive: true });
+    } catch (e) {
+      console.log(`${LOG_PREFIX} workspace-roots: 创建沙箱根失败 ${sandbox}: ${(e && e.message) || e}`);
+    }
+  }
   const roots = ROOT_IDS.map((id) => {
     const p = rootPath(id);
     const st = p ? statRoot(p) : { exists: false, isDir: false, error: 'no-path' };
@@ -175,6 +198,66 @@ async function handleBrowse(input) {
   return listDir(target);
 }
 
+/** 单个目录段的最大长度（与主流文件系统一致；超长直接拒绝而不是交给 mkdir 报 ENAMETOOLONG） */
+const NAME_MAX = 255;
+
+/**
+ * 校验「单个目录段名称」。返回空串表示合法，否则返回稳定错误码。
+ * 拒绝：非字符串 / 去空白后为空 / `.` / `..` / 含路径分隔符 / 含控制字符 / 超长。
+ */
+function validateSegment(name) {
+  if (typeof name !== 'string') return 'invalid-name';
+  const value = name.trim();
+  if (!value || value.length > NAME_MAX) return 'invalid-name';
+  if (value === '.' || value === '..') return 'invalid-name';
+  if (value.indexOf('/') >= 0 || value.indexOf('\\') >= 0) return 'invalid-name';
+  if (/[\u0000-\u001f\u007f]/.test(value)) return 'invalid-name';
+  return '';
+}
+
+/**
+ * 在某个 root（或 root 内子目录）下新建文件夹（203 FR-203-030…FR-203-035）。
+ *
+ * 服务端**独立**判定三件事，不把 UI 的判定当依据（UI 判定与服务端判定各自成立）：
+ *   · 父路径消解后必须仍在 root 内 ⇒ 否则 `out-of-root`（防 `..` 逃逸）；
+ *   · 名称必须是单个合法目录段 ⇒ 否则 `invalid-name`；
+ *   · 同名已存在 ⇒ `exists`，不覆盖、不静默成功。
+ * 所有分支都结构化返回（不抛错），与其它方法一致。
+ */
+async function handleMkdir(input) {
+  const id = input && typeof input.id === 'string' ? input.id : '';
+  const parent = input && typeof input.parent === 'string' ? input.parent : '';
+  const name = input && typeof input.name === 'string' ? input.name : '';
+  if (ROOT_IDS.indexOf(id) < 0) return outcome('root-unknown', `未知主目录：${id || '<empty>'}`);
+  const root = rootPath(id);
+  if (!root) return outcome('root-unavailable', '主目录路径不可用');
+  const bad = validateSegment(name);
+  if (bad) return outcome(bad, `文件夹名称不可用：${name || '<empty>'}`);
+  const realRoot = path.resolve(root);
+  const target = parent ? path.resolve(realRoot, parent) : realRoot;
+  if (target !== realRoot && !target.startsWith(realRoot + path.sep)) {
+    return outcome('out-of-root', `目标位置不在主目录内：${parent}`);
+  }
+  const st = statRoot(target);
+  if (!st.exists) return outcome('invalid-parent', `父目录不存在：${target}`);
+  if (!st.isDir) return outcome('invalid-parent', `父路径不是目录：${target}`);
+  const dest = path.join(target, name.trim());
+  if (dest !== target && !dest.startsWith(target + path.sep)) {
+    return outcome('out-of-root', `目标位置不在主目录内：${name}`);
+  }
+  try {
+    /* `recursive:false` + 只把 EEXIST 映射成 `exists`：先 `existsSync` 再 `mkdirSync` 会留一个 TOCTOU 窗口，
+     * 并发创建时会被误报成 `create-failed`（FR-203-033 要求「已存在」可归因）。 */
+    fs.mkdirSync(dest, { recursive: false });
+    console.log(`${LOG_PREFIX} workspace-root mkdir ${dest}`);
+    return { ok: true, code: '', message: '', path: dest };
+  } catch (e) {
+    if (e && e.code === 'EEXIST') return { ok: false, code: 'exists', message: `已存在同名文件夹：${name}`, path: dest };
+    const sys = e && e.code ? e.code : '';
+    return { ok: false, code: 'create-failed', message: `${sys}: ${(e && e.message) || String(e)}`, path: dest };
+  }
+}
+
 /** 权限预检（点 Tab 时调用，**不请求**）。沙箱恒 granted。 */
 async function handlePermissionCheck(input) {
   const id = input && typeof input.id === 'string' ? input.id : '';
@@ -199,13 +282,36 @@ async function handlePermissionRequest(input) {
   if (!host) return { ok: false, code: '-1', granted: false, bridgeUnavailable: true, message: '权限申请桥不可用（请在系统设置中开启）' };
   try {
     const r = await host.invoke('perm.request', { permissions: [perm] });
+    /* 归因优先级（FR-203-026 / FR-203-044）：
+     *   · 宿主能力本身失败（`r.ok === false`，如 run-time 报错）⇒ `code:'bridge'` + `bridgeUnavailable`；
+     *   · 超时（`r.timeout`）= 本 runtime 不弹窗也不回调 ⇒ `code:'timeout'`；
+     *   · 否则按逐项 authResult 归一（`0` 已授予 / `-1` 拒绝 / `2` 请求无效）。
+     * 绝不能把桥故障当成「用户拒绝」，也不能把超时当成「已授予」。 */
+    const timeout = !!(r && r.timeout === true);
+    const bridgeFailed = !!(r && r.ok === false);
     const granted = !!(r && r.granted > 0);
-    return { ok: true, code: granted ? '0' : String(r && r.denied ? '-1' : '2'), granted, bridgeUnavailable: false, permission: perm, message: (r && r.message) || '' };
+    const code = bridgeFailed ? 'bridge' : granted ? '0' : timeout ? 'timeout' : String(r && r.denied ? '-1' : '2');
+    return {
+      ok: !bridgeFailed,
+      code,
+      granted,
+      bridgeUnavailable: bridgeFailed,
+      timeout,
+      permission: perm,
+      message: (r && r.message) || '',
+    };
   } catch (e) {
-    return { ok: false, code: '-1', granted: false, bridgeUnavailable: false, message: (e && e.message) || String(e) };
+    return {
+      ok: false,
+      code: 'bridge',
+      granted: false,
+      bridgeUnavailable: true,
+      timeout: false,
+      permission: perm,
+      message: (e && e.message) || String(e),
+    };
   }
 }
-
 /** 深链到本应用信息页（权限归因落地；被拒后只能去系统设置改授权）。 */
 async function handleOpenAppInfo() {
   if (!host) return { ok: false, message: '应用信息页桥不可用' };
@@ -272,6 +378,7 @@ export default {
         permissionCheck: method('权限预检（点 Tab 时，不请求）'),
         permissionRequest: method('主动申请目录权限（点「请求权限」按钮时）'),
         openAppInfo: method('深链到本应用信息页'),
+        mkdir: method('在某个 root（或 root 内子目录）下新建文件夹'),
       },
     };
     const registration = await context.rpc.register(definition, {
@@ -280,8 +387,9 @@ export default {
       permissionCheck: async (payload) => handlePermissionCheck(payloadOf(payload)),
       permissionRequest: async (payload) => handlePermissionRequest(payloadOf(payload)),
       openAppInfo: async () => handleOpenAppInfo(),
+      mkdir: async (payload) => handleMkdir(payloadOf(payload)),
     });
-    console.log(`${LOG_PREFIX} plugin ${PLUGIN_ID} registered (roots, browse, permissionCheck, permissionRequest, openAppInfo)`);
+    console.log(`${LOG_PREFIX} plugin ${PLUGIN_ID} registered (roots, browse, permissionCheck, permissionRequest, openAppInfo, mkdir)`);
     return () => {
       Promise.resolve(registration && registration.dispose && registration.dispose()).catch(() => {});
     };

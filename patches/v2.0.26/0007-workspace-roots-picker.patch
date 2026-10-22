@@ -1,0 +1,956 @@
+diff --git a/packages/app/src/runtime/i18n/en.ts b/packages/app/src/runtime/i18n/en.ts
+index 4e7f23c85d..9ddf647cb0 100644
+--- a/packages/app/src/runtime/i18n/en.ts
++++ b/packages/app/src/runtime/i18n/en.ts
+@@ -327,6 +327,28 @@ export const dict = {
+   "dialog.directory.root": "Root",
+   "dialog.directory.parent": "Parent",
+   "dialog.directory.readError": "Unable to read this folder",
++  "dialog.directory.roots.label": "Locations",
++  "dialog.directory.roots.sandbox": "Sandbox",
++  "dialog.directory.roots.documents": "Documents",
++  "dialog.directory.roots.download": "Downloads",
++  "dialog.directory.roots.denied": "Access to this location is not granted yet",
++  "dialog.directory.roots.unavailable": "This location is not available",
++  "dialog.directory.roots.requestPermission": "Request access",
++  "dialog.directory.roots.refresh": "Refresh",
++  "dialog.directory.roots.bridgeUnavailable":
++    "The shell capability bridge is unavailable, so access cannot be requested from here. Enable it in Settings › Files and folders, then choose Refresh.",
++  "dialog.directory.roots.truncated": "This folder has more entries than can be shown; only the first 500 are listed.",
++  "dialog.directory.roots.requestHint":
++    "No access yet. If no prompt appeared, turn it on in Settings › Files and folders for this app, then choose Refresh.",
++  "dialog.directory.newFolder.action": "New folder",
++  "dialog.directory.newFolder.label": "Folder name",
++  "dialog.directory.newFolder.default": "Untitled folder",
++  "dialog.directory.newFolder.create": "Create",
++  "dialog.directory.newFolder.empty": "Enter a folder name",
++  "dialog.directory.newFolder.exists": "A folder with that name already exists",
++  "dialog.directory.newFolder.invalidName": "That folder name cannot be used",
++  "dialog.directory.newFolder.outOfRoot": "That location is outside the current location",
++  "dialog.directory.newFolder.createFailed": "Could not create the folder",
+ 
+   "dialog.server.add.title": "Add server",
+   "dialog.server.add.url": "Server address",
+diff --git a/packages/app/src/runtime/i18n/zh.ts b/packages/app/src/runtime/i18n/zh.ts
+index 932d47f14c..9aa547e1aa 100644
+--- a/packages/app/src/runtime/i18n/zh.ts
++++ b/packages/app/src/runtime/i18n/zh.ts
+@@ -324,6 +324,28 @@ export const dict = {
+   "dialog.directory.root": "根目录",
+   "dialog.directory.parent": "上级目录",
+   "dialog.directory.readError": "无法读取此文件夹",
++  "dialog.directory.roots.label": "位置",
++  "dialog.directory.roots.sandbox": "沙箱",
++  "dialog.directory.roots.documents": "文档",
++  "dialog.directory.roots.download": "下载",
++  "dialog.directory.roots.denied": "尚未获得该位置的访问权限",
++  "dialog.directory.roots.unavailable": "该位置当前不可用",
++  "dialog.directory.roots.requestPermission": "请求权限",
++  "dialog.directory.roots.refresh": "刷新",
++  "dialog.directory.roots.bridgeUnavailable":
++    "宿主能力桥不可用，无法从这里发起授权。请到 设置 › 本应用 › 文件和文件夹 中开启，然后点「刷新」。",
++  "dialog.directory.roots.truncated": "该目录条目过多，这里只列出前 500 项。",
++  "dialog.directory.roots.requestHint":
++    "尚未获得权限。若系统没有弹出授权窗，请到 设置 › 本应用 › 文件和文件夹 中手动开启，然后点「刷新」。",
++  "dialog.directory.newFolder.action": "新建文件夹",
++  "dialog.directory.newFolder.label": "文件夹名称",
++  "dialog.directory.newFolder.default": "未命名文件夹",
++  "dialog.directory.newFolder.create": "创建",
++  "dialog.directory.newFolder.empty": "请输入文件夹名称",
++  "dialog.directory.newFolder.exists": "已存在同名文件夹",
++  "dialog.directory.newFolder.invalidName": "该文件夹名称不可用",
++  "dialog.directory.newFolder.outOfRoot": "目标位置不在当前主目录内",
++  "dialog.directory.newFolder.createFailed": "创建文件夹失败",
+ 
+   "dialog.server.add.title": "添加服务器",
+   "dialog.server.add.url": "服务器 URL",
+diff --git a/packages/app/src/workspaces/selection/dialog.css b/packages/app/src/workspaces/selection/dialog.css
+index bcf16f54f1..761749de89 100644
+--- a/packages/app/src/workspaces/selection/dialog.css
++++ b/packages/app/src/workspaces/selection/dialog.css
+@@ -105,3 +105,34 @@
+   text-overflow: ellipsis;
+   white-space: nowrap;
+ }
++
++/* 203：三个主目录 Tab 行（`role="tablist"`）—— 与上游 path/actions 行同一视觉语言 */
++.directory-picker-roots {
++  display: flex;
++  flex-shrink: 0;
++  gap: 2px;
++  border-bottom: 1px solid var(--v2-border-border-muted, rgb(255 255 255 / 12%));
++  padding-bottom: 6px;
++}
++
++.directory-picker-roots button {
++  border-radius: 4px;
++  padding: 4px 10px;
++  color: var(--v2-text-text-muted);
++  font-size: 12px;
++  line-height: 16px;
++  background: transparent;
++}
++
++.directory-picker-roots button:hover {
++  background: var(--v2-overlay-simple-overlay-hover, rgb(255 255 255 / 6%));
++}
++
++.directory-picker-roots button[data-active] {
++  color: var(--v2-text-text-base);
++  background: var(--v2-overlay-simple-overlay-active, rgb(255 255 255 / 10%));
++}
++
++.directory-picker-roots button[data-unavailable] {
++  opacity: 0.55;
++}
+diff --git a/packages/app/src/workspaces/selection/dialog.tsx b/packages/app/src/workspaces/selection/dialog.tsx
+index 5d5830ba2b..277edb3b95 100644
+--- a/packages/app/src/workspaces/selection/dialog.tsx
++++ b/packages/app/src/workspaces/selection/dialog.tsx
+@@ -30,6 +30,19 @@ import {
+   pickerRelativePath,
+   pickerAbsolutePath,
+ } from "./domain"
++
++import {
++  browseRoot,
++  defaultFolderName,
++  entryName,
++  filterHiddenEntries,
++  isWithin,
++  mkdirInRoot,
++  probeWorkspaceRoots,
++  relativeFromRoot,
++  requestDirectoryPermission,
++  type RootId,
++} from "./roots"
+ import "./dialog.css"
+ import { Divider } from "@opencode/ui/divider"
+ 
+@@ -71,6 +84,50 @@ export function DirectoryPickerDialog(props: DirectoryPickerDialogProps) {
+   let pathArea: HTMLDivElement | undefined
+   let navigation = 0
+ 
++  // ------------------------------------------------------------ 203：主目录（沙箱 / 文档 / 下载）
++  //
++  // 能力来自壳专用 opencode 插件 oc-plugin-workspace-roots（经 POST /api/rpc/:rpcID/:method）。
++  // RPC 不可达时 roots.latest 始终为 undefined ⇒ 所有 203 分支关闭，对话框**完整回退上游行为**
++  // （自门控，对非本壳部署零影响）。
++  const [roots, rootsActions] = createResource(
++    // 只按「选目录」开启：本模块不覆盖文件选择器。
++    () => (policy.action === "directory" ? true : undefined),
++    () => probeWorkspaceRoots(sdk),
++    { initialValue: undefined },
++  )
++  const [rootId, setRootId] = createSignal<RootId>("sandbox")
++  /** 当前主目录的可达性：列举成功才算 granted（FR-203-025：事实判据是列举，不是权限查询） */
++  const [access, setAccess] = createSignal<"checking" | "granted" | "denied" | "unavailable">("checking")
++  const [accessMessage, setAccessMessage] = createSignal("")
++  /** 根层列举被截断（超过 500 项）：如实提示，不静默丢条目（NFR-203-002） */
++  const [truncated, setTruncated] = createSignal(false)
++  const [permissionBusy, setPermissionBusy] = createSignal(false)
++  const [newFolderOpen, setNewFolderOpen] = createSignal(false)
++  const [newFolderName, setNewFolderName] = createSignal("")
++  const [newFolderError, setNewFolderError] = createSignal("")
++  const [newFolderBusy, setNewFolderBusy] = createSignal(false)
++  /** 已列举目录的子项名称（键 = 目录相对当前根的路径），用于新建文件夹的默认名去重 */
++  const namesByPath = new Map<string, string[]>()
++  const rootLabels: Record<RootId, string> = {
++    sandbox: language.t("dialog.directory.roots.sandbox"),
++    documents: language.t("dialog.directory.roots.documents"),
++    download: language.t("dialog.directory.roots.download"),
++  }
++  /** 服务端 mkdir 的稳定错误码 → 文案；未命中的码回退服务端消息 */
++  const newFolderErrors: Record<string, string> = {
++    exists: language.t("dialog.directory.newFolder.exists"),
++    "invalid-name": language.t("dialog.directory.newFolder.invalidName"),
++    "invalid-parent": language.t("dialog.directory.newFolder.invalidName"),
++    "out-of-root": language.t("dialog.directory.newFolder.outOfRoot"),
++    "root-unavailable": language.t("dialog.directory.roots.unavailable"),
++    "root-unknown": language.t("dialog.directory.roots.unavailable"),
++    "create-failed": language.t("dialog.directory.newFolder.createFailed"),
++  }
++  const rootsMode = () => roots.latest !== undefined
++  const activeRoot = () => roots.latest?.roots.find((entry) => entry.id === rootId())
++  const gated = () => rootsMode() && access() !== "granted"
++  const canCreateFolder = () => rootsMode() && access() === "granted" && !!activeRoot()?.available
++
+   const [fallbackPath] = createResource(
+     () => (props.location ? undefined : true),
+     () => sdk.api.location.get().catch(() => undefined),
+@@ -139,6 +196,13 @@ export function DirectoryPickerDialog(props: DirectoryPickerDialogProps) {
+     const key = path.replace(/\/+$/, "")
+     setError(false)
+     const absolute = absoluteTreePath(root(), key)
++
++    // 203 根围栏：三根模式下只允许在主目录内向下穿越；不满足时忽略该次加载（不改变视图、不抛错）
++    if (rootsMode()) {
++      const active = activeRoot()
++
++      if (!active || !active.available || relativeFromRoot(active.path, absolute) === undefined) return false
++    }
+     const existing = listings.get(key)
+ 
+     if (existing && !eager) loads.promote(`${generation}:${key}`)
+@@ -147,6 +211,33 @@ export function DirectoryPickerDialog(props: DirectoryPickerDialogProps) {
+       existing ??
+       loads.schedule(`${generation}:${key}`, eager ? "background" : "user", () => {
+         if (!activeTreeNavigation(generation, navigation)) return Promise.resolve(undefined)
++        // 203：三根模式下列举走壳侧能力（服务端做根围栏、存在性与 EACCES 判定，渲染层拿结构化结果）
++        if (rootsMode()) {
++          const active = activeRoot()
++          const sub = active ? relativeFromRoot(active.path, absolute) : undefined
++
++          if (!active || sub === undefined) return Promise.resolve(undefined)
++
++          // 归属与「代」在**发起时**固定：晚到的结果不得改写另一个主目录、或已作废的那次导航的状态
++          const owner = active.id
++          const token = generation
++          const atRoot = key === ""
++
++          return browseRoot(sdk, { id: owner, sub }).then((result) => {
++            if (!activeTreeNavigation(token, navigation)) return undefined
++            if (result.ok) {
++              // 只有**根层**列举能改写可达性：子目录被删/被移走不该把整个主目录判成不可用
++              if (atRoot && owner === rootId()) {
++                setAccess("granted")
++                setAccessMessage("")
++                setTruncated(result.truncated)
++              }
++              return result.entries.slice()
++            }
++            if (atRoot && owner === rootId()) markAccessFailure(result.code)
++            return undefined
++          })
++        }
+         const current = location()
+ 
+         if (!current) return Promise.resolve(undefined)
+@@ -167,10 +258,22 @@ export function DirectoryPickerDialog(props: DirectoryPickerDialogProps) {
+       return false
+     }
+ 
+-    tree?.batch(policy.entries(key, nodes).map((item) => ({ type: "add", path: item })))
++    const entries = policy.entries(key, nodes)
++    const visible = rootsMode() ? filterHiddenEntries(entries) : entries
++
++    namesByPath.set(key, entries.map(entryName))
++    tree?.batch(visible.map((item) => ({ type: "add", path: item })))
+ 
+     if (!eager && advanceTreePreload(advanced, key)) {
+-      for (const directory of preloadTreeDirectories(key, nodes)) void load(directory, generation, true)
++      // 预取只看过滤后的条目：否则隐藏目录的子级也会被无条件列举并交给树（FR-203-011 只保证首层）
++      const visibleNames = new Set(visible.map(entryName))
++
++      for (const directory of preloadTreeDirectories(key, nodes)) {
++        const name = entryName(directory)
++
++        if (name.startsWith(".") && !visibleNames.has(name)) continue
++        void load(directory, generation, true)
++      }
+     }
+ 
+     return true
+@@ -180,6 +283,13 @@ export function DirectoryPickerDialog(props: DirectoryPickerDialogProps) {
+     const value = policy.navigation(pickerAbsoluteInput(cleanPickerInput(path), home(), root() || start() || home()))
+ 
+     if (!value) return
++
++    // 203 根围栏：三根模式下拒绝上溯到主目录根之上（含「上级」与面包屑越界）
++    if (rootsMode()) {
++      const active = activeRoot()
++
++      if (!active || !active.available || !isWithin(active.path, value)) return
++    }
+     const token = ++navigation
+     setLoading(true)
+     setRootValid(false)
+@@ -267,10 +377,163 @@ export function DirectoryPickerDialog(props: DirectoryPickerDialogProps) {
+     const path = policy.result(root(), selected(), rootValid())
+ 
+     if (!path) return
++
++    // 203 根围栏：采纳前再判一次（UI 判定与服务端判定各自独立成立）
++    if (rootsMode()) {
++      const active = activeRoot()
++
++      if (!active || !active.available || !isWithin(active.path, path)) return
++    }
+     props.onSelect(props.multiple ? [path] : path)
+     dialog.close()
+   }
+ 
++  // ------------------------------------------------------------ 203：主目录动作
++
++  /**
++   * 列举失败的归因：无权限进权限门（`denied`），其余（不存在 / 非目录 / 未注册）标记 `unavailable`。
++   * 对外只给本地化文案，原始错误码与消息留在控制台供排障。
++   */
++  function markAccessFailure(code: string) {
++    console.info("[directory-picker] browse failed", code)
++
++    if (code === "EACCES" || code === "EPERM") {
++      setAccess("denied")
++      setAccessMessage(language.t("dialog.directory.roots.denied"))
++      return
++    }
++
++    setAccess("unavailable")
++    setAccessMessage(language.t("dialog.directory.roots.unavailable"))
++  }
++
++  /** 切换主目录：重置浏览栈、清空选中、重新判定可达性（FR-203-002） */
++  async function selectRoot(id: RootId) {
++    setRootId(id)
++    setNewFolderOpen(false)
++    setNewFolderError("")
++    setSelected("")
++    setAccess("checking")
++    setAccessMessage("")
++    setTruncated(false)
++    setError(false)
++    setRootValid(false)
++    listings.clear()
++    advanced.clear()
++    tree?.resetPaths([])
++    // 推进 generation：此前排队的列举不得再把上一个主目录的子级 batch 进已重置的树
++    navigation += 1
++    const active = roots.latest?.roots.find((entry) => entry.id === id)
++
++    if (!active || !active.available) {
++      // 不可用主目录：Tab 保留可见，内容区给出原因 + 刷新（FR-203-005），不回退其它主目录。
++      // 必须置 `error`，否则「加载中 / 错误」两个 Show 都会跳过内容区 ⇒ 一片空白。
++      const reason = active?.reason
++      setRoot("")
++      setLoading(false)
++      setAccess("unavailable")
++      setAccessMessage(reason || language.t("dialog.directory.roots.unavailable"))
++      setError(true)
++      return
++    }
++
++    await navigate(active.path)
++  }
++
++  /** 「刷新」：重新探测三根，再重判当前主目录（FR-203-024） */
++  async function refreshAccess() {
++    setAccess("checking")
++    setAccessMessage("")
++    await rootsActions.refetch()
++    await selectRoot(rootId())
++  }
++
++  /**
++   * 「请求权限」：申请后以一次**真实列举**为事实判据重判（FR-203-023/025）。
++   * 不信任申请回调的成功码：同类 PC runtime 上可能回调成功但实际访问仍被拒。
++   */
++  async function requestRootPermission() {
++    // 申请可能要等满宿主侧上限（本 runtime 不弹窗）：目标主目录在**发起时**固定，
++    // 中途切 Tab 不得把结果应用到新的 Tab 上。
++    const id = rootId()
++    setPermissionBusy(true)
++
++    try {
++      const result = await requestDirectoryPermission(sdk, id)
++
++      await selectRoot(id)
++      // 归因：申请没有换来可读时按**原因**给指引（桥故障 / 不弹窗 / 被拒），不只说「失败」
++      if (access() !== "granted" && !result.granted) {
++        setAccessMessage(
++          language.t(
++            result.bridgeUnavailable
++              ? "dialog.directory.roots.bridgeUnavailable"
++              : "dialog.directory.roots.requestHint",
++          ),
++        )
++      }
++    } finally {
++      setPermissionBusy(false)
++    }
++  }
++
++  /** 当前「新建目标」相对主目录根的路径（与 load() 写入 namesByPath 的键口径一致） */
++  function folderKey() {
++    const active = activeRoot()
++
++    if (!active) return ""
++    return relativeFromRoot(active.path, selected() || root()) ?? ""
++  }
++
++  /** 打开「新建文件夹」输入并填入去重后的默认名（FR-203-030） */
++  function openNewFolder() {
++    setNewFolderName(
++      defaultFolderName(namesByPath.get(folderKey()) ?? [], language.t("dialog.directory.newFolder.default")),
++    )
++    setNewFolderError("")
++    setNewFolderOpen(true)
++  }
++
++  /** 在当前目录（无选中则当前主目录根）内新建文件夹；服务端独立做段名与根包含性校验（FR-203-031…033） */
++  async function createFolder() {
++    const active = activeRoot()
++    const parent = selected() || root()
++    const name = newFolderName().trim()
++
++    if (!active || !active.available || !parent) {
++      setNewFolderError(language.t("dialog.directory.roots.unavailable"))
++      return
++    }
++
++    if (!name) {
++      setNewFolderError(language.t("dialog.directory.newFolder.empty"))
++      return
++    }
++
++    setNewFolderBusy(true)
++    setNewFolderError("")
++
++    try {
++      const result = await mkdirInRoot(sdk, { id: active.id, parent, name })
++
++      if (!result.ok) {
++        // 只展示本地化文案：服务端 message 可能是原始系统错误（EACCES/EPERM…）或中文，
++        // 在英文界面里都会串味；未命中的码回退到通用「创建失败」。
++        setNewFolderError(newFolderErrors[result.code] || language.t("dialog.directory.newFolder.createFailed"))
++        return
++      }
++
++      setNewFolderOpen(false)
++      setNewFolderName("")
++      // 重新列举当前层并选中新目录（FR-203-034）。
++      // 目录型选中值在上游是「绝对路径 + 尾斜杠」（domain.selectedTreePath），保持一致。
++      await navigate(parent)
++      setSelected(`${result.path}/`)
++    } finally {
++      setNewFolderBusy(false)
++    }
++  }
++
+   onMount(() => {
+     const closeSuggestions = (event: PointerEvent) => {
+       if (event.target instanceof Node && pathArea?.contains(event.target)) return
+@@ -317,6 +580,17 @@ export function DirectoryPickerDialog(props: DirectoryPickerDialogProps) {
+   })
+ 
+   createEffect(() => {
++    // 203：三根模式下以当前主目录根为浏览起点；切换主目录即重置整栈（FR-203-001/002）
++    if (rootsMode()) {
++      const active = activeRoot()
++
++      // `location()` 是上游列举的前提（`load()` 在它为空时直接返回 undefined ⇒ 会误报「无法读取」）。
++      // 首次打开时 `fallbackPath`（GET /api/location）可能仍在解析，此处必须等它就绪。
++      if (!active || !active.available || !location() || active.path === root()) return
++      void navigate(active.path)
++      return
++    }
++
+     const path = start()
+ 
+     if (!path || !location() || root()) return
+@@ -332,6 +606,56 @@ export function DirectoryPickerDialog(props: DirectoryPickerDialogProps) {
+       </DialogHeader>
+       <Divider />
+       <DialogBody class="directory-picker-body pt-4!">
++        <Show when={rootsMode()}>
++          <div class="directory-picker-roots" role="tablist" aria-label={language.t("dialog.directory.roots.label")}>
++            <For each={roots.latest?.roots ?? []}>
++              {(entry) => (
++                <button
++                  type="button"
++                  role="tab"
++                  data-root-id={entry.id}
++                  data-active={entry.id === rootId() ? "" : undefined}
++                  data-unavailable={entry.available ? undefined : "true"}
++                  aria-selected={entry.id === rootId()}
++                  onClick={() => void selectRoot(entry.id)}
++                >
++                  {rootLabels[entry.id]}
++                </button>
++              )}
++            </For>
++          </div>
++          <div class="directory-picker-actions">
++            <Button size="small" variant="ghost" disabled={!canCreateFolder()} onClick={openNewFolder}>
++              {language.t("dialog.directory.newFolder.action")}
++            </Button>
++            <Show when={newFolderOpen()}>
++              <TextInput
++                value={newFolderName()}
++                spellcheck={false}
++                class="!w-48"
++                aria-label={language.t("dialog.directory.newFolder.label")}
++                onInput={(event) => setNewFolderName(event.currentTarget.value)}
++              />
++              <Button size="small" variant="contrast" disabled={newFolderBusy()} onClick={() => void createFolder()}>
++                {newFolderBusy() ? language.t("common.loading") : language.t("dialog.directory.newFolder.create")}
++              </Button>
++              <Button
++                size="small"
++                variant="ghost"
++                onClick={() => {
++                  setNewFolderOpen(false)
++                  setNewFolderError("")
++                }}
++              >
++                {language.t("common.cancel")}
++              </Button>
++            </Show>
++          </div>
++          <Show when={newFolderError()}>
++            <div class="directory-picker-state">{newFolderError()}</div>
++          </Show>
++        </Show>
++        <Show when={!rootsMode()}>
+         <div class="directory-picker-path" ref={pathArea}>
+           <TextInput
+             value={input()}
+@@ -386,6 +710,7 @@ export function DirectoryPickerDialog(props: DirectoryPickerDialogProps) {
+             </div>
+           </Show>
+         </div>
++        </Show>
+         <div
+           class="directory-picker-browser"
+           ref={container}
+@@ -414,8 +739,35 @@ export function DirectoryPickerDialog(props: DirectoryPickerDialogProps) {
+           <Show when={loading()}>
+             <div class="directory-picker-state">{language.t("common.loading")}</div>
+           </Show>
++          <Show when={!loading() && !error() && truncated()}>
++            <div class="directory-picker-state">{language.t("dialog.directory.roots.truncated")}</div>
++          </Show>
+           <Show when={!loading() && error()}>
+-            <div class="directory-picker-state">{language.t("dialog.directory.readError")}</div>
++            <Show
++              when={rootsMode()}
++              fallback={<div class="directory-picker-state">{language.t("dialog.directory.readError")}</div>}
++            >
++              <div class="directory-picker-state">{accessMessage() || language.t("dialog.directory.roots.denied")}</div>
++              <Show when={gated()}>
++                <div class="directory-picker-actions">
++                  <Show when={access() === "denied"}>
++                    <Button
++                      size="small"
++                      variant="neutral"
++                      disabled={permissionBusy()}
++                      onClick={() => void requestRootPermission()}
++                    >
++                      {permissionBusy()
++                        ? language.t("common.loading")
++                        : language.t("dialog.directory.roots.requestPermission")}
++                    </Button>
++                  </Show>
++                  <Button size="small" variant="ghost" onClick={() => void refreshAccess()}>
++                    {language.t("dialog.directory.roots.refresh")}
++                  </Button>
++                </div>
++              </Show>
++            </Show>
+           </Show>
+         </div>
+         <div class="directory-picker-selection">{policy.result(root(), selected(), rootValid())}</div>
+diff --git a/packages/app/src/workspaces/selection/roots.test.ts b/packages/app/src/workspaces/selection/roots.test.ts
+new file mode 100644
+index 0000000000..dd48e88eda
+--- /dev/null
++++ b/packages/app/src/workspaces/selection/roots.test.ts
+@@ -0,0 +1,116 @@
++import { describe, expect, test } from "bun:test"
++import { defaultFolderName, entryName, filterHiddenEntries, isWithin, normalizeRootPath, probeWorkspaceRoots, relativeFromRoot } from "./roots"
++
++describe("normalizeRootPath", () => {
++  test("removes trailing separators and unifies backslashes", () => {
++    expect(normalizeRootPath("/a/b/")).toBe("/a/b")
++    expect(normalizeRootPath("/a\\b/")).toBe("/a/b")
++    expect(normalizeRootPath("/")).toBe("/")
++  })
++})
++
++describe("isWithin", () => {
++  test("accepts the root itself and its descendants", () => {
++    expect(isWithin("/a/b", "/a/b")).toBe(true)
++    expect(isWithin("/a/b", "/a/b/c")).toBe(true)
++    expect(isWithin("/a/b/", "/a/b/c/")).toBe(true)
++  })
++
++  test("rejects a sibling that shares a name prefix", () => {
++    expect(isWithin("/a/b", "/a/bc")).toBe(false)
++    expect(isWithin("/a/b", "/a/bc/d")).toBe(false)
++  })
++
++  test("rejects escapes and traversal segments", () => {
++    expect(isWithin("/a/b", "/a")).toBe(false)
++    expect(isWithin("/a/b", "..")).toBe(false)
++    expect(isWithin("/a/b", "/a/b/../c")).toBe(false)
++    expect(isWithin("", "/a")).toBe(false)
++  })
++
++  test("handles a filesystem root as the fence", () => {
++    expect(isWithin("/", "/a")).toBe(true)
++    expect(isWithin("/", "/")).toBe(true)
++  })
++})
++
++describe("relativeFromRoot", () => {
++  test("returns an empty string for the root itself", () => {
++    expect(relativeFromRoot("/a/b", "/a/b")).toBe("")
++    expect(relativeFromRoot("/a/b", "/a/b/")).toBe("")
++  })
++
++  test("returns the sub path without a leading separator", () => {
++    expect(relativeFromRoot("/a/b", "/a/b/c/d")).toBe("c/d")
++  })
++
++  test("returns undefined outside the root", () => {
++    expect(relativeFromRoot("/a/b", "/a/bc")).toBeUndefined()
++    expect(relativeFromRoot("/a/b", "/a")).toBeUndefined()
++  })
++})
++
++describe("defaultFolderName", () => {
++  test("keeps the base name when free and appends a counter when taken", () => {
++    expect(defaultFolderName([], "未命名文件夹")).toBe("未命名文件夹")
++    expect(defaultFolderName(["未命名文件夹"], "未命名文件夹")).toBe("未命名文件夹 2")
++    expect(defaultFolderName(["未命名文件夹", "未命名文件夹 2"], "未命名文件夹")).toBe("未命名文件夹 3")
++    expect(defaultFolderName(["other"], "未命名文件夹")).toBe("未命名文件夹")
++  })
++})
++
++describe("filterHiddenEntries and entryName", () => {
++  test("drops dot-prefixed last segments only", () => {
++    expect(filterHiddenEntries([".git", "src", ".config/x", "a/.b", "a/b"])).toEqual(["src", ".config/x", "a/b"])
++  })
++
++  test("entryName returns the last segment", () => {
++    expect(entryName("a/b/")).toBe("b")
++    expect(entryName("a")).toBe("a")
++    expect(entryName("")).toBe("")
++  })
++})
++
++describe("probeWorkspaceRoots", () => {
++  test("returns undefined when the RPC is unavailable (self-gating)", async () => {
++    const sdk = {
++      api: {
++        rpc: {
++          call: () => Promise.reject(new Error("not registered")),
++        },
++      },
++    }
++
++    expect(await probeWorkspaceRoots(sdk)).toBeUndefined()
++  })
++
++  test("returns undefined when the payload shape does not match", async () => {
++    const sdk = { api: { rpc: { call: async () => ({ output: { roots: [] } }) } } }
++
++    expect(await probeWorkspaceRoots(sdk)).toBeUndefined()
++  })
++
++  test("maps a valid payload and drops unknown root ids", async () => {
++    const sdk = {
++      api: {
++        rpc: {
++          call: async () => ({
++            output: {
++              home: "/h",
++              userHome: "/u",
++              roots: [
++                { id: "sandbox", path: "/h/workspace", available: true, needsPermission: false, reason: "" },
++                { id: "documents", path: "/u/Documents", available: false, needsPermission: true, reason: "EPERM" },
++                { id: "desktop", path: "/u/Desktop", available: true },
++              ],
++            },
++          }),
++        },
++      },
++    }
++    const set = await probeWorkspaceRoots(sdk)
++
++    expect(set?.roots.map((entry) => entry.id)).toEqual(["sandbox", "documents"])
++    expect(set?.roots[1]?.reason).toBe("EPERM")
++  })
++})
+diff --git a/packages/app/src/workspaces/selection/roots.ts b/packages/app/src/workspaces/selection/roots.ts
+new file mode 100644
+index 0000000000..856bfd45e4
+--- /dev/null
++++ b/packages/app/src/workspaces/selection/roots.ts
+@@ -0,0 +1,277 @@
++/**
++ * 选择工作区目录 —— 三个主目录（沙箱 / 文档 / 下载）的客户端策略（oc-desktop-ark 需求 203）。
++ *
++ * 本文件是 `patches/v2.0.26/0007-workspace-roots-picker.patch` 新增的唯一「逻辑」模块：把
++ * 「三个主目录」的**纯函数**（根围栏、根内相对路径、默认名去重、隐藏项过滤）与壳侧能力
++ * RPC 的**调用封装**放在一起，使对话框组件只负责展示与交互。
++ *
++ * 能力侧由壳专用 opencode 插件 `oc-plugin-workspace-roots` 提供
++ * （`POST /api/rpc/oc-harmony-workspace-roots/<method>`）：
++ *   roots / browse / permissionCheck / permissionRequest / openAppInfo / mkdir
++ * 目录**枚举也走该插件**：根围栏、存在性与 `EACCES` 判定都在服务端完成，渲染层拿结构化结果。
++ *
++ * 自门控：`probeWorkspaceRoots` 在 RPC 不可达（未注册 / 非本壳部署 / 插件未激活）时返回
++ * `undefined`，调用方据此**完整回退上游行为**，不出现半残状态。
++ */
++
++export type RootId = "sandbox" | "documents" | "download"
++
++export type RootInfo = {
++  readonly id: RootId
++  /** 绝对真实路径；不可用时为空串（不用 null，规避 schema 联合类型的取值风险） */
++  readonly path: string
++  readonly available: boolean
++  readonly needsPermission: boolean
++  /** 不可用原因（人类可读） */
++  readonly reason: string
++}
++
++export type RootSet = {
++  /** 沙箱家目录（诊断用；宿主注入） */
++  readonly home: string
++  /** 用户主目录（文档/下载的父目录；诊断用） */
++  readonly userHome: string
++  readonly roots: readonly RootInfo[]
++}
++
++export type BrowseEntry = { readonly name: string; readonly type: "file" | "directory" }
++
++export type BrowseResult = {
++  readonly ok: boolean
++  readonly code: string
++  readonly message: string
++  readonly entries: readonly BrowseEntry[]
++  /** 实际展示的条目数 */
++  readonly count: number
++  /** 截断前的条目总数 */
++  readonly total: number
++  readonly truncated: boolean
++}
++
++export type MkdirResult = {
++  readonly ok: boolean
++  readonly code: string
++  readonly message: string
++  readonly path: string
++}
++
++export type PermissionResult = {
++  readonly ok: boolean
++  readonly code: string
++  readonly granted: boolean
++  readonly bridgeUnavailable: boolean
++  /** 申请未在宿主侧上限内返回（本 runtime 可能不弹窗）；既非「已授予」也非「已拒绝」 */
++  readonly timeout: boolean
++  readonly message: string
++}
++
++/** 壳侧能力 RPC 的 id（与 `plugins/oc-plugin-workspace-roots` 的 `definition.id` 一致） */
++export const ROOTS_RPC_ID = "oc-harmony-workspace-roots"
++
++/** 主目录顺序（与插件返回顺序、UI Tab 顺序一致） */
++export const ROOT_IDS = ["sandbox", "documents", "download"] as const satisfies readonly RootId[]
++
++type RpcSdk = {
++  api: {
++    rpc: {
++      call: (input: { rpcID: string; method: string; input?: unknown }) => Promise<{ output?: unknown }>
++    }
++  }
++}
++
++// ------------------------------------------------------------------ 纯函数（可单测）
++
++// 统一分隔符为 `/` 并去尾部分隔符（仅用于包含性判定；不解析 symlink）
++export function normalizeRootPath(input: string): string {
++  const value = String(input ?? "").replaceAll("\\", "/")
++
++  if (value.length <= 1) return value
++  return value.replace(/\/+$/, "") || "/"
++}
++
++/**
++ * `child` 是否位于 `root` 之内（含 `root` 自身）。
++ * 逐段比较以避免 `/a/bc` 被 `/a/b` 命中；含 `..` 一律判否。
++ */
++export function isWithin(root: string, child: string): boolean {
++  const base = normalizeRootPath(root)
++  const target = normalizeRootPath(child)
++
++  if (!base || !target) return false
++  if (base.split("/").includes("..") || target.split("/").includes("..")) return false
++  if (target === base) return true
++  // 逐段比较：根为 `/` 时 `base + "/"` 是 `//`，必须单独处理（否则任何子路径都判否）
++  const prefix = base.endsWith("/") ? base : base + "/"
++  return target.startsWith(prefix)
++}
++
++/** `target` 相对 `root` 的子路径（`root` 自身返回 ""）；越界或含 `..` 返回 undefined */
++export function relativeFromRoot(root: string, target: string): string | undefined {
++  if (!isWithin(root, target)) return undefined
++  const base = normalizeRootPath(root)
++  const value = normalizeRootPath(target)
++
++  if (value === base) return ""
++  return value.slice(base.length).replace(/^\/+/, "") || ""
++}
++
++/** 在已有同级名称中为 `base` 选一个不冲突的名称：`base` → `base 2` → `base 3` … */
++export function defaultFolderName(existing: readonly string[], base: string): string {
++  const taken = new Set(existing.map((name) => name.trim()))
++
++  if (!taken.has(base)) return base
++  let index = 2
++  while (taken.has(`${base} ${index}`)) index += 1
++  return `${base} ${index}`
++}
++
++/** 过滤隐藏项（以 `.` 开头的最后一段）；三根模式不提供「显示隐藏文件」开关 */
++export function filterHiddenEntries(entries: readonly string[]): readonly string[] {
++  return entries.filter((entry) => {
++    const name = entry.replace(/[/\\]+$/, "").split(/[/\\]+/).at(-1) ?? ""
++    return name.length > 0 && !name.startsWith(".")
++  })
++}
++
++/** 目录项最后一段名称（用于默认名去重的同级集合） */
++export function entryName(entry: string): string {
++  return entry.replace(/[/\\]+$/, "").split(/[/\\]+/).at(-1) ?? ""
++}
++
++// ------------------------------------------------------------------ 能力 RPC 封装
++
++function asRootSet(output: unknown): RootSet | undefined {
++  if (output === null || typeof output !== "object") return undefined
++  const candidate = output as { home?: unknown; userHome?: unknown; roots?: unknown }
++
++  if (!Array.isArray(candidate.roots)) return undefined
++  const roots = candidate.roots.flatMap((entry): RootInfo[] => {
++    if (entry === null || typeof entry !== "object") return []
++    const item = entry as Record<string, unknown>
++
++    if (typeof item.id !== "string" || !ROOT_IDS.includes(item.id as RootId)) return []
++    return [
++      {
++        id: item.id as RootId,
++        path: typeof item.path === "string" ? item.path : "",
++        available: item.available === true,
++        needsPermission: item.needsPermission === true,
++        reason: typeof item.reason === "string" ? item.reason : "",
++      },
++    ]
++  })
++
++  if (roots.length === 0) return undefined
++  return {
++    home: typeof candidate.home === "string" ? candidate.home : "",
++    userHome: typeof candidate.userHome === "string" ? candidate.userHome : "",
++    roots,
++  }
++}
++
++/**
++ * 探测主目录能力。RPC 不可达或返回形状不符时返回 `undefined`（调用方回退上游行为）。
++ * 不抛错：能力缺失是「非本壳部署」的正常形态，不是错误。
++ */
++export async function probeWorkspaceRoots(sdk: RpcSdk): Promise<RootSet | undefined> {
++  try {
++    return asRootSet((await sdk.api.rpc.call({ rpcID: ROOTS_RPC_ID, method: "roots", input: {} })).output)
++  } catch {
++    return undefined
++  }
++}
++
++/** 列某个主目录（`sub` 为根内相对子路径，"" = 根）。失败返回带 `code` 的结构化结果（不抛错） */
++export async function browseRoot(
++  sdk: RpcSdk,
++  input: { id: RootId; sub: string },
++): Promise<BrowseResult> {
++  const fallback = { ok: false, code: "call-failed", message: "", entries: [], count: 0, total: 0, truncated: false }
++
++  try {
++    const output = (await sdk.api.rpc.call({ rpcID: ROOTS_RPC_ID, method: "browse", input })).output
++    if (output === null || typeof output !== "object") return fallback
++    const result = output as Partial<BrowseResult>
++    const entries = Array.isArray(result.entries)
++      ? result.entries.flatMap((entry): BrowseEntry[] => {
++          if (entry === null || typeof entry !== "object") return []
++          const item = entry as Record<string, unknown>
++
++          if (typeof item.name !== "string") return []
++          return [{ name: item.name, type: item.type === "directory" ? "directory" : "file" }]
++        })
++      : []
++
++    return {
++      ok: result.ok === true,
++      code: typeof result.code === "string" ? result.code : "",
++      message: typeof result.message === "string" ? result.message : "",
++      entries,
++      count: typeof result.count === "number" ? result.count : entries.length,
++      total: typeof result.total === "number" ? result.total : entries.length,
++      truncated: result.truncated === true,
++    }
++  } catch (error) {
++    return { ...fallback, message: error instanceof Error ? error.message : String(error) }
++  }
++}
++
++/** 在主目录内新建文件夹；失败返回带 `code` 的结构化结果（不抛错） */
++export async function mkdirInRoot(
++  sdk: RpcSdk,
++  input: { id: RootId; parent: string; name: string },
++): Promise<MkdirResult> {
++  try {
++    const output = (await sdk.api.rpc.call({ rpcID: ROOTS_RPC_ID, method: "mkdir", input })).output
++    if (output !== null && typeof output === "object") {
++      const result = output as Partial<MkdirResult>
++
++      if (typeof result.ok === "boolean") {
++        return {
++          ok: result.ok,
++          code: typeof result.code === "string" ? result.code : "",
++          message: typeof result.message === "string" ? result.message : "",
++          path: typeof result.path === "string" ? result.path : "",
++        }
++      }
++    }
++  } catch (error) {
++    return { ok: false, code: "call-failed", message: error instanceof Error ? error.message : String(error), path: "" }
++  }
++  return { ok: false, code: "empty-output", message: "", path: "" }
++}
++
++/**
++ * 主动申请目录权限（点「请求权限」按钮时）。回调成功**不等于**真的可读，
++ * 是否生效必须以随后的一次真实列举为准（FR-203-025）。
++ */
++export async function requestDirectoryPermission(sdk: RpcSdk, id: RootId): Promise<PermissionResult> {
++  try {
++    const output = (await sdk.api.rpc.call({ rpcID: ROOTS_RPC_ID, method: "permissionRequest", input: { id } }))
++      .output
++    if (output !== null && typeof output === "object") {
++      const result = output as Partial<PermissionResult>
++
++      if (typeof result.granted === "boolean") {
++        return {
++          ok: result.ok === true,
++          code: typeof result.code === "string" ? result.code : "",
++          granted: result.granted,
++          bridgeUnavailable: result.bridgeUnavailable === true,
++          timeout: result.timeout === true,
++          message: typeof result.message === "string" ? result.message : "",
++        }
++      }
++    }
++  } catch (error) {
++    return {
++      ok: false,
++      code: "call-failed",
++      granted: false,
++      bridgeUnavailable: true,
++      timeout: false,
++      message: error instanceof Error ? error.message : String(error),
++    }
++  }
++  return { ok: false, code: "empty-output", granted: false, bridgeUnavailable: true, timeout: false, message: "" }
++}

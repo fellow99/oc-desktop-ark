@@ -29,6 +29,33 @@ export class HostCapabilities {
     'notify.show'
   ];
 
+  /**
+   * `perm.request` 的上限（ms）。
+   *
+   * 为什么必须有：文件信箱的派发是**串行**的（一个 promise 不 resolve，后面的消息全部不派发）。
+   * 本 runtime 对「文件和文件夹」权限可能既不弹窗也不回调 ⇒ 不设上限会把整个宿主能力面卡死。
+   * 取 10 s：足够覆盖正常的用户点按，又不至于让 UI 长时间无反馈。
+   */
+  static readonly REQUEST_TIMEOUT_MS: number = 10000;
+
+  /** 给任意 Promise 加超时：超时返回 `undefined`（调用方据此如实上报，不假装成功）。 */
+  private static withTimeout<T>(work: Promise<T>, ms: number): Promise<T | undefined> {
+    let handle: number = -1;
+    const guard: Promise<undefined> = new Promise<undefined>((resolve: (value: undefined) => void) => {
+      handle = setTimeout(() => {
+        resolve(undefined);
+      }, ms);
+    });
+    // work 先结束时清定时器（否则每次成功申请都留一个 10 s 的唤醒，测试里会拖住事件循环）
+    const clear = (): void => {
+      if (handle !== -1) {
+        clearTimeout(handle);
+        handle = -1;
+      }
+    };
+    return Promise.race([work as Promise<T | undefined>, guard]).finally(clear);
+  }
+
   private static notImplemented(name: string): string {
     return '{"ok":false,"error":"not-implemented","detail":"' + name + ' 将在后续阶段实现"}';
   }
@@ -36,7 +63,6 @@ export class HostCapabilities {
   private static ok(payload: string): string {
     return '{"ok":true,"result":' + payload + '}';
   }
-
   private static fail(code: string, detail: string): string {
     // 必须整体 JSON.stringify：手拼会把 detail 里的引号变成非法 JSON
     return JSON.stringify({ ok: false, error: code, detail: detail });
@@ -167,7 +193,26 @@ export class HostCapabilities {
     }
     try {
       const manager: abilityAccessCtrl.AtManager = abilityAccessCtrl.createAtManager();
-      const result = await manager.requestPermissionsFromUser(context, typed);
+      // 真机取证（2026-10-22）：本 runtime 上这两项「文件和文件夹」权限**可能不弹窗**，此时
+      // `requestPermissionsFromUser` 的 Promise 永不 resolve ⇒ 文件信箱的**串行**派发泵会被卡死，
+      // 之后所有宿主能力（含 perm.check）永久超时、只有重启应用才能恢复。
+      // 因此这里必须设上限：超时即如实返回 `timeout:true`，由 UI 引导去系统设置开启后点「刷新」。
+      const result = await HostCapabilities.withTimeout(
+        manager.requestPermissionsFromUser(context, typed), HostCapabilities.REQUEST_TIMEOUT_MS);
+
+      if (result === undefined) {
+        Log.warn('perm.request 超时（' + HostCapabilities.REQUEST_TIMEOUT_MS +
+          'ms 未返回）：本 runtime 可能不弹窗，需在系统设置里手动开启');
+        return JSON.stringify({
+          ok: true,
+          capability: 'perm.request',
+          requested: list.length,
+          granted: 0,
+          denied: 0,
+          timeout: true,
+          results: []
+        });
+      }
       let grantedCount: number = 0;
       let deniedCount: number = 0;
       const rows: string[] = [];

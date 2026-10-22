@@ -58,6 +58,15 @@
   - `请求权限`：点击才发起 `perm.request`（`requestPermissionsFromUser`）；
   - `刷新`：重新 `perm.check` 判断权限并重渲染（列表或两按钮）。
 
+**实现落点（2026-10-22 起，需求 `203-plugin-workspace-picker`）**：
+- 能力面走**壳专用插件 RPC**：`POST /api/rpc/oc-harmony-workspace-roots/{roots,browse,permissionCheck,permissionRequest,openAppInfo,mkdir}`
+  （早先设想的 `api/cwd/browse?root=…` HTTP 端点**未采用**，目录枚举也走 `browse`，由服务端做根围栏）。
+- 界面面走上游幂等补丁 `patches/v2.0.26/0007-workspace-roots-picker.patch`（三根 Tab / 权限门两按钮 / 新建文件夹）。
+- **判据是列举**：权限是否生效以 `browse` 是否成功为准，不只信 `perm.check`（已知假阴性）。
+- ⚠️ 真机实测（2026-10-22）：本 runtime 的 `requestPermissionsFromUser` 对这两项权限**可能既不弹窗也不回调**。
+  因此 `perm.request` 侧加了 10 s 上限并如实返回 `timeout:true`（否则会把文件信箱的**串行**派发泵永久卡死，
+  连 `perm.check` 都失效，只能重启应用）；UI 相应给出「去 设置 › 本应用 › 文件和文件夹 手动开启后点刷新」的可照抄指引。
+
 > 桌面（`desktop`）本版**不作为根**：它属 `system_basic` + 必须 ACL（§1.2 已撤销）⇒ 不留一个永远打不开的 Tab。外部任意目录可留待 `fs.pickFolder`（系统选择器，URI、仅本会话）后续接线，不在本版。
 
 ## 4. 装机与授权：判据与复验步骤
