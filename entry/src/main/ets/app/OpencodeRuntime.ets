@@ -73,7 +73,7 @@ export class OpencodeRuntime {
     env[EnvNames.ARK_READY_FILE] = readyPath;
     env[EnvNames.ARK_SERVER_LOG] = serverLog;
     env[EnvNames.ARK_HOST] = '127.0.0.1';
-     env[EnvNames.ARK_VERSION] = '2.0.26';
+    env[EnvNames.ARK_VERSION] = '2.1.2';
      // 工作区选择器：用户主目录（文档/下载根）+ 宿主能力桥文件信箱目录（Node 侧 host.js 与 ArkTS 泵同串）
      env['OC_HOS_USER_HOME'] = '/storage/Users/currentUser';
      env[EnvNames.ARK_HOST_MAILBOX] = context.filesDir + '/' + Names.MAILBOX_DIR;
