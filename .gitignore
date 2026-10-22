@@ -12,6 +12,7 @@
 *.p7b
 *.key
 *.pem
+/.idea
 
 # 载荷（由 scripts/collect-opencode.mjs 投放；只入库 manifest.sha256）
 /entry/src/main/resources/resfile/opencode/*
