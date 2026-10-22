@@ -14,7 +14,7 @@
 | 运行时就绪证据 | `<filesDir>/payload/server.ready.json`（`port` / `startedAt`） | 规划 §5.2.3 |
 | 日志通道 | 库日志环 / `logs/server.log` / `payload/app.log` | 规划 §5.10 |
 | 证据落点 | `docs/证据/` → `docs/evidence/<YYYY-MM-DD>-regression-N/`；记录追加到 `docs/真机验证记录.md` | 规划 §15 |
-| 触发输入 | `ohos-node-bridge/runtime.lock.json`、`git -C ../opencode describe --tags`、`manifest.sha256`、`patches/v2.0.26/` 列表、`AppScope/app.json5` 版本 | 本方案 §6.1 |
+| 触发输入 | `runtime.lock.json`（本工程根）、`git -C ../opencode describe --tags`、`manifest.sha256`、`patches/v2.0.26/` 列表、`AppScope/app.json5` 版本 | 本方案 §6.1 |
 | 现有门禁 | `scripts/smoke-node24.mjs`（101/102 落地） | 宪法 G-host |
 
 ## 2. 宪法合规

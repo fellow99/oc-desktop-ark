@@ -14,7 +14,7 @@
 | 凭据结构 | `{ schema:1, password, createdAt, rotatedAt }` | `overall-data-model.md:9-18` |
 | 随机源 | `@kit.CryptoArchitectureKit` 的 `cryptoFramework`（32 字节）+ base64url 编码 | `overall-plan.md:62`（⬜ 具体 API 名以本机 SDK 为准） |
 | 注入键 | `OPENCODE_PASSWORD`（上游另认 `OPENCODE_SERVER_PASSWORD`，本工程不设，避免第二来源） | `packages/cli/src/env.ts:10-11`；`oc-desktop-hos/src-main/main.js:270-271` |
-| 注入通道 | 库的 `NodeRuntimeOptions.env`（合并进进程环境，在库默认值之后） | `ohos-node-bridge/library/src/main/ets/runtime/Types.ets:81-86` |
+| 注入通道 | 库的 `NodeRuntimeOptions.env`（合并进进程环境，在库默认值之后） | `@fellow99/node-bridge` 类型声明（`oh_modules/@fellow99/node-bridge` `.d.ets`；源码 [fellow99/ohos-node-bridge](https://github.com/fellow99/ohos-node-bridge) `library/src/main/ets/runtime/Types.ets:81-86`） |
 | 服务端强制口令 | 无口令即 `Missing server password` 失败 | `packages/server/src/process.ts:52-53` |
 | 首屏凭据 | URL 查询参数 `auth_token` = `base64("opencode:"+pwd)` | `packages/app/src/entry.tsx:81-82`、`packages/app/src/runtime/server/api.ts:5-7` |
 | 后续请求 | 前端 SDK 自动加 `Authorization: Basic …` | `packages/app/src/runtime/server/api.ts:22-36` |

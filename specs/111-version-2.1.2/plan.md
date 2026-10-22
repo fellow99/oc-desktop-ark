@@ -24,7 +24,7 @@
 | S2 | 版本号 | `AppScope/app.json5` → `2.1.2`/`20102`；`README.md`、`specs/README.md` 同步 | AC-02/03 |
 | S3 | 补丁器基线更新 | `scripts/apply-patches.mjs` 两处（D4） | `--check` 自洽 |
 | S4 | 补丁迁移 | 逐条评估 → `patches/v2.1.2/` + README | AC-04 |
-| S5 | bridge HAR 与运行时投放 | `./scripts/build-bridge-har.sh` → `./scripts/provision-runtime.sh`（HAR/libs 已在则幂等） | `libs/@fellow99/node-bridge.har` + `entry/libs/arm64-v8a/libnode.so` |
+| S5 | 运行时接入与锁值校验 | `ohpm install`（双包，`oh-package.json5` 钉死）→ `node scripts/verify-runtime.mjs`（幂等） | `oh_modules/@fellow99/node-runtime` 的 `libnode.so` SHA = `runtime.lock.json` 锁值 |
 | S6 | opencode 产物 | `node scripts/apply-patches.mjs` → `node scripts/build-opencode.mjs` → `node scripts/collect-opencode.mjs` | resfile 就绪 |
 | S7 | host 门禁 | `node scripts/smoke-node24.mjs --allow-version-drift` | 全绿 |
 | S8 | HAP 构建 | `hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon`（D5 环境变量） | AC-06 |

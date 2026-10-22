@@ -3,14 +3,14 @@
 > 模块：`104-host-capabilities`｜文档：plan.md（怎么做）
 > 对应规格：`./spec.md`（FR-104-001…018、AS-104-01…08）
 > 权威顺序：`specs/constitution.md` → `docs/000-工程规划.md` → `overall-plan.md` → 本文
-> 运行时契约以 `ohos-node-bridge/docs/000-工程规划.md` 为准，本文只引用不复述。
+> 运行时契约以 `@fellow99/node-bridge` / `@fellow99/node-runtime` 库文档（[fellow99/ohos-node-bridge](https://github.com/fellow99/ohos-node-bridge)）为准，本文只引用不复述。
 
 ## 1 技术上下文
 
 | 项 | 值 | 来源 |
 |---|---|---|
 | 宿主语言/框架 | ArkTS + ArkUI，Stage 模型，`deviceTypes: ["2in1","tablet"]` | `TECH.md:10-15` |
-| 运行时库 | `@fellow99/node-bridge` 0.1.0（HAR） | `ohos-node-bridge/README.md:14` |
+| 运行时库 | `@fellow99/node-bridge` 0.1.0（ohpm 包） | [ohpm 中心仓](https://ohpm.openharmony.cn/#/cn/detail/@fellow99/node-bridge) |
 | 能力桥 API | `runtime.host.register(name, handler)` / `unregister` / `list` / `has` | 库文档 §5.3:463-468 |
 | 处理器签名 | `(argsJson: string) => string \| Promise<string>`；JSON 字符串入出 | `library/src/main/ets/runtime/Types.ets:158-169` |
 | 传输两条路 | 文件信箱 `dispatchAsync`（await Promise）与原生槽位 `pumpTick`（同步，遇 Promise 报 `async-handler-on-sync-path`） | `Types.ets:162-167` |

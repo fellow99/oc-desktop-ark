@@ -15,7 +15,7 @@
 | 构建目标 | `OPENCODE_NODE_TARGET=node24`（上游默认 `node26`） | `TECH.md:39`；补丁 `0001` |
 | 条件变体 | `resolve.conditions: ["ohos","node"]`（普通与 SSR 两条链） | `TECH.md:40`；补丁 `0001` |
 | 变体表 | `#sqlite` / `#pty` / `#persistent-pty-binary` / `#fff` / `#photon-wasm` / `#shell-parser-wasm` / `#v1-migration` | `packages/core/package.json:32-76`；规划 §5.7:415 |
-| 运行时 | Node **v24.2.0**，`nodeModuleVersion 137`，`soname libnode.so.137`，部署名 `libnode.so` | `ohos-node-bridge/runtime.lock.json`（`runtimes[0]`）；`TECH.md:22-23` |
+| 运行时 | Node **v24.2.0**，`nodeModuleVersion 137`，`soname libnode.so.137`，部署名 `libnode.so` | `runtime.lock.json`（本工程根，`runtime` 段）；`TECH.md:22-23` |
 | 补丁器 | `scripts/apply-patches.mjs`（基线/工作树守卫 + 反向判据） | `scripts/apply-patches.mjs:33,80-165` |
 | host 门禁 | Node **24.14.1** 跑 `smoke-node24.mjs` | `TECH.md:41`；规划 §7.3:520-529 |
 | 构建机 | bun **1.3.14** | `TECH.md:37` |
@@ -51,7 +51,7 @@
 | R12 | 基线守卫：HEAD 前缀必须等于 `9b4ec5714d`（可用 `EXPECTED_BASELINE` 覆盖），工作树脏则拒绝；`--reset` 需 `--yes` 并先打印 `git clean -nd` | `scripts/apply-patches.mjs:33,80-109` | FR-106-001/002 |
 | R13 | 报告三态与退出码：`+` 可应用 / `=` 已应用 / `!` 冲突；退出码 0/1/2 | `scripts/apply-patches.mjs:24,117-165` | FR-106-017 |
 | R14 | `ohos` 条件条目放在变体条件对象内、`node`/`default` 之前，与 `conditions:["ohos","node"]` 配合（按键顺序取首个命中） | `oc-desktop-hos/patches/v2.0.26/README.md:112-113`；`0003:7-19` | FR-106-006 |
-| R15 | ABI 风险：SONAME 是 `libnode.so.137`，HAP 内文件名是 `libnode.so` ⇒ 任何以 `DT_NEEDED` 链接 libnode 的 addon 都会找不到；v1 不引入 addon | `ohos-node-bridge/docs/000-工程规划.md:1081-1083,1115`；`runtime.lock.json`；规划 §5.8:435 | FR-106-012 |
+| R15 | ABI 风险：SONAME 是 `libnode.so.137`，HAP 内文件名是 `libnode.so` ⇒ 任何以 `DT_NEEDED` 链接 libnode 的 addon 都会找不到；v1 不引入 addon | 库文档 [fellow99/ohos-node-bridge](https://github.com/fellow99/ohos-node-bridge) `docs/000-工程规划.md:1081-1083,1115`；`runtime.lock.json`（本工程根）；规划 §5.8:435 | FR-106-012 |
 | R16 | 产物可加载是独立判据：`import(opencode.mjs)` 不中断 + 打印 `server listening on …` + `/api/info` 200 | 规划 §7.3:520-529、§11 P0-C:661；`packages/cli/src/server-process.ts:190-192` | FR-106-016 |
 
 ## 4 数据模型

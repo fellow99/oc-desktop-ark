@@ -20,7 +20,7 @@
 | --- | --- | --- | --- |
 | 1 | `ohos.permission.kernel.ALLOW_WRITABLE_CODE_MEMORY` | 进程内 Node/V8 的 JIT（**无它 V8 走 JIT 即 SIGTRAP**，属应用级失败） | `system_basic` + `provisionEnable=true` ⇒ 需 ACL |
 
-> 探针实测（`ohos-node-bridge` §D.8，与 pi 同源）：声明 `kernel.EXEMPT_ANONYMYOUS_EXECUTABLE_MEMORY` 等**开放权限不能替代**第 1 项——仍 SIGTRAP。故第 1 项是**刚性前置**。
+> 探针实测（库文档 §D.8，[fellow99/ohos-node-bridge](https://github.com/fellow99/ohos-node-bridge)，与 pi 同源）：声明 `kernel.EXEMPT_ANONYMYOUS_EXECUTABLE_MEMORY` 等**开放权限不能替代**第 1 项——仍 SIGTRAP。故第 1 项是**刚性前置**。
 > 为什么必须是它：本工程的 `opencode.mjs` 依赖 **JIT 编译**（V8 Sparkplug/Maglev/TurboFan）跑整条服务端 + 工具链；jitless 解释器下不仅慢 7–10×，还会触发两道 WASM/fetch 硬门（见 `ACL-无ACL评估.md` §4）。
 
 ### 1.2 撤销的 2 项 ACL（本轮定稿，均不再出现在 `module.json5`）
@@ -101,7 +101,7 @@ curl -s "http://127.0.0.1:18400/api/cwd/browse?root=documents"   # 未授权预�
 
 ## 5. 与运行时投放的关系
 
-ACL 只决定**内存权限**，不影响库与原生库的加载：`libnode.so` 由 `scripts/provision-runtime.sh` 投放进 `entry/libs/arm64-v8a/`，`libnode_bridge.so` 随 `@fellow99/node-bridge` HAR 打包。`opencode.mjs` + `assets/app-archive.bin` 由 `scripts/collect-opencode.mjs` 投放进 `resfile/opencode/`（resfile 只读直读，零解压）。
+ACL 只决定**内存权限**，不影响库与原生库的加载：`libnode.so` / `libc++_shared.so` 由 `@fellow99/node-runtime`（ohpm 包）随 `assembleHap` 合并进 HAP，`libnode_bridge.so` 随 `@fellow99/node-bridge`（ohpm 包）打包（锁值由 `scripts/verify-runtime.mjs` 校验）。`opencode.mjs` + `assets/app-archive.bin` 由 `scripts/collect-opencode.mjs` 投放进 `resfile/opencode/`（resfile 只读直读，零解压）。
 
 ## 6. 未取证清单（⬜ 待真机）
 

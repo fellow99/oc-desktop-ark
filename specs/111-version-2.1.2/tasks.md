@@ -46,7 +46,7 @@
 | 项 | 内容 |
 |---|---|
 | 回引 | FR-ark-105 |
-| 动作 | `build-bridge-har.sh`（幂等）→ `provision-runtime.sh`（幂等）→ `apply-patches.mjs` → `build-opencode.mjs` → `collect-opencode.mjs` → `smoke-node24.mjs` |
+| 动作 | `ohpm install`（幂等）→ `verify-runtime.mjs`（幂等）→ `apply-patches.mjs` → `build-opencode.mjs` → `collect-opencode.mjs` → `smoke-node24.mjs` |
 | 完成判据 | resfile 投放完成；冒烟全绿 |
 
 ### T07 — HAP 构建

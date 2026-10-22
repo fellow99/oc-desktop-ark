@@ -2,7 +2,7 @@
 
 > 模块：`103-arkweb-shell`｜文档：spec.md（做什么 + 验收判据）
 > 上位依据：`docs/000-工程规划.md` §4.2、§5.3、§5.4、§5.5、§5.10、§6（#1/#8/#11/#12/#14）、§11（P0-D/P0-E/P0-F/P0-I）、§13（G1/G2/G6）、§14.2
-> 运行时契约：`ohos-node-bridge/docs/000-工程规划.md` §5.1（库不参与渲染）、§6.1（渲染责任归属）
+> 运行时契约：`@fellow99/node-bridge` 库文档（[fellow99/ohos-node-bridge](https://github.com/fellow99/ohos-node-bridge)）§5.1（库不参与渲染）、§6.1（渲染责任归属）
 > 宪法：`specs/constitution.md`（C1、C2、C6、S1、S6）
 > 边界：本文件只写**行为、判据、边界**；落点（组件、属性、文件、行号）见同目录 `plan.md`。
 

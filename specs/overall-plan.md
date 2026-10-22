@@ -1,7 +1,7 @@
 # overall-plan —— 整体技术方案
 
 > 本文是 `overall-spec.md` 的技术对应物（HOW）。模块级细节见 `1NN-*/plan.md`。
-> 依据：`docs/000-工程规划.md` v0.3；运行时契约见 `ohos-node-bridge/docs/000-工程规划.md`（只引用不复制）。
+> 依据：`docs/000-工程规划.md` v0.3；运行时契约见 `@fellow99/node-bridge` / `@fellow99/node-runtime` 库文档（[fellow99/ohos-node-bridge](https://github.com/fellow99/ohos-node-bridge)，只引用不复制）。
 
 ## 1. 技术上下文
 
@@ -9,7 +9,7 @@
 |---|---|---|
 | 应用 | ArkTS + ArkUI，Stage 模型，`2in1` / `tablet` | `TECH.md` |
 | SDK / 构建 | HarmonyOS 6.1.1(24) / hvigor 6.24.2 | `hvigorw --version`、`sdk-pkg.json` |
-| Node 运行时 | `@fellow99/node-bridge` 0.1.0 + `libnode.so` v24.2.0（ABI 137） | 库 `runtime.lock.json` |
+| Node 运行时 | `@fellow99/node-bridge` 0.1.0 + `@fellow99/node-runtime` 24.2.0（ohpm 双包，`libnode.so` v24.2.0 / ABI 137） | 本工程 `runtime.lock.json` |
 | 服务端 | opencode v2.0.26（`9b4ec5714d`）stock CLI bundle，`serve` 语义 | 上游源码 |
 | 渲染 | ArkWeb `Web`（同源加载本地服务） | 规划 §5.3 |
 | 数据 | `node:sqlite`（WAL）→ `<filesDir>/data/opencode/opencode.db` | 规划 §5.6 |
@@ -33,7 +33,7 @@
 | 层 | 落地物 | 责任模块 |
 |---|---|---|
 | L1 宿主 | `EntryAbility` / `Index` / `OpencodeRuntime` / `Connection` / `Payload` / `Constants` / `Ports` / `HostCapabilities` | 101、103、104、105 |
-| L2 运行时 | bridge HAR + `bootstrap.js` + `libnode.so` 投放 | 101 |
+| L2 运行时 | ohpm 双包（`@fellow99/node-bridge` + `@fellow99/node-runtime`）+ `payload/bridge/bootstrap.js` | 101 |
 | L3 服务 | `payload/opencode-server.js` + `dist-node` 载荷 | 102 |
 | 适配 | `patches/v2.0.26` + 构建参数 | 106 |
 | 合规 | 权限声明面 + 清单 | 107 |
@@ -100,8 +100,8 @@
 
 ## 7. 部署与发布
 
-1. `build-bridge-har.sh` → `libs/@fellow99/node-bridge.har`
-2. `provision-runtime.sh` → `entry/libs/arm64-v8a/{libnode.so,libc++_shared.so}`
+1. `ohpm install`（`@fellow99/node-bridge@0.1.0` + `@fellow99/node-runtime@24.2.0`，版本钉死在 `oh-package.json5`）
+2. `verify-runtime.mjs` → 校验运行时包内 `libnode.so` 的 SHA-256/体积 = `runtime.lock.json` 锁值（`.so` 由 runtime 包随 `assembleHap` 合并进 HAP，宿主不手工投放）
 3. `apply-patches` → `build-opencode` → `collect-opencode` → `resfile/opencode/**`
 4. `smoke-node24` 全绿
 5. `hvigorw assembleHap -p product=default -p buildMode=debug|release`

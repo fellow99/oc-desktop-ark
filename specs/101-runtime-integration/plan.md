@@ -3,7 +3,7 @@
 > 模块：`101-runtime-integration`｜文档：plan.md（怎么做）
 > 对应规格：`./spec.md`（FR-101-001…013、AS-101-01…07）
 > 权威顺序：`specs/constitution.md` → `docs/000-工程规划.md` → `overall-plan.md` → 本文
-> 运行时的一切结论以 `ohos-node-bridge/docs/000-工程规划.md` 为准，本文只引用不复述。
+> 运行时的一切结论以 `@fellow99/node-bridge` / `@fellow99/node-runtime` 库文档（[fellow99/ohos-node-bridge](https://github.com/fellow99/ohos-node-bridge)）与本工程根 `runtime.lock.json` 为准，本文只引用不复述。
 
 ## 1 技术上下文（运行时与依赖版本）
 
@@ -11,14 +11,14 @@
 |---|---|---|
 | 应用形态 | ArkTS + ArkUI，Stage 模型，`deviceTypes: ["2in1","tablet"]` | `TECH.md:10-15` |
 | SDK / 构建 | HarmonyOS 6.1.1.125 / API 24；hvigor 6.24.2 | `TECH.md:12-13` |
-| 运行时库 | `@fellow99/node-bridge` **0.1.0**（HAR：`libs/@fellow99/node-bridge.har`） | `ohos-node-bridge/README.md:14` |
+| 运行时库 | `@fellow99/node-bridge` **0.1.0**（ohpm 包，`oh-package.json5` 钉死） | [ohpm 中心仓](https://ohpm.openharmony.cn/#/cn/detail/@fellow99/node-bridge) |
 | 运行时 | Node **v24.2.0**，ABI **137**，`platform="openharmony"`、`arch="arm64"` | `TECH.md:22,25` |
-| 运行时产物 | `libnode-arm64.so` **126,809,264 B**，SHA-256 `3019bf5f…` → `entry/libs/arm64-v8a/libnode.so` | `TECH.md:23`；`ohos-node-bridge/runtime.lock.json` |
-| C++ 运行库 | `libc++_shared.so`（取自 SDK `native/llvm/lib/aarch64-linux-ohos/`） | `TECH.md:24`；`tools/provision.mjs:211` |
+| 运行时产物 | `libnode-arm64.so` **126,809,264 B**，SHA-256 `3019bf5f…`，由 `@fellow99/node-runtime@24.2.0` 包随 `assembleHap` 合并进 HAP | `TECH.md`；`runtime.lock.json`（本工程根） |
+| C++ 运行库 | `libc++_shared.so`（随 `@fellow99/node-runtime` 包分发，HAP 内按路径去重一份） | `TECH.md`；库 ohpm 发布文档 |
 | 应用版本 | `versionName 2.0.26` / `versionCode 20026` | `TECH.md:83` |
 | 启动 API | `NodeRuntime.getInstance().start(context,{scriptPath,env,flags,logPath})` / `logs(n)` / `lastCrash()` / `onStateChange` / `shutdown(reason)` | 库文档 §5.3:426-461 |
 
-**硬前提**：`node::Start` 每进程一次；`dlopen` 只认裸名 `libnode.so`；`process.cwd()`=`/`、`execPath`=`/system/bin/appspawn`（库 `README.md:72-75`）。
+**硬前提**：`node::Start` 每进程一次；`dlopen` 实测命中设备 ABI 目录 `<bundleCodeDir>/libs/arm64/libnode.so`（库发布文档 §5.6，早期「只认裸名」口径作废）；`process.cwd()`=`/`、`execPath`=`/system/bin/appspawn`（库 README「已知限制」）。
 
 ## 2 宪法合规（逐条）
 
@@ -47,16 +47,16 @@
 | R7 | 终止前回调必须**不取消**终止（返回 false），并同步先写一行日志（退出路径上最后一条证据） | `entryability/EntryAbility.ets:93-110` | FR-101-011 |
 | R8 | 单实例靠 `launchType: "singleton"`；多实例互抢端口与 DB | `entry/src/main/module.json5:36`；规划 §6 #16 | FR-101-008 |
 | R9 | 先 `loadContent`（加载页）再起 Node，权限申请也在其后，否则权限弹窗卡启动屏 | `EntryAbility.ets:52-70`；规划 §4.2 | FR-101-013 |
-| R10 | 运行时以**构建好的 HAR** 消费：跨工程相对路径导入在 `useNormalizedOHMUrl` 下被 hvigor 拒（00309001） | 规划 §5.1；`ohos-node-bridge/README.md:56` | FR-101-005 |
-| R11 | 投放只有一份实现（库 `tools/provision.mjs`）：幂等 + 七项 ELF 门禁 + SHA-256 锁定，任一不过硬失败 | `ohos-node-bridge/tools/provision.mjs:6-8`、`:185-196`、`:296-302`、`:309-322` | FR-101-004 |
+| R10 | 运行时以 **ohpm registry 包**消费（`file:` 本地 HAR 形态已弃用）：版本钉死在 `oh-package.json5`；跨工程相对路径导入在 `useNormalizedOHMUrl` 下被 hvigor 拒（00309001） | 规划 §5.1；库 README「消费方接入」 | FR-101-005 |
+| R11 | 锁值校验只有一份实现（本工程 `scripts/verify-runtime.mjs`）：幂等 + SHA-256/体积锁定，任一不符硬失败；ELF 门禁由库发布流水线（`tools/verify-har.mjs`）在上架前完成 | 本工程 `runtime.lock.json`；库 docs《提交到OpenHarmony三方库中心仓.md》§8 | FR-101-004 |
 | R12 | 环境分工：库设 `HOME`/`TMPDIR`/`NODE_OPTIONS`/`UV_USE_IO_URING`；本工程设 `XDG_*`/`OPENCODE_*`/`NO_PROXY`/`PATH` | 库文档 §5.6:505-515；`oc-desktop-hos/src-main/main.js:226-275` | FR-101-009 |
 
 ## 4 数据模型与状态机
 
 | 实体（spec §4） | 技术落点 | 关键实现约束 |
 |---|---|---|
-| `RuntimeProvisioner` | `scripts/provision-runtime.sh` → `../ohos-node-bridge/tools/provision.mjs` | 唯一投放实现；哈希命中即跳过；门禁不过硬失败（FR-101-004） |
-| `LaunchPlan` | `OpencodeRuntime.ets` 内 `start()` 的 options 装配（scriptPath/env/flags/logPath） | 投递前固定；`scriptPath` 恒为库 `bootstrap.js`（FR-101-001、005） |
+| `RuntimeVerifier` | `scripts/verify-runtime.mjs` → 读 `runtime.lock.json`，校验 `oh_modules` 内 runtime 包的 `libnode.so` | 唯一校验实现；幂等；不符硬失败（FR-101-004） |
+| `LaunchPlan` | `OpencodeRuntime.ets` 内 `start()` 的 options 装配（scriptPath/env/flags/logPath） | 投递前固定；`scriptPath` 恒为 `payload/bridge/bootstrap.js`（vendored，FR-101-001、005） |
 | `ReadyMarker` | `common/Ports.ets:readMarker/parsePortFromMarker`（只读） | 写方 = `payload/lib/ready.js`；`1 ≤ port ≤ 65535`（FR-101-002、003） |
 | `RuntimePhase` | `common/Constants.ets` 的六态枚举 + `OpencodeRuntime` 的转移表 | 单向；终态拒绝转移（FR-101-006） |
 | `StageNotice` | `Constants.ets` 的阶段表 → `ARK_STAGE` 日志行 + 界面状态条 | 文案与日志一一对应，≥5 阶段（FR-101-007） |
@@ -93,7 +93,7 @@ idle ──start()投递──▶ starting ──marker/log命中──▶ runni
 | 关停 | `shutdown(reason): Promise<string>` | 返回如实描述，不承诺停止 |
 
 **消费（对库）**：`start(context,{scriptPath, env, flags, logPath})`、`logs(n)`、`lastCrash()`、`onStateChange`、`shutdown(reason)`（库文档 §5.3:451-461）。
-`scriptPath` 一律指向库的 `bootstrap.js`；应用入口经 `NODE_BRIDGE_ENTRY` 解析（规划 §5.2.2:315）。
+`scriptPath` 一律指向 `payload/bridge/bootstrap.js`（库引导器已 vendor 进本工程）；应用入口经 `NODE_BRIDGE_ENTRY` 解析（规划 §5.2.2:315）。
 
 **事件/日志**：`ARK_STAGE <n> <中文文案>`（每阶段一条）、`ARK_SERVER_READY {json}`（102 打印，仅作通道 ② 输入）、`[ark][runtime] phase=…`（状态转移）。日志环容量 500 行（库默认，库文档 §5.3:442）。
 
@@ -111,7 +111,7 @@ idle ──start()投递──▶ starting ──marker/log命中──▶ runni
 |---|---|---|
 | 单元（host，可跑 `node --test`） | marker 解析（缺字段/端口 0/端口越界/坏 JSON）、日志解析（多轮行、无时间戳行）、状态机转移表 | 纯函数返回确定值；非法输入不抛 |
 | 静态门 | `node --check` + ArkTS 编译 | 无语法/类型错误（宪法 G-语法） |
-| 真机 P0-A | `./scripts/provision-runtime.sh --check` + `hvigorw assembleHap` | 七项 ELF 门禁全绿；HAP 内 `libnode.so` SHA-256 = 锁定值 |
+| 真机 P0-A | `ohpm install` + `node scripts/verify-runtime.mjs` + `hvigorw assembleHap` | 锁值校验全绿；HAP 内 `libnode.so` SHA-256 = 锁定值 |
 | 真机 P0-H | 占用端口后启动、二次启动 | 应用不崩；marker 端口 = 实际监听端口；无第二个实例 |
 | 真机 P0-I | 删载荷 / 占端口 / 错口令 | 错误页出现阶段文案 + 日志尾；`lastCrash()` 有记录 |
 | 负样本 | 人为把 marker 写成上一轮端口 | 状态不得进入 `running`（验证 FR-101-003） |
@@ -126,10 +126,10 @@ idle ──start()投递──▶ starting ──marker/log命中──▶ runni
 | `entry/src/main/ets/common/Log.ets` | hilog 统一前缀 `[ark]` | 🚧 新建 |
 | `entry/src/main/ets/entryability/EntryAbility.ets` | 先 `loadContent`；`onPrepareToTerminate` → `shutdown()` 且返回 `false` | 🚧 新建 |
 | `entry/src/main/module.json5` | `launchType: "singleton"`、`backgroundModes`、权限声明面 | 🚧 新建 |
-| `oh-package.json5` / `entry/oh-package.json5` | `@fellow99/node-bridge: file:libs/@fellow99/node-bridge.har` | 🚧 新建 |
-| `libs/@fellow99/node-bridge.har` | 运行时库产物（不入库） | 🚧 由构建产出 |
-| `scripts/build-bridge-har.sh` | `hvigorw assembleHar` → 拷贝 HAR | 🚧 新建 |
-| `scripts/provision-runtime.sh` | 委托 `../ohos-node-bridge/tools/provision.mjs --out entry/libs/arm64-v8a` | 🚧 新建 |
-| `entry/libs/arm64-v8a/{libnode.so,libc++_shared.so}` | 运行时投放目标（不入库） | 🚧 投放产出 |
+| `oh-package.json5` / `entry/oh-package.json5` | `@fellow99/node-bridge: 0.1.0` + `@fellow99/node-runtime: 24.2.0`（registry 钉死） | 🚧 新建 |
+| `oh_modules/@fellow99/node-{bridge,runtime}` | ohpm 安装产物（不入库） | 🚧 由 `ohpm install` 产出 |
+| `scripts/verify-runtime.mjs` | 校验 `runtime.lock.json` 锁值 vs 运行时包实际内容 | 🚧 新建 |
+| ~~`scripts/build-bridge-har.sh` / `scripts/provision-runtime.sh`~~ | 已删除：ohpm 双包形态下无旁路构建与手工投放 | ✅ 已移除 |
+| `entry/libs/arm64-v8a/` | ⚠️ 不得放 `libnode.so`/`libc++_shared.so`（与运行时包双来源冲突） | ✅ 已清理 |
 | `<filesDir>/payload/server.ready.json` | 就绪标记运行期产物（写方 102） | 🚧 运行时 |
 | `<filesDir>/node-bridge/last-crash.json` | 崩溃记录（库写，本模块读） | 🚧 运行时 |

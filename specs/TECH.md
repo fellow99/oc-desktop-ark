@@ -18,10 +18,11 @@
 
 | 类别 | 技术 | 版本 | 用途 | 证据 |
 |---|---|---|---|---|
-| 运行时库 | **`@fellow99/node-bridge`** | `0.1.0`（HAR） | `NAPI 引导 + dlopen(libnode.so) + node::Start`，把 Node 放进应用进程 | ✅ 库 README |
-| Node | **v24.2.0** | `modules 137` / `soname libnode.so.137` | 服务端运行时 | ✅ `runtime.lock.json` |
-| 运行时产物 | `libnode-arm64.so` | **126,809,264 B** / SHA-256 `3019bf5f…` | `entry/libs/arm64-v8a/libnode.so`；产物目录 `../ohos-node-bridge/runtime/`（原 `ohos-node-runtime`，已归入桥工程） | ✅ |
-| C++ 运行库 | `libc++_shared.so` | 取自 SDK `native/llvm/lib/aarch64-linux-ohos/` | 运行时依赖 | ✅ 库文档 §5.9 |
+| 运行时库 | **`@fellow99/node-bridge`** | `0.1.0`（ohpm 包） | `NAPI 引导 + dlopen(libnode.so) + node::Start`，把 Node 放进应用进程 | ✅ 库 README（[ohpm 中心仓](https://ohpm.openharmony.cn/#/cn/detail/@fellow99/node-bridge)） |
+| Node 引擎包 | **`@fellow99/node-runtime`** | `24.2.0`（ohpm 包，版本 = Node 版本） | 随包提供 `libs/arm64-v8a/libnode.so`，`assembleHap` 时合并进 HAP | ✅ 库 README（[ohpm 中心仓](https://ohpm.openharmony.cn/#/cn/detail/@fellow99/node-runtime)） |
+| Node | **v24.2.0** | `modules 137` / `soname libnode.so.137` | 服务端运行时 | ✅ `runtime.lock.json`（本工程根） |
+| 运行时产物 | `libnode-arm64.so` | **126,809,264 B** / SHA-256 `3019bf5f…` | 来自 `@fellow99/node-runtime@24.2.0` 包；锁值 `runtime.lock.json`（本工程根），由 `scripts/verify-runtime.mjs` 校验 | ✅ |
+| C++ 运行库 | `libc++_shared.so` | 随 `@fellow99/node-runtime` 包分发（HAP 内按路径去重，仅一份） | 运行时依赖 | ✅ 库文档 §5.9 / ohpm 发布文档 |
 | 平台标识 | `process.platform = "openharmony"` / `arch = "arm64"` | — | 平台分支判断 | ✅ 库真机记录 |
 | JIT | V8 JIT + **ACL** `kernel.ALLOW_WRITABLE_CODE_MEMORY` | — | 无 ACL 即 SIGTRAP；`--jitless` 会废掉 WASM | ✅ 库 §D.8 |
 
@@ -82,7 +83,7 @@
 |---|---|---|
 | 应用版本 | `2.0.26` / `20026` | `AppScope/app.json5` |
 | 上游基线 | `v2.0.26` / `9b4ec5714d` | `patches/v2.0.26/`、`scripts/apply-patches.mjs`（`EXPECTED_BASELINE`）、`docs/000-工程规划.md` 文档头 |
-| Node 运行时 | `v24.2.0` / ABI `137` | `ohos-node-bridge/runtime.lock.json`、`TECH.md`、`overall-plan.md` |
+| Node 运行时 | `v24.2.0` / ABI `137` | `runtime.lock.json`（本工程根）、`oh-package.json5`、`TECH.md`、`overall-plan.md` |
 | SDK | HarmonyOS `6.1.1(24)` | `build-profile.json5` |
 | hvigor | `6.24.2` | 构建日志 |
 

@@ -2,7 +2,7 @@
 
 > 模块：`102-payload-pipeline`｜文档：spec.md（做什么 + 验收判据）
 > 上位依据：`docs/000-工程规划.md` §5.2、§5.8、§7.1–§7.3、§8.3、§9、§11（P0-C/P0-G/P0-K）、§14.2
-> 运行时契约：`ohos-node-bridge/docs/000-工程规划.md` §5.5、§5.6、§6.1、§6.2
+> 运行时契约：`@fellow99/node-bridge` 库文档（[fellow99/ohos-node-bridge](https://github.com/fellow99/ohos-node-bridge)）§5.5、§5.6、§6.1、§6.2
 > 宪法：`specs/constitution.md`（C2、C3、C4、C6、D3、D4）
 > 边界：本文件只写**行为、判据、边界**；落点（脚本、命令、版本、行号）见同目录 `plan.md`。
 

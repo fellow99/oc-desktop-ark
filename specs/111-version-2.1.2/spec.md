@@ -22,13 +22,13 @@
 - **版本号** `2.1.2` / `20102`（`AppScope/app.json5`、`README.md`、`specs/README.md` 同步）。
 - **补丁集迁移**：`patches/v2.0.26/`（5 条：0001/0003/0006/0007/0008）→ `patches/v2.1.2/`。
 - **补丁器基线更新**：`scripts/apply-patches.mjs` 的 `patchDir` 与 `EXPECTED` 默认值。
-- **重新编译构建**：`build-bridge-har.sh` → `provision-runtime.sh` → `apply-patches` → `build-opencode` → `collect-opencode` → `smoke-node24` → `hvigorw assembleHap`。
+- **重新编译构建**：`ohpm install` → `verify-runtime.mjs` → `apply-patches` → `build-opencode` → `collect-opencode` → `smoke-node24` → `hvigorw assembleHap`。
 - **真机部署与测试**（`test-cases.md`）。
 - **敏感信息纪律**（§6）。
 
 **Out of scope**
 
-- **不改上游一个字节（直接编辑）**；**不改 git 分支**；**不动 `ohos-node-bridge` 基线**（Node v24.2.0 不变）；
+- **不改上游一个字节（直接编辑）**；**不改 git 分支**；**不动 Node 运行时基线**（`@fellow99/node-runtime@24.2.0` 不变）；
   **不做上架材料**；**不改插件体系与规格体系既有结论**。
 
 ## 3. 上游事实

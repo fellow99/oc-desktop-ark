@@ -1,6 +1,6 @@
 # ARCHITECTURE —— 整体架构
 
-> 依据：`docs/000-工程规划.md` v0.3 §4/§5；运行时契约见 `ohos-node-bridge/docs/000-工程规划.md`。
+> 依据：`docs/000-工程规划.md` v0.3 §4/§5；运行时契约见 `@fellow99/node-bridge` / `@fellow99/node-runtime` 库文档（[fellow99/ohos-node-bridge](https://github.com/fellow99/ohos-node-bridge)）。
 > 本文描述**目标形态**；标 ⬜ 的部分尚未落地（greenfield）。
 
 ## 一、分层

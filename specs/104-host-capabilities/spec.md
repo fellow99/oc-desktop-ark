@@ -2,7 +2,7 @@
 
 > 模块：`104-host-capabilities`｜文档：spec.md（做什么 + 验收判据）
 > 上位依据：`docs/000-工程规划.md` §6（#8/#9/#10/#15）、§8.4、§10、§11（P0-I/P0-J）、§14.2
-> 运行时契约：`ohos-node-bridge/docs/000-工程规划.md` §5.3、§5.4、§6.1
+> 运行时契约：`@fellow99/node-bridge` 库文档（[fellow99/ohos-node-bridge](https://github.com/fellow99/ohos-node-bridge)）§5.3、§5.4、§6.1
 > 宪法：`specs/constitution.md`（C1–C6、D3、S4、S6）
 > 边界：本文件只写**行为、判据、边界**；技术落点（类型、文件、命令、行号）见同目录 `plan.md`。
 

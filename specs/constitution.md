@@ -1,7 +1,7 @@
 # oc-desktop-ark 宪法（Constitution）
 
 > **地位**：本文件是本工程的**最高约束**。`specs/**` 的任何 `spec.md` / `plan.md` 与实现，若与本文冲突，以本文为准。
-> **来源**：条款不是发明的，而是从 `docs/000-工程规划.md`（v0.3）与两个参考工程（`ohos-node-bridge` 库契约、`pi-desktop-ark` 同形态落地、`oc-desktop-hos` 真机教训）中**抽取**而来。
+> **来源**：条款不是发明的，而是从 `docs/000-工程规划.md`（v0.3）与两个参考工程（`@fellow99/node-bridge` 库契约、`pi-desktop-ark` 同形态落地、`oc-desktop-hos` 真机教训）中**抽取**而来。
 > **修改**：改本文必须同时改 `docs/000-工程规划.md` 的对应章节，并在 `specs/SPECS_CHECKLIST.md` 登记影响面。
 
 ---
@@ -69,7 +69,7 @@ ArkTS 层**只**做四件事：**启动编排 / 观测 / 宿主能力 / 渲染**
 4. `specs/<NNN>-*/spec.md` + `plan.md`
 5. 代码注释与 README
 
-**运行时的一切结论以 `ohos-node-bridge/docs/000-工程规划.md` 为准**，本工程只引用不复述。
+**运行时的一切结论以 `@fellow99/node-bridge` / `@fellow99/node-runtime` 的库文档（[fellow99/ohos-node-bridge](https://github.com/fellow99/ohos-node-bridge)）与本工程根 `runtime.lock.json` 为准**，本工程只引用不复述。
 
 ### D2 证据标注
 
@@ -161,7 +161,7 @@ ArkTS 层**只**做四件事：**启动编排 / 观测 / 宿主能力 / 渲染**
 | 工程 | 关系 | 许可 |
 |---|---|---|
 | `opencode`（v2.0.26） | 上游，仅幂等补丁 | MIT |
-| `ohos-node-bridge` | 运行时依赖（HAR） | MIT |
+| `@fellow99/node-bridge` / `@fellow99/node-runtime`（ohpm 包） | 运行时依赖（双包：接口与加载器 / Node 引擎本体） | MIT（runtime 包随附 Node.js 官方 LICENSE） |
 | `pi-desktop-ark` | 同形态参考（骨架来源） | MIT |
 | `oc-desktop-hos` | 能力对照基线 + 补丁根因来源 | MIT |
 | Node.js v24.2.0 | 随包分发运行时 | MIT（含 V8/OpenSSL/ICU 等第三方许可） |

@@ -142,7 +142,7 @@
 | `docs/000-工程规划.md` §11 Phase 4、§7.3、附录 A | 规划 | 四件套、门禁、取证通道的权威口径 | ✅ v0.3 |
 | `specs/constitution.md`（C2 / C6、质量门 G-host） | 宪法 | 「判据可证伪」与门禁定义 | ✅ |
 | `specs/overall-test-cases.md` TC-R-001..004、TC-H-003..006 | 用例索引 | 复用编号与判据 | ✅ |
-| `ohos-node-bridge/runtime.lock.json` | 兄弟工程 | 触发指纹 + Node 版本真值 | ✅ 只读引用 |
+| `runtime.lock.json`（本工程根） | 本工程 | 触发指纹 + Node 版本真值 | ✅ 只读引用 |
 | `patches/v2.0.26/` 与 `manifest.sha256` | 本工程 | 触发指纹 | 🚧 |
 | `entry/build/.../entry-default-signed.hap` | 构建产物 | SHA-256、包体、装机 | 🚧 |
 | `scripts/smoke-node24.mjs` | 本工程（101/102） | host 门禁执行体 | 🚧 |

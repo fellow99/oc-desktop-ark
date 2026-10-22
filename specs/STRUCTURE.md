@@ -12,14 +12,14 @@ oc-desktop-ark/
 │   └── resources/base/{element,media}/     🚧 应用名与图标
 ├── build-profile.json5                    🚧 产品 / SDK 6.1.1(24) / 签名指针
 ├── hvigorfile.ts                          🚧 签名注入（不覆盖 DevEco 写入的配置）
-├── oh-package.json5                       🚧 依赖 @fellow99/node-bridge（file:libs/*.har）
+├── oh-package.json5                       🚧 依赖 @fellow99/node-bridge + @fellow99/node-runtime（ohpm registry，钉死）
+├── runtime.lock.json                      🚧 运行时唯一事实源（Node 版本 / libnode.so SHA-256 / 包版本）
 ├── code-linter.json5                      🚧 ArkTS 静态检查规则
 ├── signing.debug.local.json.sample        🚧 签名材料模板（真材料 gitignore）
 ├── .gitignore                             🚧 忽略 .so / 载荷 / 签名 / 构建产物
-├── libs/@fellow99/node-bridge.har         🚧 由 scripts/build-bridge-har.sh 产出（不入库）
 ├── entry/                                 🚧 主模块（HAP）
 │   ├── build-profile.json5                🚧
-│   ├── libs/arm64-v8a/                    🚧 libnode.so + libc++_shared.so（provision 投放，不入库）
+│   ├── libs/arm64-v8a/                    🚧 ⚠️ 不得放 libnode.so / libc++_shared.so（由 @fellow99/node-runtime 包随 HAP 合并）
 │   ├── oh-package.json5                   🚧
 │   └── src/main/
 │       ├── module.json5                   🚧 权限声明面 + ability + 单实例
@@ -47,8 +47,7 @@ oc-desktop-ark/
 ├── patches/v2.0.26/                       ✅ 0001 / 0003 / 0006 + README
 ├── scripts/                               ✅ 已有 apply-patches.mjs
 │   ├── apply-patches.mjs                  ✅ 幂等 + 基线/工作树守卫
-│   ├── build-bridge-har.sh                🚧 构建 bridge HAR → libs/
-│   ├── provision-runtime.sh               🚧 投放 libnode.so + libc++_shared.so
+│   ├── verify-runtime.mjs                 🚧 校验 runtime.lock.json 锁值 vs 运行时包实际内容
 │   ├── build-opencode.mjs                 🚧 bun install + build-node --bundle-only
 │   ├── collect-opencode.mjs               🚧 裁剪 assets + 投放 resfile（含 jitless/）+ SHA-256 清单
 │   ├── check-acl-surface.mjs              🚧 110-jitless 权限声明面静态门禁（AC-110-06）

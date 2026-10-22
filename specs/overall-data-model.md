@@ -100,7 +100,7 @@ idle → password → payload → starting → waiting_ready → ready
 | 名称 | 落点 | 说明 |
 |---|---|---|
 | 上游基线 | `patches/v2.0.26/` + `EXPECTED_BASELINE` | `9b4ec5714d` |
-| Node 运行时 | `ohos-node-bridge/runtime.lock.json` | v24.2.0 / ABI 137 / SHA-256 |
+| Node 运行时 | `runtime.lock.json`（本工程根） | v24.2.0 / ABI 137 / SHA-256 |
 | 构建目标 | `OPENCODE_NODE_TARGET=node24` | 对齐运行时 |
 | 应用版本 | `AppScope/app.json5` | `2.0.26` / `20026` |
 
