@@ -54,7 +54,7 @@ jit 形态表达式等价（行为不变）。三闸校验（锚点唯一 / 回�
 | TC-108-11 公开仓 clone | ✅ | `git_clone` depth=1 成功（~11.5 s），`git_log` 得 `4d661d0eda`，`git_branch` `* main`，`ls` 列出 8 项 |
 | TC-108-12 带账号仓 | ✅ | 先 `credentials.save`（RPC）→ `git_clone` 私有仓成功（528 ms，HEAD `899c37d7d5`，与 host `ls-remote` 一致）；命令里**无**任何用户名/口令 |
 | TC-108-13 凭据权限 | ✅ | `credentials.describe`：`mode="600"`、`count=1`；`credentials.list` 只回 `passwordLength=6`，**不回显口令** |
-| TC-108-16 VCS 界面覆盖 | ❌ **未生效** | `/api/vcs` → `{"branch":{}}`、`/api/vcs/status` → `[]`、`/api/vcs/branch` → `[]`（响应里**没有** `provider` 字段 ⇒ 上游没选中我们的 provider） |
+| TC-108-16 VCS 界面覆盖 | ✅（修复后） | `/api/vcs` → `{"provider":"git","branch":{"current":"main","default":"main"}}`；`/api/vcs/branch` → `["main"]`；`/api/vcs/diff?mode=working` → 带 `---/+++/@@` 的真实 patch；`/api/vcs/status` → 文件级 additions/deletions |
 | TC-108-19 compat 下 git | ✅ | 上述 10/11/12 均在 `--jitless`（compat）形态完成 |
 | TC-108-20 shell 工具 | ✅ | 见 §二 |
 | TC-108-21 包体 | ✅ | HAP +8.4 MB（插件 7.76 MB + 0008 UI），低于 NFR 12 MB 上限（单插件） |
@@ -63,32 +63,101 @@ jit 形态表达式等价（行为不变）。三闸校验（锚点唯一 / 回�
 **一次对话** ✅（`7+5`→`12`、`3+3`→`6` 等多次 `finish=stop`）、**看图分析** ✅（本轮重跑，正确识读截图界面文字）。
 DeepSeek 凭据沿用上一轮写入的应用内凭据库（未重新落盘）。
 
-## 四、VCS provider 未生效：取证与结论
+## 四、VCS provider 覆盖：从「未生效」到「已生效」的完整取证
 
-现象：`vcs.transform(...)` 返回成功、诊断行报 `git(override)`，但 `/api/vcs` 三类接口都返回空且**没有** `provider` 字段。
+### 4.1 现象（修复前）
 
-代码取证（bundle 内）：上游 `Vcs` 的 editor 形状是 `{add, default:{get,set}}`，
-`selected()` = `state.selection ?? location.vcs?.type`：
+`vcs.transform(...)` 返回成功、诊断行也写 `vcsProvider=git(override)`，但三个接口全空：
 
-- `location.vcs` 由 `Project.resolve` 调 `git rev-parse` 得到 —— **设备没有 git 二进制**，永远算不出来（恒 `undefined`）；
-- `selection` 需要 plugin 显式 `editor.default.set("git")` 才会被设置。
+```
+GET /api/vcs          → {"branch":{}}
+GET /api/vcs/status   → []
+GET /api/vcs/branch   → []
+```
 
-本轮已按此加了 `editor.default.set(VCS_PROVIDER_ID)`（并把「注册 ≠ 被选中」写进注释），
-但真机仍为空 ⇒ **本版本 plugin 侧 editor 很可能只暴露了 `add`**（`editor.default` 为 undefined，可选调用被跳过）。
-⇒ 结论：**VCS 界面覆盖在本版本不可用**，属 spec FR-108-030/031 未达成；按 FR-108-032 的「仅工具」回退，
-界面维持上游降级态（空），不崩。下一步需要确认 plugin promise 适配器是否透出 `default.set`，
-或改走一条上游补丁（把 `location.vcs` 的判定从「git 可执行」改为「provider 存在」）。
+关键指征：响应里**没有 `provider` 字段**。上游 `Vcs.Info = { provider?: string; branch: {current?, default?} }`，
+`Vcs.info()` 直接返回缓存对象 `an.info`（初值 `{branch:{}}`），只有 refresh 选中 provider 后才会写成
+`{...providerInfo, provider: pid}`。**没有 provider 字段 ⇒ 从来没有选中过任何 provider**，而不是「选中了但返回空」。
+
+### 4.2 上游代码路径（bundle 内取证）
+
+```js
+const rn = $t.vcs                                   // location.vcs（Project.resolve 得出）
+const an = { info: { branch: {} } }                 // 缓存的 info
+const hn = create$2({ name: "vcs", initial: () => ({ providers: new Map }),
+  editor: vn => ({ add: bn => vn.providers.set(bn.id, bn),
+                   default: { get: () => vn.selection, set: bn => vn.selection = bn } }),
+  notify: () => reconcile(tn, nn, () => wn()) });
+const _n = () => { const vn = hn.get(), bn = vn.selection ?? rn?.type; return bn ? vn.providers.get(bn) : undefined };  // selected()
+const wn = ("Vcs.refresh")(… 有 selected ⇒ an.info = {...info, provider: pid} ; 否则 an.info = {branch:{}} …);
+info: ("Vcs.info")(function* () { return an.info })   // 直接给缓存
+```
+
+两条硬约束：
+
+1. `selected() = state.selection ?? location.vcs?.type`。设备**没有 git 二进制** ⇒
+   `Project.resolve` 里的 `Git.repo.discover`（`git rev-parse`）永远失败 ⇒ `location.vcs` 恒 `undefined`；
+   于是**只有** plugin 自己 `editor.default.set("git")` 才可能被选中。
+2. `Vcs.info()` 是缓存；只有 `notify()`（editor 变更 → `reconcile` → `refresh`）或仓库文件事件才会重算。
+
+### 4.3 真正的根因（本地桩上下文复现）
+
+`plugins/oc-plugin-git/index.js` 的 transform 回调里用了 `VCS_PROVIDER_ID`，但**只 import 了
+`createVcsProvider`**，没有 import 这个常量 ⇒ 回调一旦被执行就抛
+`ReferenceError: VCS_PROVIDER_ID is not defined`：
+
+```
+[ark] plugin oc-ark-git: vcs provider registration failed: VCS_PROVIDER_ID is not defined
+[ark] plugin oc-ark-git: tools=21 vcsProvider=none …
+```
+
+而真机上这条错误**没有**冒到 setup 的日志里，因为上游 `vcs.transform(fn)` 的 `fn` 是**异步**执行的
+（真机日志顺序可证：先打 `… vcsSelection=n/a`，**之后**才打 `vcs editor: …`）。于是：
+
+- 注册回调抛错 → `providers` 里没有我们的 `git` → `selection` 也没设 → `selected()` 恒 undefined → 三个接口全空；
+- 我们的诊断行只反映「transform 这个 promise 走了没」，**不反映副作用**，所以它报了假成功 `git(override)`；
+- 之前试过的「`setTimeout` 补注册」「`editor.default.set`」都没用，因为**回调本身就挂了**。
+
+### 4.4 修复
+
+1. `import { VCS_PROVIDER_ID, createVcsProvider } from "./lib/vcs.js"`（补齐常量导入）。
+2. transform 内显式 `editor.default.set("git")`——注册 ≠ 被选中（真机上 `location.vcs` 永远算不出来）。
+3. 诊断改为**副作用**口径：回调里打 `vcs editor: keys=add,default default=true selection=git`，
+   setup 结尾那行把未知状态写成 `pending(见下一行 vcs editor)`，不再假装成功。
+4. 每次工具执行后 `context.vcs.reload()`（`Vcs.info()` 有缓存，改仓库后必须刷新）。
+
+### 4.5 修复后真机结果
+
+```
+GET /api/vcs                    → {"provider":"git","branch":{"current":"main","default":"main"}}
+GET /api/vcs/branch             → ["main"]
+GET /api/vcs/status             → [{"file":"demo110/hello.txt","additions":1,"deletions":0,"status":"added"}, …]
+GET /api/vcs/diff?mode=working  → [{"file":"demo110/hello.txt",
+                                   "patch":"--- a/demo110/hello.txt
++++ b/demo110/hello.txt
+@@ -0,0 +1,1 @@
++jitless-ok
+", …}]
+node.log                        → [ark] vcs editor: keys=add,default default=true selection=git
+```
+
+⇒ 应用自带的变更/分支/差异界面在**没有 git 二进制**的设备上重新工作（FR-108-030/031 达成）。
+
+### 4.6 教训（已写进代码注释）
+
+- 「注册成功」的日志必须来自**回调内部**，不能来自 `await transform(...)` 之后——异步回调和 try/catch 会合谋制造假绿。
+- 上游 `Vcs` 是「**注册 + 选中**」两步，缺一步就是空实现；`location.vcs` 在无 git 设备上永远推导不出来。
 
 ## 五、本轮修掉的评审问题（详见 REVIEW_REPORT.md）
 
-Critical/Important 已修：VCS 选择（`editor.default.set` + `vcs.reload` 挂钩，**接口未透出 ⇒ 仍未生效**）、
+Critical/Important 已修：VCS 选择（`VCS_PROVIDER_ID` 导入 + `editor.default.set` + `vcs.reload` 挂钩，**已生效**）、
 插件投放的「目标摘要校验」（防被改写/删文件仍报最新）、原子投放（tmp + rename，防中途失败毁掉旧插件）、
 载荷移除后清理陈旧插件、包计数不再把 `@scope` 当包、静态断言覆盖 `.cjs/.mjs`、
 凭据文件 `0600` **回读校验**（不达标即 `write-failed`）。
 
 ## 六、遗留
 
-1. **VCS 界面覆盖未生效**（§四）：需确认 plugin 适配器是否透出 `editor.default.set`，否则需一条上游补丁。
+1. ~~VCS 界面覆盖未生效~~ **已修复**（根因：`VCS_PROVIDER_ID` 未 import + 诊断口径错误；见 §四）。
 2. 依赖树无 lockfile（评审 Important 5）：`npm install` 无 lock ⇒ 传递依赖可能漂移。建议提交
    `package-lock.json` 并改 `npm ci`；本轮已在缓存里固定一份，但未入库。
 3. `collect-opencode` 冷缓存时会联网装依赖（评审 Important 6）：CI 需预置 `.cache/git-plugin-runtime`。

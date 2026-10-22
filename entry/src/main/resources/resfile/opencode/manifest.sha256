@@ -530,8 +530,8 @@
     },
     {
       "path": "plugins/oc-plugin-git/index.js",
-      "sha256": "828a3158a7971458a10f4f7ce510e108b87a5d3411764a54952225a2d3db7b45",
-      "size": 10684,
+      "sha256": "8240c166bac8d21608d9d0381b3434d463f2e046a6cc296b25c03e7adfdbb53d",
+      "size": 11179,
       "kind": "asset"
     },
     {
@@ -704,7 +704,7 @@
     },
     {
       "path": "plugins/oc-plugin-git/materialize.json",
-      "sha256": "dabdd2605b6085128b3b697856d95b18c88126301532b3e18305cd1e921d01cc",
+      "sha256": "91e04e291d9992794eb6e3196314681e8915e819161ada88a73eded79b2b11e1",
       "size": 257,
       "kind": "asset"
     },
@@ -5511,6 +5511,6 @@
   ],
   "totals": {
     "count": 916,
-    "bytes": 73716419
+    "bytes": 73716914
   }
 }

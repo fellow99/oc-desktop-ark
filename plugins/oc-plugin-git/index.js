@@ -21,7 +21,7 @@ import {
   saveCredential,
 } from "./lib/credentials.js"
 import { buildTools, TOOL_NAMES } from "./lib/tools/index.js"
-import { createVcsProvider } from "./lib/vcs.js"
+import { VCS_PROVIDER_ID, createVcsProvider } from "./lib/vcs.js"
 
 export const PLUGIN_ID = "oc-ark-git"
 export const RPC_ID = "oc-ark-git"
@@ -212,6 +212,7 @@ const workspace = { fence, auth, log, credentialsFile, reloadVcs }
 
     // 2) VCS provider：失败不连带工具（只记日志）
     let vcsRegistered = false
+    let vcsSelection
     if (context?.vcs && typeof context.vcs.transform === "function") {
       try {
         await context.vcs.transform((editor) => {
@@ -221,7 +222,12 @@ const workspace = { fence, auth, log, credentialsFile, reloadVcs }
            * `Project.resolve` 里的 `Git.repo.discover`（`git rev-parse`）永远失败 ⇒
            * `location.vcs` 恒为 undefined ⇒ 谁都没选中 ⇒ `/api/vcs` 走空实现。
            * 因此必须在注册时把 selection 指到我们。 */
-          if (editor.default && typeof editor.default.set === "function") editor.default.set(VCS_PROVIDER_ID)
+          const hasDefault = !!(editor.default && typeof editor.default.set === "function")
+          if (hasDefault) editor.default.set(VCS_PROVIDER_ID)
+          /* 诊断（真机取证用）：确认适配器到底给了哪些方法、selection 是否真的落到 "git"。 */
+          vcsSelection = hasDefault ? String(editor.default.get()) : "no-default"
+          log(`vcs editor: keys=${Object.keys(editor).join(",")} default=${hasDefault}`
+            + ` selection=${vcsSelection}`)
         })
         vcsRegistered = true
       } catch (error) {
@@ -249,7 +255,7 @@ const workspace = { fence, auth, log, credentialsFile, reloadVcs }
 
     log(
       `plugin ${PLUGIN_ID}: tools=${tools.length} vcsProvider=${vcsRegistered ? "git(override)" : "none"} ` +
-        `credentials=${credentialsFile} root=${fence.root}`,
+        `credentials=${credentialsFile} root=${fence.root} vcsSelection=${vcsSelection ?? "pending(见下一行 vcs editor)"}`,
     )
 
     return () => {

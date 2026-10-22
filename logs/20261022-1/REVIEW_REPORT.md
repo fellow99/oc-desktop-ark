@@ -8,7 +8,7 @@
 
 | # | 意见 | 核验 | 处置 |
 |---|---|---|---|
-| C1 | `/api/vcs` 永远选不到插件 provider：上游 `Vcs.selected()` = `editor.selection ?? location.vcs?.type`，而设备无 git ⇒ `location.vcs` 恒 undefined；且 `Vcs.info()` 有缓存。注册成功 ≠ 被选中。`setTimeout` 补注册是无效 hack | ✅ 成立（bundle 内 `vcs` editor 形状确为 `{add, default:{get,set}}`，`selected()` 如上） | 已删 `setTimeout` 循环；改为在 transform 里 `editor.default.set("git")`，并在**每次工具执行后**调 `context.vcs.reload()`（`workspace.reloadVcs`）。**真机仍为空** ⇒ 本版本插件适配器很可能只透出 `add`（`editor.default` 为 undefined，可选调用被跳过）。已在 TEST_REPORT §四 登记为未达成项 + 两条候选修法 |
+| C1 | `/api/vcs` 永远选不到插件 provider：上游 `Vcs.selected()` = `editor.selection ?? location.vcs?.type`，而设备无 git ⇒ `location.vcs` 恒 undefined；且 `Vcs.info()` 有缓存。注册成功 ≠ 被选中。`setTimeout` 补注册是无效 hack | ✅ 成立（bundle 内 `vcs` editor 形状确为 `{add, default:{get,set}}`，`selected()` 如上） | 已删 `setTimeout` 循环；改为在 transform 里 `editor.default.set("git")`，并在**每次工具执行后**调 `context.vcs.reload()`（`workspace.reloadVcs`）。**首轮真机仍为空**，后续用本地桩上下文复现出真因：回调里用了未 import 的 `VCS_PROVIDER_ID` ⇒ `ReferenceError` 被 try/catch 吞掉；而上游 `vcs.transform(fn)` 的回调是**异步**执行的，所以 setup 结尾那行诊断报了假成功。补齐 import 后真机通过（`/api/vcs` → `provider:git, branch main`）。诊断口径已改为副作用口径。详见 TEST_REPORT §四 |
 | C2 | `payload/lib/plugins.js` 的幂等只比对「源 ↔ 标记」，目标被改写/删文件也报 `up-to-date`（同 UID 的 shell 工具能改到插件目录）⇒ 被改过的插件会一直 import | ✅ 成立 | 命中判据改为「标记一致 **且** 目标目录摘要 == 源摘要」（`digestDir(target)`）；标记只记来源 |
 
 ## 二、Important
