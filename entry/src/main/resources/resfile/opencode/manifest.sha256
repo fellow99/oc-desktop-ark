@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "baseline": "9b4ec5714d",
+  "baseline": "a517687fde",
   "form": "readonly",
   "node": "24.2.0",
   "target": "linux-arm64",
@@ -116,8 +116,8 @@
     },
     {
       "path": "assets/@opentui/core-linux-arm64/libopentui.so",
-      "sha256": "ad60b63349360af055c4a49dc850d49d3f5f601bcc23e3dc1959026ccf70e715",
-      "size": 5908024,
+      "sha256": "75b4415c2007b6ce47410ebaa0ce9114653a38df2be65d4f552b46cbfd78324b",
+      "size": 4851272,
       "kind": "asset"
     },
     {
@@ -175,6 +175,18 @@
       "kind": "asset"
     },
     {
+      "path": "assets/@opentui/core/assets/typescriptreact/highlights.scm",
+      "sha256": "a5c4f80e3877362ede003c734f26539a7f603ef51945494d226bf4a46ce260d1",
+      "size": 13049,
+      "kind": "asset"
+    },
+    {
+      "path": "assets/@opentui/core/assets/typescriptreact/tree-sitter-tsx.wasm",
+      "sha256": "79e5da75ea62855a0cd67177685f0164eac87d5f630b3cbe1e0a099751ad30f8",
+      "size": 1445638,
+      "kind": "asset"
+    },
+    {
       "path": "assets/@opentui/core/assets/zig/highlights.scm",
       "sha256": "f2232f0fde717543e4541cec871dd8633cb9bc6b5d1686a56b2d469c1dd9e6b6",
       "size": 3479,
@@ -188,8 +200,8 @@
     },
     {
       "path": "assets/@opentui/core/parser.worker.js",
-      "sha256": "cc39e6ba6470c793fa7de1b81888185c1a152904f116a0bb106b5f15276181d9",
-      "size": 172409,
+      "sha256": "4fb9e5b49cfe515d3a862a59798011bb66982f72a04aeeba67e4545d8a74d9c3",
+      "size": 172869,
       "kind": "asset"
     },
     {
@@ -212,8 +224,8 @@
     },
     {
       "path": "assets/app-archive.bin",
-      "sha256": "f6e4a73c1a3275c5bfa23e0c548c281391a76f21978799cd1d312941b3dff64f",
-      "size": 24121947,
+      "sha256": "be8eea8161c861c347fa749c70419719de58cd04e59d1575807f8df89fe710c5",
+      "size": 24136076,
       "kind": "ui-archive"
     },
     {
@@ -524,8 +536,8 @@
     },
     {
       "path": "opencode.mjs",
-      "sha256": "bd531a1fe05a64515049fbd135c50c6767555798b02b5ccf304266de14dbd3ac",
-      "size": 16452868,
+      "sha256": "7f0bb5b253e3a1e8c015842667b38e0bbd5f3c4b5c35fd0cce6db6bf0179103e",
+      "size": 17386162,
       "kind": "entry"
     },
     {
@@ -704,7 +716,7 @@
     },
     {
       "path": "plugins/oc-plugin-git/materialize.json",
-      "sha256": "3cafd9cab12e5393b34c6135e64d225b98fb459cfaf5e3b8cf5af2e114920711",
+      "sha256": "9a8cc28ec172f7bedb1f023cc4db18da74a0478c3bbfd0db00cbb81546e31da8",
       "size": 257,
       "kind": "asset"
     },
@@ -5510,7 +5522,7 @@
     }
   ],
   "totals": {
-    "count": 916,
-    "bytes": 73724711
+    "count": 918,
+    "bytes": 75074529
   }
 }
