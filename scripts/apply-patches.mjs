@@ -7,7 +7,7 @@
  * 「本工程已打补丁」，或者直接 `git apply` 失败在半路，留下**半应用**状态。
  *
  * 因此本脚本的规则是：
- *   ① HEAD 必须是锁定基线（默认 9b4ec5714d，可用 EXPECTED_BASELINE 覆盖）；
+ *   ① HEAD 必须是锁定基线（默认 a517687fde，可用 EXPECTED_BASELINE 覆盖）；
  *   ② 工作树必须干净（`git status --porcelain` 为空），否则拒绝执行；
  *      确实要丢弃本地改动时显式 `--reset --yes`（先 `git clean -nd` 打印将删除项）；
  *   ③ 每条补丁的幂等判据是 `git apply --reverse --check` 成功 ⇒ 已应用，跳过；
@@ -29,8 +29,8 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const patchDir = path.join(root, 'patches', 'v2.0.26')
-const EXPECTED = (process.env.EXPECTED_BASELINE ?? '9b4ec5714d').trim()
+const patchDir = path.join(root, 'patches', 'v2.1.2')
+const EXPECTED = (process.env.EXPECTED_BASELINE ?? 'a517687fde').trim()
 const args = process.argv.slice(2)
 const has = (name) => args.includes(name)
 const valueOf = (name) => {

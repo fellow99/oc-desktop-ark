@@ -31,7 +31,7 @@ const distNode = path.join(repo, 'packages/cli/dist-node')
 const bridgePayload = path.resolve(root, '../ohos-node-bridge/payload')
 const out = path.join(root, 'entry/src/main/resources/resfile/opencode')
 const NODE_VERSION = '24.2.0'
-const BASELINE = process.env.EXPECTED_BASELINE ?? '9b4ec5714d'
+const BASELINE = process.env.EXPECTED_BASELINE ?? 'a517687fde'
 
 if (!existsSync(path.join(distNode, 'opencode.mjs'))) {
   console.error(`✗ 缺少产物：${distNode}/opencode.mjs（先跑 scripts/build-opencode.mjs）`)
@@ -81,8 +81,9 @@ const PHOTON_REPLACEMENT = 'var photon_rsExports=(typeof WebAssembly==="undefine
 /**
  * 110-jitless（任务：shell 工具纯 JS 解析）：命令扫描器在 compat 下改走**纯 JS portable 扫描器**。
  *
- * 上游 `scan$2` 只有一条分叉：
- *     return tn?.portable ? yield* scanPortable(...) : yield* scanLegacy(...)
+ * v2.1.2 的上游分叉（`packages/core/src/shell/parse.ts`，bundle minified 后变量名 tn/ct/$t/en）：
+ *     return tn?.portable || (tn?.wasm ?? shellParserWasm).bash === ""
+ *       ? yield* scanPortable(...) : yield* scanLegacy(...)
  * `scanLegacy` 走 web-tree-sitter（WASM）⇒ compat 下 `shell` 工具直接抛
  * `WebAssembly is not defined`。而 `scanPortable` 用的是 bundle 自带的**纯 JS**
  * `ShellScan`（`scan(命令, "bash"|"zsh"|"posix")` / `scanPowerShell`），无 WASM 依赖。
@@ -92,8 +93,8 @@ const PHOTON_REPLACEMENT = 'var photon_rsExports=(typeof WebAssembly==="undefine
  *   · compat 形态：强制 portable，命令解析不再依赖 WASM。
  * 若上游把 portable 扫描器判成 `opaque`，工具会**明确报错**（"cannot analyze command"），不静默放行。
  */
-const SHELL_SCANNER_ANCHOR = 'return tn?.portable?yield*scanPortable(ct,$t,en):yield*scanLegacy(ct,$t,en)'
-const SHELL_SCANNER_REPLACEMENT = 'return (tn?.portable||typeof WebAssembly==="undefined")'
+const SHELL_SCANNER_ANCHOR = 'return tn?.portable||(tn?.wasm??shellParserWasm).bash===""?yield*scanPortable(ct,$t,en):yield*scanLegacy(ct,$t,en)'
+const SHELL_SCANNER_REPLACEMENT = 'return (tn?.portable||typeof WebAssembly==="undefined"||(tn?.wasm??shellParserWasm).bash==="")'
   + '?yield*scanPortable(ct,$t,en):yield*scanLegacy(ct,$t,en)'
 
 /**
