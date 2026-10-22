@@ -716,7 +716,7 @@
     },
     {
       "path": "plugins/oc-plugin-git/materialize.json",
-      "sha256": "9a8cc28ec172f7bedb1f023cc4db18da74a0478c3bbfd0db00cbb81546e31da8",
+      "sha256": "f0db2923a956b8e73c64b88bcadc3982856f12f121e297f554a7aa5814b2da88",
       "size": 257,
       "kind": "asset"
     },

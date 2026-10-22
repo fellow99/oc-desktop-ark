@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "note": "本工程运行时唯一事实源。运行时经 ohpm registry 双包接入：@fellow99/node-bridge（接口与加载器）+ @fellow99/node-runtime（Node 引擎本体）。libnode.so / libc++_shared.so 由 runtime 包随 assembleHap 合并进 HAP（宿主不得在 entry/libs/ 手工投放同名 .so）。本文件由 scripts/verify-runtime.mjs 消费（安装后/HAP 构建后校验，不符硬失败）。",
+  "bridge": {
+    "name": "@fellow99/node-bridge",
+    "version": "0.1.0"
+  },
+  "runtime": {
+    "name": "@fellow99/node-runtime",
+    "version": "24.2.0",
+    "node": "v24.2.0",
+    "nodeModuleVersion": 137,
+    "abi": "arm64-v8a",
+    "libnode": {
+      "file": "libs/arm64-v8a/libnode.so",
+      "size": 126809264,
+      "sha256": "3019bf5f9a279d98a87606fc13c53b0e797b6a50cf174f8a1243d880c71151a1",
+      "soname": "libnode.so.137"
+    },
+    "libcxx": "libc++_shared.so"
+  },
+  "source": {
+    "kind": "ohpm",
+    "registry": "https://ohpm.openharmony.cn",
+    "upstreamLock": "fellow99/ohos-node-bridge v0.1.0-2-g3b0dfa1 的 runtime.lock.json（字段同源摘录，2026-10-22 中心仓上架值）"
+  }
+}

@@ -6,9 +6,9 @@
 
 ```
 resfile/opencode/
-├── bootstrap.js               # 库引导器（来自 ohos-node-bridge/payload/bootstrap.js）
+├── bootstrap.js               # 库引导器（来自 payload/bridge/bootstrap.js，vendored 自 @fellow99/node-bridge）
 ├── opencode-server.js         # 本工程宿主入口（来自 payload/opencode-server.js）
-├── host.js                    # 库的宿主桥参考实现（可选，随库 payload 投放）
+├── host.js                    # 库的宿主桥参考实现（来自 payload/bridge/host.js）
 ├── manifest.sha256            # 每个文件的 SHA-256（唯一事实源；**入库**）
 └── assets/
     ├── app-archive.bin        # 内嵌 Web UI（brotli 归档）

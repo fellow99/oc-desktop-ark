@@ -2,10 +2,14 @@
   "modelVersion": "6.1.1",
   "description": "OC Desktop Ark —— opencode 桌面端的鸿蒙 Ark 版（进程内 Node + ArkWeb）",
   "dependencies": {
-    // 依赖的是**构建好的 HAR**（不是源目录）：本工程开着 useNormalizedOHMUrl，
-    // 跨工程以相对路径导入源码会被 hvigor 拒（00309001）。
-    // 由 scripts/build-bridge-har.sh 生成（不入库）。
-    "@fellow99/node-bridge": "file:./libs/@fellow99/node-bridge.har"
+    // ohpm registry 双包（已上架 OpenHarmony 三方库中心仓，2026-10-22）：
+    //   · @fellow99/node-bridge  —— 接口与加载器（ArkTS 字节码 + 引导件 .so + .d.ets）
+    //   · @fellow99/node-runtime —— Node 引擎本体（libs/arm64-v8a/libnode.so 随 assembleHap 合并进 HAP）
+    // 版本钉死（不用 * / file: 本地 HAR）；锁值见 runtime.lock.json，由 scripts/verify-runtime.mjs 校验。
+    // 注意：两个包必须分别安装（主包不声明对运行时包的传递依赖）；
+    // 宿主不得在 entry/libs/ 手工投放 libnode.so / libc++_shared.so（与运行时包两种来源择一）。
+    "@fellow99/node-bridge": "0.1.0",
+    "@fellow99/node-runtime": "24.2.0"
   },
   "devDependencies": {}
 }

@@ -15,7 +15,7 @@
 | 版本 | `2.1.2` / `versionCode 20102` |
 | 目标设备 | `2in1` / `tablet`（不做 phone） |
 | 上游基线 | opencode **v2.1.2**（tag `v2.1.2` / 提交 `a517687fde` / 分支 `Branch_v2.1.2`） |
-| Node 运行时 | `@fellow99/node-bridge` → **Node v24.2.0**（ABI 137，`platform=openharmony`） |
+| Node 运行时 | `@fellow99/node-bridge@0.1.0` + `@fellow99/node-runtime@24.2.0`（ohpm 双包）→ **Node v24.2.0**（ABI 137，`platform=openharmony`） |
 | 渲染 | **ArkWeb** `Web` 组件（应用进程内） |
 | 数据 | `node:sqlite`（WAL）→ `<filesDir>/data/opencode/opencode.db` |
 | 规划 | [`docs/000-工程规划.md`](docs/000-工程规划.md)（**唯一权威规划**） |
@@ -24,11 +24,13 @@
 ## 快速开始
 
 ```bash
-# ① 构建 bridge HAR（兄弟工程）→ libs/@fellow99/node-bridge.har
-./scripts/build-bridge-har.sh
+# ① 安装运行时双包（ohpm 中心仓；版本钉死在 oh-package.json5）
+ohpm install
+# @fellow99/node-bridge@0.1.0（接口与加载器）
+# @fellow99/node-runtime@24.2.0（Node 引擎本体；libnode.so 随 assembleHap 合并进 HAP）
 
-# ② 投放运行时（libnode.so ≈121 MB + libc++_shared.so）
-./scripts/provision-runtime.sh
+# ② 校验运行时锁值（libnode.so SHA-256/体积 = runtime.lock.json；幂等；不符硬失败）
+node scripts/verify-runtime.mjs
 
 # ③ 上游产物与载荷（补丁 → bun → bundle-only → 裁剪 → resfile）
 node scripts/apply-patches.mjs
@@ -39,9 +41,9 @@ node scripts/collect-opencode.mjs
 node scripts/smoke-node24.mjs
 
 # ⑤ 构建 HAP
-export DEVECO_SDK_HOME='D:\oh-workspace\command-line-tools-6\sdk'
-export PATH="/d/oh-workspace/deveco-studio-6/tools/node:$PATH"
-cmd //c "D:\oh-workspace\command-line-tools-6\bin\hvigorw.bat assembleHap \
+export DEVECO_SDK_HOME='D:\oh-workspace\command-line-tools\sdk'
+export PATH="/d/oh-workspace/command-line-tools/tool/node:$PATH"
+cmd //c "D:\\oh-workspace\\command-line-tools\\bin\\hvigorw.bat assembleHap \
   --mode module -p product=default -p buildMode=debug --no-daemon"
 ```
 
