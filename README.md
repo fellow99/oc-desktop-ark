@@ -12,9 +12,9 @@
 | 项 | 值 |
 |---|---|
 | 应用名 / 包名 | **OC Desktop Ark** / `org.fellow99.oc.OCDesktopArk` |
-| 版本 | `2.1.2` / `versionCode 20102` |
+| 版本 | `2.2.5` / `versionCode 20205` |
 | 目标设备 | `2in1` / `tablet`（不做 phone） |
-| 上游基线 | opencode **v2.1.2**（tag `v2.1.2` / 提交 `a517687fde` / 分支 `Branch_v2.1.2`） |
+| 上游基线 | opencode **v2.2.5**（tag `v2.2.5` / 提交 `9bbb8ce18c` / 分支 `Branch_v2.2.5`） |
 | Node 运行时 | `@fellow99/node-bridge@0.1.0` + `@fellow99/node-runtime@24.2.0`（ohpm 双包）→ **Node v24.2.0**（ABI 137，`platform=openharmony`） |
 | 渲染 | **ArkWeb** `Web` 组件（应用进程内） |
 | 数据 | `node:sqlite`（WAL）→ `<filesDir>/data/opencode/opencode.db` |
@@ -63,7 +63,7 @@ cmd //c "D:\\oh-workspace\\command-line-tools\\bin\\hvigorw.bat assembleHap \
 AppScope/     应用级配置（bundleName / 版本 / 图标 / 显示名）
 entry/        主模块：ArkTS 宿主（EntryAbility / pages / app / common / host）+ 资源
 payload/      Node 侧启动脚本（opencode-server.js + lib/*）
-patches/      上游幂等补丁（v2.1.2；v2.0.26 目录为历史锚点）
+patches/      上游幂等补丁（v2.2.5；v2.1.2 / v2.0.26 目录为历史锚点）
 scripts/      构建与门禁流水线
 specs/        规格体系（项目级 + 9 个模块）
 docs/         工程规划（唯一权威）

@@ -31,7 +31,7 @@ const distNode = path.join(repo, 'packages/cli/dist-node')
 const bridgePayload = path.resolve(root, 'payload/bridge')
 const out = path.join(root, 'entry/src/main/resources/resfile/opencode')
 const NODE_VERSION = '24.2.0'
-const BASELINE = process.env.EXPECTED_BASELINE ?? 'a517687fde'
+const BASELINE = process.env.EXPECTED_BASELINE ?? '9bbb8ce18c'
 
 if (!existsSync(path.join(distNode, 'opencode.mjs'))) {
   console.error(`✗ 缺少产物：${distNode}/opencode.mjs（先跑 scripts/build-opencode.mjs）`)
@@ -79,23 +79,12 @@ const PHOTON_REPLACEMENT = 'var photon_rsExports=(typeof WebAssembly==="undefine
   + '&&globalThis.__PI_JITLESS_PHOTON__)?globalThis.__PI_JITLESS_PHOTON__:requirePhoton_rs();'
 
 /**
- * 110-jitless（任务：shell 工具纯 JS 解析）：命令扫描器在 compat 下改走**纯 JS portable 扫描器**。
- *
- * v2.1.2 的上游分叉（`packages/core/src/shell/parse.ts`，bundle minified 后变量名 tn/ct/$t/en）：
- *     return tn?.portable || (tn?.wasm ?? shellParserWasm).bash === ""
- *       ? yield* scanPortable(...) : yield* scanLegacy(...)
- * `scanLegacy` 走 web-tree-sitter（WASM）⇒ compat 下 `shell` 工具直接抛
- * `WebAssembly is not defined`。而 `scanPortable` 用的是 bundle 自带的**纯 JS**
- * `ShellScan`（`scan(命令, "bash"|"zsh"|"posix")` / `scanPowerShell`），无 WASM 依赖。
- *
- * ⇒ 把分叉条件补上「compat 形态」：`tn?.portable || typeof WebAssembly === "undefined"`。
- *   · jit 形态：`WebAssembly` 存在 ⇒ 表达式与原值等价，行为零变化（配置项仍由用户决定）；
- *   · compat 形态：强制 portable，命令解析不再依赖 WASM。
- * 若上游把 portable 扫描器判成 `opaque`，工具会**明确报错**（"cannot analyze command"），不静默放行。
+ * v2.2.5 起 shell 命令扫描器不再需要 compat 补丁：
+ * `packages/core/src/shell/parse.ts` 的 scan() 已**无条件**走纯 JS 的 ShellScan
+ *（scanPowerShell / scan(bash|zsh|posix)），v2.1.2 时代 scanPortable↔scanLegacy(web-tree-sitter WASM)
+ * 的分叉被上游移除。因此原先的 shellScanner bundle 守卫在 v2.2.5 删除（锚点已不存在）。
+ * compat（无 WebAssembly）形态下 shell 工具天然不依赖 WASM；opaque 仍由上游显式 fail。
  */
-const SHELL_SCANNER_ANCHOR = 'return tn?.portable||(tn?.wasm??shellParserWasm).bash===""?yield*scanPortable(ct,$t,en):yield*scanLegacy(ct,$t,en)'
-const SHELL_SCANNER_REPLACEMENT = 'return (tn?.portable||typeof WebAssembly==="undefined"||(tn?.wasm??shellParserWasm).bash==="")'
-  + '?yield*scanPortable(ct,$t,en):yield*scanLegacy(ct,$t,en)'
 
 /**
  * 对 staged bundle 做**一处**锚点替换，并过三闸。
@@ -153,10 +142,6 @@ function applyPhotonGuard(file, stage) {
   return patchBundleOnce(file, stage, '守卫 photon 初始化', PHOTON_ANCHOR, PHOTON_REPLACEMENT)
 }
 
-/** shell 命令扫描器守卫（compat 下走纯 JS portable 扫描器）。 */
-function applyShellScannerGuard(file, stage) {
-  return patchBundleOnce(file, stage, '守卫 shell 命令扫描器', SHELL_SCANNER_ANCHOR, SHELL_SCANNER_REPLACEMENT)
-}
 
 /**
  * 本工程的**全部** bundle 级守卫（顺序无关；逐个独立三闸）。
@@ -164,7 +149,7 @@ function applyShellScannerGuard(file, stage) {
  */
 const BUNDLE_GUARDS = [
   { name: 'photon', label: 'photon 初始化', apply: applyPhotonGuard },
-  { name: 'shellScanner', label: 'shell 命令扫描器', apply: applyShellScannerGuard },
+  // shellScanner 守卫 v2.2.5 移除：上游 scan() 已无条件纯 JS（见上方说明）。
 ]
 
 /** 在 Buffer 里数非重叠出现次数。 */

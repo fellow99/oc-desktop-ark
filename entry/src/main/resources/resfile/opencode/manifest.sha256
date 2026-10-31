@@ -1,89 +1,21 @@
 {
   "schema": 1,
-  "baseline": "a517687fde",
+  "baseline": "9bbb8ce18c",
   "form": "readonly",
   "node": "24.2.0",
   "target": "linux-arm64",
   "toolchain": {
-    "node": "v24.7.0",
-    "bun": "1.3.14"
+    "node": "v24.14.1",
+    "bun": "1.4.4"
   },
   "removed": [
+    "@ff-labs/fff-bin-win32-x64",
+    "@lydell/node-pty-win32-x64",
+    "@parcel/watcher-win32-x64",
+    "@yuuang/ffi-rs-win32-x64-msvc",
     "opencode-pty"
   ],
   "files": [
-    {
-      "path": "assets/@ff-labs/fff-bin-linux-arm64-gnu/libfff_c.so",
-      "sha256": "3e037ac8584fa49eaeedc8eacbb116682854d4a623efcf7feb68f25656e7bfcd",
-      "size": 9451704,
-      "kind": "asset"
-    },
-    {
-      "path": "assets/@lydell/node-pty-linux-arm64/lib/eventEmitter2.js",
-      "sha256": "f1c14613aa90c10def4ca7238329270871997eb26f919f7074dc25533e3e75dd",
-      "size": 1600,
-      "kind": "asset"
-    },
-    {
-      "path": "assets/@lydell/node-pty-linux-arm64/lib/index.js",
-      "sha256": "c1b82c92c4c63aaa8e8441fc5a291c4727cd3f3550666d2fec7250e0f6d4b173",
-      "size": 2008,
-      "kind": "asset"
-    },
-    {
-      "path": "assets/@lydell/node-pty-linux-arm64/lib/interfaces.js",
-      "sha256": "56e4173f09aad26173f9d4c79800fda0b808c34424f987ef8d671cc931119a0a",
-      "size": 233,
-      "kind": "asset"
-    },
-    {
-      "path": "assets/@lydell/node-pty-linux-arm64/lib/terminal.js",
-      "sha256": "5ed5cd66a766afba4a04093284e999f8516d41936501839055800b10eca5d304",
-      "size": 7454,
-      "kind": "asset"
-    },
-    {
-      "path": "assets/@lydell/node-pty-linux-arm64/lib/types.js",
-      "sha256": "408bf8287717b6322cc380ea66caf1b5e366dcf697707ae2f3cc454e08f3b151",
-      "size": 228,
-      "kind": "asset"
-    },
-    {
-      "path": "assets/@lydell/node-pty-linux-arm64/lib/unixTerminal.js",
-      "sha256": "c3bb8dfceb9f99a5d7003041c0aff243eaa60f062538c88fc452c59ae516e74c",
-      "size": 13734,
-      "kind": "asset"
-    },
-    {
-      "path": "assets/@lydell/node-pty-linux-arm64/lib/utils.js",
-      "sha256": "6981b69ce5b162393f59f3a541f0e188b9e70bb8300786d1d6be83a231eac7ca",
-      "size": 1542,
-      "kind": "asset"
-    },
-    {
-      "path": "assets/@lydell/node-pty-linux-arm64/LICENSE",
-      "sha256": "a3d60eaf32d2fb09c9d82ef39f14bd6e2c0f3ca7de30daa827486c0d6f8b6e9f",
-      "size": 3326,
-      "kind": "asset"
-    },
-    {
-      "path": "assets/@lydell/node-pty-linux-arm64/package.json",
-      "sha256": "f88e6e3b346fd7a2c2650bb0ba392c8e6dfc961df69054df98f72db7b70a9fb5",
-      "size": 372,
-      "kind": "asset"
-    },
-    {
-      "path": "assets/@lydell/node-pty-linux-arm64/prebuilds/linux-arm64/pty.node",
-      "sha256": "d8314caa682827c0bcab6a7a2ef121a17065605e830d5eac55de3245333b3ad8",
-      "size": 69112,
-      "kind": "asset"
-    },
-    {
-      "path": "assets/@lydell/node-pty-linux-arm64/README.md",
-      "sha256": "53f816106182aec95ce7ef3e0a084c5c53700a64a13a9e91290f51b3a9bfd9c3",
-      "size": 89,
-      "kind": "asset"
-    },
     {
       "path": "assets/@opencode/ui/audio/bip-bop-01.mp3",
       "sha256": "129765d4203f92ecb36ba17553b037ebf4daf28ebb56013b3896d3e7e36f2d74",
@@ -115,9 +47,9 @@
       "kind": "asset"
     },
     {
-      "path": "assets/@opentui/core-linux-arm64/libopentui.so",
-      "sha256": "75b4415c2007b6ce47410ebaa0ce9114653a38df2be65d4f552b46cbfd78324b",
-      "size": 4851272,
+      "path": "assets/@opentui/core-win32-x64/opentui.dll",
+      "sha256": "95b79f3a48dd4d1f9b4ca87e6e4e4145a5f32e80c81b4010b577a5bdba64b0d3",
+      "size": 5234568,
       "kind": "asset"
     },
     {
@@ -205,40 +137,16 @@
       "kind": "asset"
     },
     {
-      "path": "assets/@parcel/watcher-linux-arm64-glibc/watcher.node",
-      "sha256": "a0bc8fc5f3e68e95218c2541b812dc07ba5fb8afd765b6252ab9e68ba5edb2aa",
-      "size": 457680,
-      "kind": "asset"
-    },
-    {
       "path": "assets/@silvia-odwyer/photon-node/photon_rs_bg.wasm",
       "sha256": "10468181565c56004c867f3a4af96f89a0ef5a63a72f2b5fb12c1f1992a3615c",
       "size": 1881634,
       "kind": "asset"
     },
     {
-      "path": "assets/@yuuang/ffi-rs-linux-arm64-gnu/ffi-rs.linux-arm64-gnu.node",
-      "sha256": "2edcff26d4127dbaf453e8e1771b593c180ea254b9866117f7fe7780bc17429d",
-      "size": 709704,
-      "kind": "asset"
-    },
-    {
       "path": "assets/app-archive.bin",
-      "sha256": "be8eea8161c861c347fa749c70419719de58cd04e59d1575807f8df89fe710c5",
-      "size": 24136076,
+      "sha256": "cdf31d62c9be6a6cf3869c9b9bcb7be5d4e498c7a4d4318cbab63dbd57853ff1",
+      "size": 25828732,
       "kind": "ui-archive"
-    },
-    {
-      "path": "assets/tree-sitter-bash/tree-sitter-bash.wasm",
-      "sha256": "364f0a2cd385c792239423026ef442dbd073d34c396b7bc9e5932426b8e4aa5d",
-      "size": 1380769,
-      "kind": "asset"
-    },
-    {
-      "path": "assets/tree-sitter-powershell/tree-sitter-powershell.wasm",
-      "sha256": "1d30b5a21866354aa2eb94845556f1e19126ff00e3335048719a0e6435b1c154",
-      "size": 983236,
-      "kind": "asset"
     },
     {
       "path": "assets/web-tree-sitter/tree-sitter.wasm",
@@ -506,14 +414,14 @@
     },
     {
       "path": "jitless/wasm-patch.js",
-      "sha256": "473ea3420bd8823d7620d65983affac82b7c1450c25f1ade0dabca5334d494d9",
-      "size": 5744,
+      "sha256": "cca46bc10e8d1ed8e6bb4bf9f1d2eb4588de14319d03c046f720debe67d14f35",
+      "size": 5633,
       "kind": "asset"
     },
     {
       "path": "lib/env.js",
-      "sha256": "f6f59aeca0b54ee4e82550924dd1d36e0b9fb74b4a2ca0492c1cbe8de89a2bef",
-      "size": 1413,
+      "sha256": "20ff8f74c60831be157b06d28b85f0aa12c244996d1e449a325e651bfb4e1e81",
+      "size": 1380,
       "kind": "asset"
     },
     {
@@ -524,8 +432,8 @@
     },
     {
       "path": "lib/ready.js",
-      "sha256": "8ae428cca12a73842b57d89ffb7bc691555863edb960f002140c7c0e0547cf2b",
-      "size": 1390,
+      "sha256": "96001f508285397a606acb774ce4cdda73090e703cac646749da115d5b22fa60",
+      "size": 1347,
       "kind": "asset"
     },
     {
@@ -536,8 +444,8 @@
     },
     {
       "path": "opencode.mjs",
-      "sha256": "7f0bb5b253e3a1e8c015842667b38e0bbd5f3c4b5c35fd0cce6db6bf0179103e",
-      "size": 17386162,
+      "sha256": "b41d3438641177b071798da0907c4b56edca6d9dd2b00459984933b9485a89ac",
+      "size": 21636002,
       "kind": "entry"
     },
     {
@@ -548,8 +456,8 @@
     },
     {
       "path": "plugins/oc-plugin-git/lib/auth.js",
-      "sha256": "fa35fbc933f4f28fcb9d8b71483bfbd9e40a681f63c9ab77ca4d87417f2cf9c8",
-      "size": 3727,
+      "sha256": "b4957b424dd978e8611cf5743e0e7be7fb46ffdd19a43af5c538681e1ac8a7d0",
+      "size": 3827,
       "kind": "asset"
     },
     {
@@ -560,44 +468,44 @@
     },
     {
       "path": "plugins/oc-plugin-git/lib/diff.js",
-      "sha256": "892d64bd84daaebe1ba3716975c4584af590cbdd34dc0e603f6f6acd05f14b1f",
-      "size": 2976,
+      "sha256": "480bbf7d2d72dbd3705de1ab121907c9d3d1b09a5179771e7aa198d3130d99ee",
+      "size": 3055,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/fence.js",
-      "sha256": "f489d06d4ad4d92ec32d350d64c74e269a1342abc067acb85bb4a1bba0078457",
-      "size": 3477,
+      "sha256": "8585c74e5fc40e7330d9de803ba8e07040edabb347f05981802719c641aef6ec",
+      "size": 3563,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/fs-adapter.js",
-      "sha256": "e9378192d51a8fa74895dc20860f9ce79de1cdba4c3a16be7d4ae2df9b1ee00c",
-      "size": 3411,
+      "sha256": "079dab709c4f2aa042f48eb1456221f2ecbfd7ede24831ef150fcbd919ee351e",
+      "size": 3498,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/repo.js",
-      "sha256": "f4491d62f1f41b134762787add878429a3b5cdf49945a277330da70c0a40d6a9",
-      "size": 9083,
+      "sha256": "c6fc78055744b91b595b65f1d9a64e3520b963f2979ff600d347d0adc3b5fb9e",
+      "size": 9333,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/report.js",
-      "sha256": "cd7d849bac1f2adeecb5211695b2c63786d5667a724fcb2865f05bfb27fc4f31",
-      "size": 5666,
+      "sha256": "b41f7241755f196eac96416a0d93056c73cf5d833935854da2364d20342c4773",
+      "size": 5830,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/runtime.js",
-      "sha256": "78e635c0f15fbd70a9ccc18ccd47151f38ed26450ef7d3ac4ae8d0276f48d97c",
-      "size": 2890,
+      "sha256": "90d886b28f35de4a0faf76b18a412ea6ce6b98c80005f8acfaf50d4dfb7a1c70",
+      "size": 2967,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/add.js",
-      "sha256": "68b45e9a1e2a990d773e6d8ee27b24f6b1bcd7aa00107a226ab211d743842b5f",
-      "size": 1952,
+      "sha256": "c168e5affc063f7b42a32b1ed149abbff62df5ea09668b7236a7f6274945ee5c",
+      "size": 1998,
       "kind": "asset"
     },
     {
@@ -608,26 +516,26 @@
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/checkout.js",
-      "sha256": "0614605d533981b7cf85282443f139773126a85600df0daff3456490390f2cfa",
-      "size": 2094,
+      "sha256": "3d8dd0f4fa00403f7480f7338182175cb7c7e32d99a9ad26a86c880d84b75058",
+      "size": 2144,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/clone.js",
-      "sha256": "8789d12412c68af8134a37960080f29fbfbccd4c1121d6714ed395fbcb6472dc",
-      "size": 2891,
+      "sha256": "1f46d343b114ffffa3602b0e76b505ef3489c7bbfc6f5fc5cfec3b56a234d813",
+      "size": 2957,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/commit.js",
-      "sha256": "48ad97a66406d73d27eaa00131f8dce2561c42037327aa4515631213fa3b57e1",
-      "size": 2800,
+      "sha256": "62844a9518469595bf3adf021647c3fa8bcefbc7893b805c025d2e02be1c16a6",
+      "size": 2859,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/diff.js",
-      "sha256": "7eb60716285b3cac37bc763a37b08135244096747d2de1fea2b4dfc71e075d3f",
-      "size": 3673,
+      "sha256": "a9b957a95922fb12b8092047221709457162c15a3e2bd397661b085bb00776b9",
+      "size": 3749,
       "kind": "asset"
     },
     {
@@ -638,32 +546,32 @@
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/index.js",
-      "sha256": "af9a4e8f3780eb64667f5c8194159ba026aaedca31dab049da197b56c8f7fd3b",
-      "size": 2113,
+      "sha256": "aefe464b70e91e804ff6da95c2902ef933e207b34bdc297ecbd6a0ddafe58cd4",
+      "size": 2184,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/init.js",
-      "sha256": "1f439d79ed4d8a9c0776f9f5e5d7345dd2c5dd559d2c803a23371ccb52749a62",
-      "size": 1110,
+      "sha256": "afcae6545b0b353e5cdbe11c4b192586ae2c48df94d9950ad6491f20edb58e04",
+      "size": 1135,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/log-show.js",
-      "sha256": "42b6e067b1281fa97b6295c2cfd5e1439e8e60c5e0ab689de0763feaa5de540b",
-      "size": 4927,
+      "sha256": "9f7b47820358e2a7add3d0080ce3720f705a31e4417d598ba4e7e9ff92ad23e3",
+      "size": 5031,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/push-config.js",
-      "sha256": "2aa8eca3febdef5e512e18381c251e73b4981f665fa5a8cc31c0b2ce3b552747",
-      "size": 5878,
+      "sha256": "91aa46d7efa62bb3ee6b079ad12c0f153caef44e8afc23f6b38ba73a192209d1",
+      "size": 6006,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/remote.js",
-      "sha256": "01a58838779e4a21288a32fc29aa06e87f93995875a9af8e2d1f5c0a06b503a3",
-      "size": 4738,
+      "sha256": "abae2f5dfd5088da14c999bc802267c474b11cf4f29bd0687d70ecc694d49aa5",
+      "size": 4841,
       "kind": "asset"
     },
     {
@@ -680,50 +588,50 @@
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/shared.js",
-      "sha256": "4c1c9ebbebf76381a789752a93ce5dad6ac40e6bd5f4e189901b6fe0207755ac",
-      "size": 927,
+      "sha256": "4f1b6a39a20adf553b4272afbbc3902e23bb3fae5ee5702b6292fb7b436b04ec",
+      "size": 952,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/stash.js",
-      "sha256": "b998b5f79cc678056bff51e506202e122d7392b02b647caf67efeca828d0776f",
-      "size": 3279,
+      "sha256": "1225e0a295acf94c47c776a588b0e7995e91f577214c8a9c1b54caf6459f86ee",
+      "size": 3346,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/status.js",
-      "sha256": "2f316904c3629be757cfd64527cb0d02e1e9443ff758fec093fa482604d36bce",
-      "size": 1460,
+      "sha256": "e5bcf1832f478ee9864f3cf6eaa8655262c0e449a1dad019437cf542bebf8c2c",
+      "size": 1494,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/tag.js",
-      "sha256": "73a6c6b78bc92f72dc196dbd7383aa95397d915d614dc9c223a896337939052b",
-      "size": 2738,
+      "sha256": "9dbfaaa9e42ae0577d4a462761ffb027a9b57d00f211e7e1003a807807dd9923",
+      "size": 2791,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/vcs.js",
-      "sha256": "a2ce02b9aa10c00a1bb5c0836840c90d4121e18d88fdefebc59dafe974127ffc",
-      "size": 7607,
+      "sha256": "218de1d237de8d42d5d8463f07f160639a0e08372ccf7010b5436cd953ee4fcc",
+      "size": 7798,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/walk-diff.js",
-      "sha256": "9cf26334b60c97774ad19a7571e38181548ef7bee59e10cd1e7cdabff5136ceb",
-      "size": 4140,
+      "sha256": "cb1bfb5d5f8fedaf7a0101ac0eb9e0911c533cf7993f8337083bb5c63eaaea2a",
+      "size": 4244,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/materialize.json",
-      "sha256": "f0db2923a956b8e73c64b88bcadc3982856f12f121e297f554a7aa5814b2da88",
+      "sha256": "1e6de72fee1ba9638d5dc98159c85e827d80b96535059ef9791d9288ba86a059",
       "size": 257,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/node_modules/.package-lock.json",
-      "sha256": "a64b6c614b17e9424e126698fda05aed19e74e05f200622667da5bb245dfe5f0",
-      "size": 26795,
+      "sha256": "c5e0d4712adcf662b8e09ef76087cfe410479188c856223ccf8130c5be0c7175",
+      "size": 26067,
       "kind": "asset"
     },
     {
@@ -5504,14 +5412,14 @@
     },
     {
       "path": "plugins/oc-plugin-git/package.json",
-      "sha256": "0937c1d1d576a7d9f4c8186921e82b1a3790104d192ef981fcd622759def7e65",
-      "size": 322,
+      "sha256": "7c73669f24e7b5a80073b45f25badef9d3e86da36fd9a0cfc03055b112aaab44",
+      "size": 334,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/README.md",
-      "sha256": "18cf849e53bcaeaa8689fae38c7f0def07dda03def6c01979fedffbb02e8bfcf",
-      "size": 5099,
+      "sha256": "aeaa6a73cc79b4a307227f59dfe158b754a880cd2f7b88c449b5284f49e434cc",
+      "size": 5175,
       "kind": "asset"
     },
     {
@@ -5522,7 +5430,7 @@
     }
   ],
   "totals": {
-    "count": 918,
-    "bytes": 75074529
+    "count": 902,
+    "bytes": 68318748
   }
 }

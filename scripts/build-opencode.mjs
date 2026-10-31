@@ -30,16 +30,16 @@ const WIN = process.platform === 'win32'
 const BUN = process.env.BUN_BIN || 'bun'
 const useShell = WIN && !process.env.BUN_BIN
 
-// 上游 packageManager 要求 bun ^1.4.2（102 plan ⚠️）：本机版本偏低时只告警，不静默
+// 上游 packageManager 要求 bun ^1.4.4（v2.2.5 packageManager）：本机版本偏低时只告警，不静默
 const bunProbe = spawnSync(BUN, ['--version'], { encoding: 'utf8', shell: useShell })
 const bunVersion = bunProbe.status === 0 ? (bunProbe.stdout || '').trim() : ''
 if (bunVersion === '') {
-  console.error('✗ 未找到 bun（请安装 1.4.x，或用 PATH 指向 .cache/bun/bun-1.4.2）')
+  console.error('✗ 未找到 bun（请安装 1.4.4，或用 PATH 指向 .cache/bun/bun-1.4.4）')
   process.exit(2)
 }
 const [bunMajor, bunMinor] = bunVersion.split('.').map((v) => Number.parseInt(v, 10))
 if (bunMajor < 1 || (bunMajor === 1 && bunMinor < 4)) {
-  console.warn(`⚠ 上游要求 bun ^1.4.2，本机 ${bunVersion}；产物可能与门禁/真机不一致（102 plan §1 已登记）`)
+  console.warn(`⚠ 上游要求 bun ^1.4.4，本机 ${bunVersion}；产物可能与门禁/真机不一致（102 plan §1 已登记）`)
 } else {
   console.log(`bun ${bunVersion}`)
 }
