@@ -1,7 +1,8 @@
-# 101 — 版本更新：2.1.2 功能规格
+# 011 — 版本更新：2.1.2 功能规格
 
-> **Module:** release ｜ **Status:** Implementing ｜ **Last Updated:** 2026-10-22
-> **需求编号:** 101-version-2.1.2（跨端统一模块名 `101-version-<VERSION>`；由原目录 111-version-2.1.2 更名）
+> **Module:** 011-version-2.1.2 ｜ **Status:** Implementing ｜ **Last Updated:** 2026-10-22
+> **需求编号:** 011-version-2.1.2（跨端统一模块名 `011-version-<VERSION>`；由原目录 111-version-2.1.2 更名）
+> **FR 编号:** 原 `FR-ark-101..109` 已迁移为 `FR-011-001..009`
 > **需求名称:** 版本更新：2.1.2
 > **git 分支:** 不改动（不新建、不切换、不重命名；沿用 `main`，与 `./opencode` 的 `Branch_v2.1.2` 无关）
 > **涉及工程:** `oc-desktop-ark`（父工程 `D:\opencode-workspace\`）
@@ -42,17 +43,17 @@
 
 ## 4. 需求条目
 
-- **FR-ark-101**（MUST）：清理中间/临时文件；不得删除源码、配置、文档、`patches/`、`specs/`、`payload/`、
+- **FR-011-001**（MUST）：清理中间/临时文件；不得删除源码、配置、文档、`patches/`、`specs/`、`payload/`、
   依赖目录（`oh_modules/`、`libs/`）与签名材料；清理后 `git status` 不得出现已跟踪文件被删除。
-- **FR-ark-102**（MUST）：`AppScope/app.json5` 的 `versionName = "2.1.2"`、`versionCode = 20102`。
-- **FR-ark-103**（MUST）：版本号同步 `README.md` / `specs/README.md`；无「当前版本 2.0.26」语义残留（历史锚点除外）。
-- **FR-ark-104**（MUST）：新建 `patches/v2.1.2/`，每条补丁满足正向 `--check` 与应用后 `--reverse --check`；
+- **FR-011-002**（MUST）：`AppScope/app.json5` 的 `versionName = "2.1.2"`、`versionCode = 20102`。
+- **FR-011-003**（MUST）：版本号同步 `README.md` / `specs/README.md`；无「当前版本 2.0.26」语义残留（历史锚点除外）。
+- **FR-011-004**（MUST）：新建 `patches/v2.1.2/`，每条补丁满足正向 `--check` 与应用后 `--reverse --check`；
   `patches/v2.0.26/` 原地保留（历史锚点）。
-- **FR-ark-105**（MUST）：构建链全绿（含 `smoke-node24` host 门禁），产出签名 HAP。
-- **FR-ark-106**（MUST）：真机部署成功：卸载 → 安装 → 启动 → ArkWeb 界面加载非白屏。
-- **FR-ark-107**（MUST）：真机测试通过（`test-cases.md`）。
-- **FR-ark-108**（MUST）：**敏感信息不落盘**（§6）。
-- **FR-ark-109**（SHOULD）：提交按 `git-commit` 技能规范前缀；本地签名配置不入库。
+- **FR-011-005**（MUST）：构建链全绿（含 `smoke-node24` host 门禁），产出签名 HAP。
+- **FR-011-006**（MUST）：真机部署成功：卸载 → 安装 → 启动 → ArkWeb 界面加载非白屏。
+- **FR-011-007**（MUST）：真机测试通过（`test-cases.md`）。
+- **FR-011-008**（MUST）：**敏感信息不落盘**（§6）。
+- **FR-011-009**（SHOULD）：提交按 `git-commit` 技能规范前缀；本地签名配置不入库。
 
 ## 5. 验收标准
 

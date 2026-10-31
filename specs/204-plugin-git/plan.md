@@ -1,6 +1,6 @@
-# Git 插件（108-git-plugin）—— 实现方案
+# Git 插件（204-plugin-git）—— 实现方案
 
-> **模块**：`108-git-plugin` ｜ **状态**：Proposed ｜ **日期**：2026-10-18 ｜ 对应规格：[`spec.md`](./spec.md)
+> **模块**：`204-plugin-git` ｜ **状态**：Proposed ｜ **日期**：2026-10-18 ｜ 对应规格：[`spec.md`](./spec.md)
 > **依据**：`docs/000-工程规划.md` v0.3 §5.9 / §8.1 / §8.4 / §12.1 A5；`specs/constitution.md`（C1–C6、S1–S7）｜ 证据口径：✅ 本机核对上游源码 ｜ 🔶 沿用 `oc-desktop-hos` ｜ ⬜ 待真机
 ## 1. 技术上下文
 
@@ -26,7 +26,7 @@
 | **C5 崩溃终态** | 插件 `setup()` 抛错只让插件 `failed`，不拖垮服务端；工具与 VCS 注册分别 try/catch，崩溃不静默 | §6.6 |
 | **C6 判据可证伪** | 断言全部可执行：工具表、版本 pin、包数/体积、异步契约、越界拒绝、`0600`、真机 diff→提交 | §7 |
 
-**安全条款映射**：`S2/S3`（口令与 token 不入日志）→ NFR-108-004；`S6`（目录经授权）→ 围栏（§6.2）。
+**安全条款映射**：`S2/S3`（口令与 token 不入日志）→ NFR-204-004；`S6`（目录经授权）→ 围栏（§6.2）。
 ## 3. 研究结论（引用规划 § 号 + 源码 `path:line`；编号跳空 = 该条已并入前一行）
 
 | # | 结论 | 证据 |
@@ -145,7 +145,7 @@ node scripts/collect-plugins.mjs                # 含物化断言 + 清单
 | `scripts/collect-plugins.mjs` / `scripts/verify-git-plugin.mjs` | 投放 + 物化 + 断言 + 清单 / 宿主门禁 |
 | `payload/lib/plugins.js` | 启动期幂等 copy 到配置目录（C3） |
 | `patches/v2.0.26/0008-git-credentials-settings.patch` | 「设置 → Git」页（自门控） |
-| `specs/108-git-plugin/{spec.md,plan.md}` | 本模块规格与方案 |
+| `specs/204-plugin-git/{spec.md,plan.md}` | 本模块规格与方案 |
 ### 8.2 修改
 | 路径 | 改动 |
 |---|---|

@@ -78,14 +78,14 @@ ArkTS 层**只**做四件事：**启动编排 / 观测 / 宿主能力 / 渲染**
 ### D3 单一事实源
 
 - 端口/路径/环境变量名：只在 `entry/src/main/ets/common/Constants.ets` 与 `payload/lib/env.js` 定义一次，两边**镜像**而非各写一套。
-- 补丁清单：只在 `patches/v2.0.26/README.md` 与 `scripts/apply-patches.mjs` 的目录扫描逻辑中体现。
+- 补丁清单：只在 `patches/v2.2.5/README.md` 与 `scripts/apply-patches.mjs` 的目录扫描逻辑中体现。
 - 版本号：`AppScope/app.json5` 一处定义，其余引用。
 
 ### D4 共享 submodule 的基线守卫
 
 `../opencode` 被 `oc-desktop-hos` 与本工程**共用**。因此：
 
-- 打补丁前必须校验 `HEAD = 9b4ec5714d` 且工作树干净；
+- 打补丁前必须校验 `HEAD = 9bbb8ce18c` 且工作树干净；
 - **同一时刻只允许一个工程处于「已打补丁」状态**，构建必须串行；
 - 需要丢弃本地改动时必须显式 `--reset --yes`（先 `git clean -nd` 打印将删除项）。
 
@@ -98,7 +98,7 @@ ArkTS 层**只**做四件事：**启动编排 / 观测 / 宿主能力 / 渲染**
 
 ### D6 版本与分支
 
-- 版本：`versionName 2.0.26` / `versionCode 20026`（`major*10000 + minor*100 + patch`），与上游对齐。
+- 版本：`versionName 2.2.5` / `versionCode 20205`（`major*10000 + minor*100 + patch`），与上游对齐。
 - 分支：遵循需求方指定；**未指定时不在子模块内新建分支**。
 
 ---
@@ -121,7 +121,7 @@ ArkTS 层**只**做四件事：**启动编排 / 观测 / 宿主能力 / 渲染**
 
 | 门 | 命令 / 判据 | 通过标准 |
 |---|---|---|
-| G-补丁 | `node scripts/apply-patches.mjs --check` | 基线正确、工作树干净、3 条补丁均可干净应用 |
+| G-补丁 | `node scripts/apply-patches.mjs --check` | 基线正确、工作树干净、5 条补丁均可干净应用 |
 | G-语法 | `node --check scripts/*.mjs payload/**/*.js` | 无语法错误 |
 | G-载荷 | `node scripts/build-opencode.mjs` + `collect-opencode.mjs` | 产出 `dist-node/opencode.mjs` + `assets/app-archive.bin` |
 | G-host | `node scripts/smoke-node24.mjs` | `/api/info` 200、`/` 返回 SPA、SSE 首事件 |
@@ -160,7 +160,7 @@ ArkTS 层**只**做四件事：**启动编排 / 观测 / 宿主能力 / 渲染**
 
 | 工程 | 关系 | 许可 |
 |---|---|---|
-| `opencode`（v2.0.26） | 上游，仅幂等补丁 | MIT |
+| `opencode`（v2.2.5） | 上游，仅幂等补丁 | MIT |
 | `@fellow99/node-bridge` / `@fellow99/node-runtime`（ohpm 包） | 运行时依赖（双包：接口与加载器 / Node 引擎本体） | MIT（runtime 包随附 Node.js 官方 LICENSE） |
 | `pi-desktop-ark` | 同形态参考（骨架来源） | MIT |
 | `oc-desktop-hos` | 能力对照基线 + 补丁根因来源 | MIT |

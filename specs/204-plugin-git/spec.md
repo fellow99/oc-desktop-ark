@@ -1,6 +1,6 @@
-# Git 插件（108-git-plugin）—— 规格
+# Git 插件（204-plugin-git）—— 规格
 
-> **模块**：`108-git-plugin` ｜ **状态**：Proposed ｜ **日期**：2026-10-18 ｜ **应用**：OC Desktop Ark / `org.fellow99.oc.OCDesktopArk`
+> **模块**：`204-plugin-git` ｜ **状态**：Proposed ｜ **日期**：2026-10-18 ｜ **应用**：OC Desktop Ark / `org.fellow99.oc.OCDesktopArk`
 > **依据**：`docs/000-工程规划.md` v0.3 §5.9（插件与 Git）、§8.1（能力对齐）、§12.1 A5（hmdfs / flock 风险）、§14.2；`specs/constitution.md`（C1–C6、S1–S7）
 > **证据口径**：✅ 实测 ｜ 🔶 沿用 ｜ ⬜ 待验证
 > **技术无关**：具体 git 库、版本号、依赖包名与文件落点一律见 [`plan.md`](./plan.md)；本文件只写行为与判据。
@@ -41,60 +41,60 @@
 | US-108-06 | 维护者 | 我能在构建期看到工具表 / 依赖版本 / 体积是否符合约束，而不是等真机才发现。 |
 
 ## 3. 功能需求
-> 级别：MUST / MUST NOT / SHOULD（RFC 2119）。编号 `FR-108-NNN` 永不复用。
+> 级别：MUST / MUST NOT / SHOULD（RFC 2119）。编号 `FR-204-NNN` 永不复用。
 
 ### 3.1 引擎与工具面
 
 | 编号 | 需求 | 判据 |
 |---|---|---|
-| FR-108-001 | 插件 MUST 用**纯 JavaScript** 的 git 实现在设备侧完成操作；MUST NOT 依赖外部 git 命令、MUST NOT 依赖原生模块、MUST NOT 起子进程 | 插件目录零 `.node`/`.so`；源码零进程创建调用；构建期静态断言 |
-| FR-108-002 | 插件 MUST 注册且仅注册 21 个工具：`git_init` `git_clone` `git_status` `git_diff` `git_log` `git_show` `git_add` `git_commit` `git_branch` `git_checkout` `git_reset` `git_merge` `git_cherry_pick` `git_revert` `git_stash` `git_tag` `git_remote` `git_fetch` `git_pull` `git_push` `git_config` | 构建期期望工具表 = 实现表；缺一个或改名即失败 |
-| FR-108-003 | 每个工具 MUST 接受可选 `dir`（相对会话目录解析；缺省 = 会话目录）并 MUST 校验其落在项目根内 | 单测覆盖缺省/相对/越界三种输入 |
-| FR-108-004 | 任何工具 MUST NOT 携带凭据字段（用户名/口令/token），凭据只经 FR-108-020 的文件读取 | 工具 schema 静态检查：凭据类字段零命中 |
-| FR-108-005 | 上游库缺失的三项能力 MUST 自建：`git_show`（提交/树/对象/标签展示）、`git_diff`（统一 diff / 统计 / 二进制判定）、`git_revert`（反向提交，fail-closed） | 单测：show 元信息、diff 文本、revert 冲突拒绝 |
-| FR-108-006 | `rebase` MUST NOT 交付；被请求时 MUST 明确回「本平台不支持（实现无此原语）」，MUST NOT 用 merge 冒充 | 对话用例：问到 rebase 时返回该文本 |
-| FR-108-007 | 工具注册后 MUST 逐个复查注册表；任一缺失 MUST 抛错使插件状态为失败（fail-visible） | 反例：删一个工具 → 插件 `failed` 且日志点名 |
-| FR-108-008 | 工具调用 MUST 支持取消（透传取消信号）；被取消 MUST NOT 记为失败 | 取消用例：返回「已取消」而非错误 |
+| FR-204-001 | 插件 MUST 用**纯 JavaScript** 的 git 实现在设备侧完成操作；MUST NOT 依赖外部 git 命令、MUST NOT 依赖原生模块、MUST NOT 起子进程 | 插件目录零 `.node`/`.so`；源码零进程创建调用；构建期静态断言 |
+| FR-204-002 | 插件 MUST 注册且仅注册 21 个工具：`git_init` `git_clone` `git_status` `git_diff` `git_log` `git_show` `git_add` `git_commit` `git_branch` `git_checkout` `git_reset` `git_merge` `git_cherry_pick` `git_revert` `git_stash` `git_tag` `git_remote` `git_fetch` `git_pull` `git_push` `git_config` | 构建期期望工具表 = 实现表；缺一个或改名即失败 |
+| FR-204-003 | 每个工具 MUST 接受可选 `dir`（相对会话目录解析；缺省 = 会话目录）并 MUST 校验其落在项目根内 | 单测覆盖缺省/相对/越界三种输入 |
+| FR-204-004 | 任何工具 MUST NOT 携带凭据字段（用户名/口令/token），凭据只经 FR-204-020 的文件读取 | 工具 schema 静态检查：凭据类字段零命中 |
+| FR-204-005 | 上游库缺失的三项能力 MUST 自建：`git_show`（提交/树/对象/标签展示）、`git_diff`（统一 diff / 统计 / 二进制判定）、`git_revert`（反向提交，fail-closed） | 单测：show 元信息、diff 文本、revert 冲突拒绝 |
+| FR-204-006 | `rebase` MUST NOT 交付；被请求时 MUST 明确回「本平台不支持（实现无此原语）」，MUST NOT 用 merge 冒充 | 对话用例：问到 rebase 时返回该文本 |
+| FR-204-007 | 工具注册后 MUST 逐个复查注册表；任一缺失 MUST 抛错使插件状态为失败（fail-visible） | 反例：删一个工具 → 插件 `failed` 且日志点名 |
+| FR-204-008 | 工具调用 MUST 支持取消（透传取消信号）；被取消 MUST NOT 记为失败 | 取消用例：返回「已取消」而非错误 |
 
 ### 3.2 围栏（安全属性）
 
 | 编号 | 需求 | 判据 |
 |---|---|---|
-| FR-108-010 | 仓库根 MUST 唯一取自会话的项目根；解析结果不满足「等于根或以 `根 + 分隔符` 开头」时 MUST 拒绝，且 MUST NOT 触达文件系统 | 单测：`..`、绝对路径、根外软链三种输入全部拒绝 |
-| FR-108-011 | 适配层 MUST 对每个路径做 `join → normalize → 前缀包含` 校验；越界 MUST 以 rejected promise 表达 | 契约测试断言方法签名与拒绝行为 |
-| FR-108-012 | 适配层的**每个**方法 MUST 异步；MUST NOT 同步抛错（否则上游判成回调方言并永久挂起） | 契约测试：每方法 `AsyncFunction`；非法输入返回 rejected promise |
-| FR-108-013 | 越界 MUST 明确拒绝并提示「把项目根换成目标目录」；MUST NOT 提供提权后放行 | 对话用例：越界提示可照抄 |
-| FR-108-014 | 仓库内部写入 MUST 收在「仓库根」这**单点**围栏内，并在插件 README 如实披露该粒度 | README 存在该段落；单测覆盖根外写入拒绝 |
+| FR-204-010 | 仓库根 MUST 唯一取自会话的项目根；解析结果不满足「等于根或以 `根 + 分隔符` 开头」时 MUST 拒绝，且 MUST NOT 触达文件系统 | 单测：`..`、绝对路径、根外软链三种输入全部拒绝 |
+| FR-204-011 | 适配层 MUST 对每个路径做 `join → normalize → 前缀包含` 校验；越界 MUST 以 rejected promise 表达 | 契约测试断言方法签名与拒绝行为 |
+| FR-204-012 | 适配层的**每个**方法 MUST 异步；MUST NOT 同步抛错（否则上游判成回调方言并永久挂起） | 契约测试：每方法 `AsyncFunction`；非法输入返回 rejected promise |
+| FR-204-013 | 越界 MUST 明确拒绝并提示「把项目根换成目标目录」；MUST NOT 提供提权后放行 | 对话用例：越界提示可照抄 |
+| FR-204-014 | 仓库内部写入 MUST 收在「仓库根」这**单点**围栏内，并在插件 README 如实披露该粒度 | README 存在该段落；单测覆盖根外写入拒绝 |
 
 ### 3.3 凭据
 
 | 编号 | 需求 | 判据 |
 |---|---|---|
-| FR-108-020 | 凭据 MUST 存 `<filesDir>/.git-credentials`（`~` 已指向沙箱），格式 MUST 与 git 原生凭据存储同形（一行一条带 userinfo 的 URL），权限 MUST `0600`；写入 MUST 原子替换 | 真机 `stat` 为 600；写入后回读一致 |
-| FR-108-021 | 匹配 MUST 按「协议 + 主机[:端口]」（大小写不敏感）；带路径行 MUST 前缀匹配且优先；同分时靠后覆盖靠前；坏行/注释 MUST 跳过而不抛错 | 单测 9+ 例（含百分号编码往返） |
-| FR-108-022 | 认证 MUST 仅在服务端要求时触发；未命中 MUST 返回取消并报「主机 + 设置入口 + 文件路径 + 可照抄占位行」；MUST NOT 把裸 401/403/404 抛给模型；被拒最多重试 1 次 | 对话用例：缺凭据/错口令两种 |
-| FR-108-023 | 插件 MUST 经 RPC 提供 `credentials.describe` / `list` / `save` / `remove`；handler MUST 异步；MUST NOT 回传口令值（只给长度） | RPC 响应无口令字段；四方法均有单测 |
-| FR-108-024 | 渲染层 MUST 经一条最小上游补丁新增「设置 → Git」页：口令框为密码类型、保存后只显示「已配置（长度 N）」、显示凭据文件绝对路径；RPC 不可达时整页 MUST 隐藏（自门控） | 真机走查 + 反例：停用插件后该 Tab 不出现 |
-| FR-108-025 | 凭据明文 MUST NOT 出现在对话记录、日志、配置文件、提交与文档 | 四类载体检索零命中 |
+| FR-204-020 | 凭据 MUST 存 `<filesDir>/.git-credentials`（`~` 已指向沙箱），格式 MUST 与 git 原生凭据存储同形（一行一条带 userinfo 的 URL），权限 MUST `0600`；写入 MUST 原子替换 | 真机 `stat` 为 600；写入后回读一致 |
+| FR-204-021 | 匹配 MUST 按「协议 + 主机[:端口]」（大小写不敏感）；带路径行 MUST 前缀匹配且优先；同分时靠后覆盖靠前；坏行/注释 MUST 跳过而不抛错 | 单测 9+ 例（含百分号编码往返） |
+| FR-204-022 | 认证 MUST 仅在服务端要求时触发；未命中 MUST 返回取消并报「主机 + 设置入口 + 文件路径 + 可照抄占位行」；MUST NOT 把裸 401/403/404 抛给模型；被拒最多重试 1 次 | 对话用例：缺凭据/错口令两种 |
+| FR-204-023 | 插件 MUST 经 RPC 提供 `credentials.describe` / `list` / `save` / `remove`；handler MUST 异步；MUST NOT 回传口令值（只给长度） | RPC 响应无口令字段；四方法均有单测 |
+| FR-204-024 | 渲染层 MUST 经一条最小上游补丁新增「设置 → Git」页：口令框为密码类型、保存后只显示「已配置（长度 N）」、显示凭据文件绝对路径；RPC 不可达时整页 MUST 隐藏（自门控） | 真机走查 + 反例：停用插件后该 Tab 不出现 |
+| FR-204-025 | 凭据明文 MUST NOT 出现在对话记录、日志、配置文件、提交与文档 | 四类载体检索零命中 |
 
 ### 3.4 界面（版本库 provider 覆盖）
 
 | 编号 | 需求 | 判据 |
 |---|---|---|
-| FR-108-030 | 插件 MUST 以同 id 覆盖内置 provider，使上游自带的变更 / 分支 / 差异界面可用；MUST NOT 依赖上游源码改动 | 真机界面显示分支与变更；hilog 有诊断行 |
-| FR-108-031 | provider MUST 实现 `init` / `info` / `base` / `branches` / `status` / `diff`，语义与上游契约一致（`branch.{current,default}`、`string[]`、`{file,additions,deletions,status}`、含 patch 的差异项） | 与上游类型逐字段对齐；单测覆盖空仓库与有 HEAD 两种 |
-| FR-108-032 | 覆盖 MUST 可单点回退（去掉注册即回到「仅工具」），回退后 21 个工具 MUST 不受影响 | 回退构建 + 工具表仍为 21 |
-| FR-108-033 | 注册成功 MUST 打印一行诊断（工具数 / provider / 凭据路径）；工具与 provider 注册 MUST 分别容错并各自留日志 | hilog / `server.log` 命中该行；故障注入时另一侧仍可用 |
+| FR-204-030 | 插件 MUST 以同 id 覆盖内置 provider，使上游自带的变更 / 分支 / 差异界面可用；MUST NOT 依赖上游源码改动 | 真机界面显示分支与变更；hilog 有诊断行 |
+| FR-204-031 | provider MUST 实现 `init` / `info` / `base` / `branches` / `status` / `diff`，语义与上游契约一致（`branch.{current,default}`、`string[]`、`{file,additions,deletions,status}`、含 patch 的差异项） | 与上游类型逐字段对齐；单测覆盖空仓库与有 HEAD 两种 |
+| FR-204-032 | 覆盖 MUST 可单点回退（去掉注册即回到「仅工具」），回退后 21 个工具 MUST 不受影响 | 回退构建 + 工具表仍为 21 |
+| FR-204-033 | 注册成功 MUST 打印一行诊断（工具数 / provider / 凭据路径）；工具与 provider 注册 MUST 分别容错并各自留日志 | hilog / `server.log` 命中该行；故障注入时另一侧仍可用 |
 
 ### 3.5 落点、物化与档位
 | 编号 | 需求 | 判据 |
 |---|---|---|
-| FR-108-040 | 插件 MUST 只在「配置目录下的插件扫描目录」生效（`<filesDir>/config/opencode/plugin/oc-plugin-git/`）；MUST NOT 从只读载荷目录直接加载 | 真机 `GET /api/plugin` 可见该插件；只读目录方案反例复现失败 |
-| FR-108-041 | 依赖 MUST 在构建期预物化进插件目录内的依赖目录；MUST NOT 运行时安装（L1 仅本地）；MUST NOT 使用软链，一律 copy | 产物内依赖在位、无 symlink；断网启动插件仍加载 |
-| FR-108-042 | 物化 MUST 断言：依赖版本 = pin、传输入口存在、包数与总体积上限、无原生库文件；失败 MUST 抛错（不静默产出空目录） | 构建日志；删除一个包 → 构建失败 |
-| FR-108-043 | 插件源码 MUST 通过既有静态断言（无 PTY / 无子进程 / 无原生模块 / 无 exec 家族）与语法检查；依赖目录 MUST NOT 被这些断言扫描 | 构建日志全绿；`--check-only` 同结论 |
-| FR-108-044 | 第三方模块 MUST 懒加载（首次工具调用时装载），MUST NOT 在模块顶层 import | 构建期工具元数据检查（会装载插件）在无依赖目录时仍能收集工具表 |
-| FR-108-045 | 插件 MUST NOT 新增权限声明、MUST NOT 改 ArkTS 宿主能力面（0008 仅改设置页 UI） | 权限声明差集为空；ArkTS diff 为 0 |
+| FR-204-040 | 插件 MUST 只在「配置目录下的插件扫描目录」生效（`<filesDir>/config/opencode/plugin/oc-plugin-git/`）；MUST NOT 从只读载荷目录直接加载 | 真机 `GET /api/plugin` 可见该插件；只读目录方案反例复现失败 |
+| FR-204-041 | 依赖 MUST 在构建期预物化进插件目录内的依赖目录；MUST NOT 运行时安装（L1 仅本地）；MUST NOT 使用软链，一律 copy | 产物内依赖在位、无 symlink；断网启动插件仍加载 |
+| FR-204-042 | 物化 MUST 断言：依赖版本 = pin、传输入口存在、包数与总体积上限、无原生库文件；失败 MUST 抛错（不静默产出空目录） | 构建日志；删除一个包 → 构建失败 |
+| FR-204-043 | 插件源码 MUST 通过既有静态断言（无 PTY / 无子进程 / 无原生模块 / 无 exec 家族）与语法检查；依赖目录 MUST NOT 被这些断言扫描 | 构建日志全绿；`--check-only` 同结论 |
+| FR-204-044 | 第三方模块 MUST 懒加载（首次工具调用时装载），MUST NOT 在模块顶层 import | 构建期工具元数据检查（会装载插件）在无依赖目录时仍能收集工具表 |
+| FR-204-045 | 插件 MUST NOT 新增权限声明、MUST NOT 改 ArkTS 宿主能力面（0008 仅改设置页 UI） | 权限声明差集为空；ArkTS diff 为 0 |
 
 ## 4. 关键实体
 | 实体 | 字段 | 说明 |
@@ -126,21 +126,21 @@
 ## 6. 非功能需求
 | 编号 | 需求 | 级别 |
 |---|---|---|
-| NFR-108-001 | 启动 MUST NOT 因本模块劣化：第三方模块懒加载，`setup()` 不做网络/磁盘重活 | MUST |
-| NFR-108-002 | 包体增量 MUST ≤ 12 MB（实测值记录在 plan §3） | MUST |
-| NFR-108-003 | `git_clone`（`depth:1`，中型公开仓库）SHOULD 在 60 s 内完成；超时 MUST 如实报已用时与建议 | SHOULD |
-| NFR-108-004 | 插件日志 MUST 带统一前缀（`[ark]`）；凭据只打印主机与长度，MUST NOT 打印值 | MUST |
-| NFR-108-005 | 任何失败 MUST 可见（返回值或日志至少其一），MUST NOT 静默成功或返回空结果 | MUST |
-| NFR-108-006 | 工具输出 MUST 有硬上限（单文件 diff 256 KiB、单次总量 1 MiB、行截断），超限 MUST 显式标注 | MUST |
-| NFR-108-007 | 文件系统语义风险 MUST 被观测并登记：大小写不敏感、无软链/硬链、`flock` 不支持 | MUST |
+| NFR-204-001 | 启动 MUST NOT 因本模块劣化：第三方模块懒加载，`setup()` 不做网络/磁盘重活 | MUST |
+| NFR-204-002 | 包体增量 MUST ≤ 12 MB（实测值记录在 plan §3） | MUST |
+| NFR-204-003 | `git_clone`（`depth:1`，中型公开仓库）SHOULD 在 60 s 内完成；超时 MUST 如实报已用时与建议 | SHOULD |
+| NFR-204-004 | 插件日志 MUST 带统一前缀（`[ark]`）；凭据只打印主机与长度，MUST NOT 打印值 | MUST |
+| NFR-204-005 | 任何失败 MUST 可见（返回值或日志至少其一），MUST NOT 静默成功或返回空结果 | MUST |
+| NFR-204-006 | 工具输出 MUST 有硬上限（单文件 diff 256 KiB、单次总量 1 MiB、行截断），超限 MUST 显式标注 | MUST |
+| NFR-204-007 | 文件系统语义风险 MUST 被观测并登记：大小写不敏感、无软链/硬链、`flock` 不支持 | MUST |
 
 ## 7. 假设与约束
 | # | 假设 / 约束 | 影响 |
 |---|---|---|
 | A1 | 设备无 git 二进制（toybox 不提供），且不可能通过申请权限解决 | 纯 JS 是唯一路线 |
 | A2 | `HOME` = `<filesDir>`、`XDG_CONFIG_HOME` = `<filesDir>/config` | 凭据与插件落点据此推导 |
-| A3 | 插件激活顺序晚于内置 provider，且编辑器语义为「同 id 后写者胜」 | 覆盖成立；若上游改为禁止覆盖则走回退（FR-108-032） |
-| A4 | 平台无软链、`hmdfs` 大小写不敏感、`flock` 不支持 | 依赖 copy 物化；并发语义降级须登记（NFR-108-007） |
+| A3 | 插件激活顺序晚于内置 provider，且编辑器语义为「同 id 后写者胜」 | 覆盖成立；若上游改为禁止覆盖则走回退（FR-204-032） |
+| A4 | 平台无软链、`hmdfs` 大小写不敏感、`flock` 不支持 | 依赖 copy 物化；并发语义降级须登记（NFR-204-007） |
 | A5 | 本壳无审批 / 提权交互面 | 越界只能拒绝，不做「申请后放行」 |
 | A6 | 目标主机网络可达（同类设备上部分公网主机超时已记录） | 无账号用例允许换可达等价仓库并如实记录 |
 | A7 | 上游基线 pin v2.0.26 | 升级需复跑装配、工具表与界面覆盖三项 |

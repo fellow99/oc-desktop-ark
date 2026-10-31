@@ -56,7 +56,7 @@
     "coldStartPct": { "value": 20, "changedAt": "...", "reason": "沿用 TC-R-002" },
     "hapSizeDeltaMb": { "value": 5, "changedAt": "...", "reason": "沿用 TC-R-003" },
     "hapSizeBudgetMb": { "value": 140, "changedAt": "...", "reason": "规划 §7.2 预算上限" },
-    "pluginDeltaMb": { "value": 12, "changedAt": "...", "reason": "108 NFR-108-002" } },
+    "pluginDeltaMb": { "value": 12, "changedAt": "...", "reason": "108 NFR-204-002" } },
   "nodeGate": "24.2.x",
   "channels": ["screenshot", "uitest", "http", "hilog"] }
 ```

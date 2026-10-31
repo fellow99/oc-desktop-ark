@@ -1,6 +1,6 @@
-# test-cases.md —— `108-git-plugin` 测试用例
+# test-cases.md —— `204-plugin-git` 测试用例
 
-> 对应 [`spec.md`](./spec.md) 的 `FR-108-*` / `NFR-108-*` 与 §5 验收场景；任务见 [`tasks.md`](./tasks.md)。
+> 对应 [`spec.md`](./spec.md) 的 `FR-204-*` / `NFR-204-*` 与 §5 验收场景；任务见 [`tasks.md`](./tasks.md)。
 > 每条用例必须有**可复现命令**与**可判读期望**；不允许「应该可以」。
 > 分层：**H = host（无设备/无网络）** → **D = 真机（hdc + 会话）** → **N = 负例必存**。
 > **敏感信息纪律**：仓库 URL / 账号 / 口令 / API key 只作运行时输入，**不落盘**任何文档与日志。
@@ -36,7 +36,7 @@ grep -c 'plugins/oc-plugin-git/index.js' entry/src/main/resources/resfile/openco
 ```bash
 node scripts/verify-git-plugin.mjs
 ```
-期望：末行 `✓ 108-git-plugin 门禁通过`，且包含
+期望：末行 `✓ 204-plugin-git 门禁通过`，且包含
 `装配：21 个工具注册成功` / `VCS provider 覆盖已注册（id=git）` / `RPC 定义可被上游接受` /
 `离线闭环：git_init|add|commit|status|log|diff ✓`。
 
@@ -65,7 +65,7 @@ node scripts/apply-patches.mjs --check
 ```bash
 node scripts/check-acl-surface.mjs
 ```
-期望：`requestPermissions=6 / definePermissions=1` 与 110 基线一致（本模块零新增权限，FR-108-045）。
+期望：`requestPermissions=6 / definePermissions=1` 与 110 基线一致（本模块零新增权限，FR-204-045）。
 
 ---
 
@@ -143,7 +143,7 @@ git_status({ dir: "../../" }) / git_status({ dir: "/data" })
 
 ### TC-108-21 包体与首启（D）
 记录 HAP 体积与首启耗时（含插件投放）。
-期望：包体增量 ≈ 7.75 MB（≤ 12 MB，NFR-108-002）；首启增量记录在案（投放摘要命中时不再复制）。
+期望：包体增量 ≈ 7.75 MB（≤ 12 MB，NFR-204-002）；首启增量记录在案（投放摘要命中时不再复制）。
 
 ---
 

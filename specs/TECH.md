@@ -1,6 +1,7 @@
 # TECH —— 技术选型（Technology Inventory）
 
 > 本文件只记录**实际采用/明确排除**的技术与版本。版本号取自仓库内可验证的事实（SDK 包描述、`runtime.lock.json`、`package.json`、补丁头）。
+> 更新：2026-11-01（当前基线 v2.2.5）
 > 证据口径：✅ 已核实 · 🔶 沿用同型工程 · ⬜ 待验证。
 
 ## 一、运行时与平台
@@ -30,7 +31,7 @@
 
 | 类别 | 技术 | 版本 | 用途 | 证据 |
 |---|---|---|---|---|
-| 上游仓库 | **opencode** | tag `v2.0.26` / 提交 **`9b4ec5714d`** / 分支 `Branch_v2.0.26` | 服务端 + Web UI 单一来源 | ✅ `git describe` |
+| 上游仓库 | **opencode** | tag `v2.2.5` / 提交 **`9bbb8ce18c`** / 分支 `Branch_v2.2.5` | 服务端 + Web UI 单一来源 | ✅ `git describe` |
 | HTTP 服务 | Effect HTTP（`effect/unstable/http`） | 随上游 | `/api/*` + `/auth/*` + `/openapi.json` | ✅ `packages/server/src/process.ts` |
 | UI | SolidJS（`packages/app`） | 随上游 | 由服务端**同源**托管的内嵌 SPA | ✅ `packages/cli/src/services/web-ui.ts` |
 | UI 归档 | `app-archive.bin`（brotli + JSON 索引） | 随产物 | 内嵌 UI，从 `OPENCODE_NODE_ASSETS_DIR` 读取 | ✅ `packages/cli/src/app-assets.ts` |
@@ -81,8 +82,8 @@
 
 | 版本 | 值 | 落点 |
 |---|---|---|
-| 应用版本 | `2.0.26` / `20026` | `AppScope/app.json5` |
-| 上游基线 | `v2.0.26` / `9b4ec5714d` | `patches/v2.0.26/`、`scripts/apply-patches.mjs`（`EXPECTED_BASELINE`）、`docs/000-工程规划.md` 文档头 |
+| 应用版本 | `2.2.5` / `20205` | `AppScope/app.json5` |
+| 上游基线 | `v2.2.5` / `9bbb8ce18c` | `patches/v2.2.5/`、`scripts/apply-patches.mjs`（`EXPECTED_BASELINE`）、`docs/000-工程规划.md` 文档头 |
 | Node 运行时 | `v24.2.0` / ABI `137` | `runtime.lock.json`（本工程根）、`oh-package.json5`、`TECH.md`、`overall-plan.md` |
 | SDK | HarmonyOS `6.1.1(24)` | `build-profile.json5` |
 | hvigor | `6.24.2` | 构建日志 |

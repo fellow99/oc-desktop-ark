@@ -32,22 +32,25 @@
 | M-105 | 鉴权与凭据 | [spec](./105-auth/spec.md) | [plan](./105-auth/plan.md) | 158 / 134 | ✅ Done |
 | M-106 | 上游适配 | [spec](./106-upstream-adaptation/spec.md) | [plan](./106-upstream-adaptation/plan.md) | 157 / 139 | ✅ Done |
 | M-107 | 合规与上架 | [spec](./107-compliance/spec.md) | [plan](./107-compliance/plan.md) | 159 / 160 | ✅ Done |
-| M-108 | 版本库插件 | [spec](./108-git-plugin/spec.md) | [plan](./108-git-plugin/plan.md) | 160 / 156 | ✅ Done |
+| M-204 | 版本库插件（Git） | [spec](./204-plugin-git/spec.md) | [plan](./204-plugin-git/plan.md) | 160 / 156 | ✅ Done |
  | M-109 | 回归基线 | [spec](./109-regression/spec.md) | [plan](./109-regression/plan.md) | 151 / 160 | ✅ Done |
  | M-110 | 无 JIT 模式（双形态兼容） | [spec](./110-jitless/spec.md) | [plan](./110-jitless/plan.md) | 167 / 110 | 🚧 In Progress |
+| M-011 | 版本更新（v2.1.2 / v2.2.5） | [spec](./011-version-2.2.5/spec.md) | [plan](./011-version-2.2.5/plan.md) | 四件套 | ✅ Done（v2.2.5 真机待补 ⬜） |
+| M-013 | 品牌化（当前缺口） | [spec](./013-branding/spec.md) | [plan](./013-branding/plan.md) | — | ❌ Gap（ark Web UI 未品牌化） |
+| M-203 | 工作区选择器插件 | [spec](./203-plugin-workspace-picker/spec.md) | [plan](./203-plugin-workspace-picker/plan.md) | 四件套 | ✅ Done |
 
- **合计**：10 个模块目录 / **19** 个模块文档（110 另含 tasks/test-cases）+ **9** 个项目级文档。
+ **合计**：14 个模块目录 / **24** 个模块文档（含可选 tasks/test-cases）+ **9** 个项目级文档。
 
 ## 三、自检结果（2026-10-18）
 
 | 检查项 | 方法 | 结果 |
 |---|---|---|
-| 文件齐全 | `find specs -name '*.md'` | ✅ 9 模块 ×2 + 8 项目级 + README + 本清单 |
+| 文件齐全 | `find specs -name '*.md'` | ✅ 14 模块 + 9 项目级 + README + 本清单 |
 | 结构完整 | 每个模块 spec/plan 均 8 个 `##` 章 | ✅ |
 | 无占位符 | 扫描 `TODO` / `TBD` / `FIXME` / `[fill in]` | ✅ 0 命中 |
-| FR 编号可追溯 | plan 引用的 `FR-1NN-NNN` 均存在于同模块 spec | ✅ |
+| FR 编号可追溯 | plan 引用的 `FR-1NN-NNN` 均存在于同模块 spec | ✅（旧 FR 前缀已随模块编号迁移） |
 | 证据可核 | plan 的 `path:line` 指向真实源码 | ✅ 抽样 30+ 条 |
-| spec 技术无关 | 抽查 spec 无框架名/文件路径 | ✅（107/108 例外处已用条目 ID 表达） |
+| spec 技术无关 | 抽查 spec 无框架名/文件路径 | ✅（107/204 例外处已用条目 ID 表达） |
 | 表格自洽 | 所有 Markdown 表格列数与表头一致 | ✅ |
 | 与规划一致 | 包名/版本/端口/补丁编号/ACL 与 `docs/000-工程规划.md` v0.3 对齐 | ✅ |
 

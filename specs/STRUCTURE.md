@@ -76,6 +76,9 @@ specs/
 ├── overall-plan.md           整体技术方案
 ├── overall-data-model.md     数据模型
 ├── overall-test-cases.md     测试用例索引
+├── 011-version-2.1.2/{spec.md,plan.md,tasks.md,test-cases.md}
+├── 011-version-2.2.5/{spec.md,plan.md,tasks.md,test-cases.md}
+├── 013-branding/{spec.md,plan.md}                         # 当前缺口（Web UI 未品牌化）
 ├── 101-runtime-integration/{spec.md,plan.md}
 ├── 102-payload-pipeline/{spec.md,plan.md}
 ├── 103-arkweb-shell/{spec.md,plan.md}
@@ -83,9 +86,10 @@ specs/
 ├── 105-auth/{spec.md,plan.md}
 ├── 106-upstream-adaptation/{spec.md,plan.md}
 ├── 107-compliance/{spec.md,plan.md}
-├── 108-git-plugin/{spec.md,plan.md}
 ├── 109-regression/{spec.md,plan.md}
-└── 110-jitless/{spec.md,plan.md,tasks.md,test-cases.md}   🚧 无 JIT 双形态兼容（编译期 NODE_MODE + payload/jitless 纯 JS 兼容层）
+├── 110-jitless/{spec.md,plan.md,tasks.md,test-cases.md}    # 无 JIT 双形态兼容（编译期 NODE_MODE + payload/jitless 纯 JS 兼容层）
+├── 203-plugin-workspace-picker/{spec.md,plan.md,tasks.md,test-cases.md}
+└── 204-plugin-git/{spec.md,plan.md,tasks.md,test-cases.md}
 ```
 
 > 按需求约定：本需求的规格**只落在 `oc-desktop-ark/specs/`**，不进入父工程 `specs/`。

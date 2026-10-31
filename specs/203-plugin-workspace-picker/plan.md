@@ -1,7 +1,7 @@
 # 工作区选择器（203-plugin-workspace-picker）—— 实现方案
 
 > **模块**：`203-plugin-workspace-picker` ｜ **状态**：Proposed ｜ **日期**：2026-10-22 ｜ 对应规格：[`spec.md`](./spec.md)
-> **依据**：`docs/ACL配置.md` §3；`docs/000-工程规划.md` §5.9（插件投放）、§5.6（HOME 改写）；`specs/108-git-plugin/plan.md`（同型插件落点）；`specs/constitution.md`（C1–C6）
+> **依据**：`docs/ACL配置.md` §3；`docs/000-工程规划.md` §5.9（插件投放）、§5.6（HOME 改写）；`specs/204-plugin-git/plan.md`（同型插件落点）；`specs/constitution.md`（C1–C6）
 > 证据口径：✅ 本机核对上游/本工程源码 ｜ 🔶 沿用 `oc-desktop-hos` / 110 真机记录 ｜ ⬜ 本模块待真机
 
 ## 1. 技术上下文

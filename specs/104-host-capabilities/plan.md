@@ -46,7 +46,7 @@
 | R5 | `perm.check` 用 `bundleManager` 取 tokenId + `checkAccessTokenSync`；返回值必须带归因、下一步与假阴性提示 | pi `:203-234`、`:242-281`；规划 §6 #9:484 | FR-104-005 |
 | R6 | 去应用设置没有 `openApplicationInfoEntry`；用 action `ohos.settings.application.details`，并同时给 `bundleName` 与 `pushParams` 两个键 | pi `:346-392`（`:373-378`） | FR-104-006 |
 | R7 | 选择器返回 **URI 而非路径**（`file://…`）；用户取消要单列 `cancelled`；持久化授权失败不推翻本次可用 | pi `:395-454`（`:399-405`、`:415-418`、`:419-435`） | FR-104-007/008/009/010 |
-| R8 | 平台语义：Picker 授权仅临时有效，**每次启动须重新 `activatePermission`**，且必须传真实路径；卸载即清空 | `oc-desktop-hos/.../PermissionManagerAdapter.ets:227-248`；`oc-desktop-hos/specs/011-workspace-auth/spec.md:16`、`plan.md:14`；规划 §8.4:584 | FR-104-011 |
+| R8 | 平台语义：Picker 授权仅临时有效，**每次启动须重新 `activatePermission`**，且必须传真实路径；卸载即清空 | `oc-desktop-hos/.../PermissionManagerAdapter.ets:227-248`；`oc-desktop-hos/specs/114-workspace-auth/spec.md:16`、`plan.md:14`；规划 §8.4:584 | FR-104-011 |
 | R9 | 外链只放行 http(s)，其它 scheme 交系统解析等于交出控制权；失败一律记日志 | pi `:508-536`（`:512-517`） | FR-104-012 |
 | R10 | 通知缺少正文无意义；失败错误码（如 1600004/11800001）通常表示通知总开关关闭，应回传而不是再弹系统窗 | pi `:456-500`（`:469-472`、`:491-499`） | FR-104-013 |
 | R11 | 运行事实是平台能力的**唯一序列化点**：状态/阶段/版本/pid/日志/错误 + 能力标志；标志硬编码 `supported:false` 不伪造 | pi `:147-195`（`:156-164`） | FR-104-014 |

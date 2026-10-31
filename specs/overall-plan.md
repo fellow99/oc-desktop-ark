@@ -10,7 +10,7 @@
 | 应用 | ArkTS + ArkUI，Stage 模型，`2in1` / `tablet` | `TECH.md` |
 | SDK / 构建 | HarmonyOS 6.1.1(24) / hvigor 6.24.2 | `hvigorw --version`、`sdk-pkg.json` |
 | Node 运行时 | `@fellow99/node-bridge` 0.1.0 + `@fellow99/node-runtime` 24.2.0（ohpm 双包，`libnode.so` v24.2.0 / ABI 137） | 本工程 `runtime.lock.json` |
-| 服务端 | opencode v2.0.26（`9b4ec5714d`）stock CLI bundle，`serve` 语义 | 上游源码 |
+| 服务端 | opencode v2.2.5（`9bbb8ce18c`）stock CLI bundle，`serve` 语义 | 上游源码 |
 | 渲染 | ArkWeb `Web`（同源加载本地服务） | 规划 §5.3 |
 | 数据 | `node:sqlite`（WAL）→ `<filesDir>/data/opencode/opencode.db` | 规划 §5.6 |
 | 构建机 | Windows + Git-Bash + Node 24.14.1 + bun 1.3.14 | 本机实测 |
@@ -24,7 +24,7 @@
 | C1 壳薄契约硬 | ✅ | ArkTS 仅 6 个源文件承担启动/观测/能力/渲染；业务全在 Node |
 | C2 不隐藏平台真相 | ✅ | 5 阶段状态机 + 错误页 + 诊断面板；降级项显式列出 |
 | C3 谁写谁读 | ✅ | 载荷解包（若走 tar.gz）由 Node 执行；marker 由写方维护 |
-| C4 不改上游 | ✅ | 3 条幂等补丁（0001/0003/0006），正反向校验 |
+| C4 不改上游 | ✅ | 5 条幂等补丁（0001/0003/0006/0007/0008），正反向校验 |
 | C5 崩溃终态 | ✅ | 载荷顶层兜底 + `lastCrash()` + 「请重启应用」 |
 | C6 判据可证伪 | ✅ | 每条验收对应可观测事实（见 `overall-test-cases.md`） |
 
@@ -35,9 +35,9 @@
 | L1 宿主 | `EntryAbility` / `Index` / `OpencodeRuntime` / `Connection` / `Payload` / `Constants` / `Ports` / `HostCapabilities` | 101、103、104、105 |
 | L2 运行时 | ohpm 双包（`@fellow99/node-bridge` + `@fellow99/node-runtime`）+ `payload/bridge/bootstrap.js` | 101 |
 | L3 服务 | `payload/opencode-server.js` + `dist-node` 载荷 | 102 |
-| 适配 | `patches/v2.0.26` + 构建参数 | 106 |
+| 适配 | `patches/v2.2.5` + 构建参数 | 106 |
 | 合规 | 权限声明面 + 清单 | 107 |
-| VCS | 本地插件（isomorphic-git） | 108 |
+| VCS | 本地插件（isomorphic-git） | 204 |
 | 质量 | 门禁脚本 + 回归四件套 | 109 |
 
 ## 4. 关键实现约定
@@ -72,7 +72,7 @@
 
 ### 4.5 上游适配（106）
 
-- 补丁：`0001`（conditions / ssr conditions / build target env / `node:sea` 兼容）、`0003`（PTY 打桩）、`0006`（shell select 的 EACCES，待判）。
+- 补丁：`0001`（conditions / ssr conditions / build target env / `node:sea` 兼容）、`0003`（PTY 打桩）、`0006`（shell select）、`0007`（工作区选择）、`0008`（Git 凭据页）。
 - 关闭项：`OPENCODE_DISABLE_FFF=1`、`OPENCODE_FILEWATCHER_DISABLE=1`、`OPENCODE_DISABLE_MODELS_FETCH=1`。
 - 数据项：`XDG_*` → `<filesDir>/*`、`OPENCODE_DB` 显式、`OPENCODE_DISABLE_CHANNEL_DB=1`。
 

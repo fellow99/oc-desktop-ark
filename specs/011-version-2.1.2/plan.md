@@ -1,19 +1,19 @@
-# 101 — 版本更新：2.1.2 技术方案
+# 011 — 版本更新：2.1.2 技术方案
 
-> **回引:** `specs/101-version-2.1.2/spec.md` ｜ **模块:** release ｜ **最后更新:** 2026-10-22
+> **回引:** `specs/011-version-2.1.2/spec.md` ｜ **模块:** release ｜ **最后更新:** 2026-10-22
 > **上游基线:** opencode `v2.1.2`（`a517687fde`）｜ **运行期:** 进程内 Node v24.2.0 + ArkWeb
 
 ## 1. 决策
 
 | # | 决策 | 依据 | 回引 |
 |---|---|---|---|
-| D1 | 版本规则沿用 `major*10000 + minor*100 + patch` → `2.1.2` = **20102** | 与 `oc-desktop-hos` 对齐（`AppScope/app.json5` 注释） | FR-ark-102 |
-| D2 | 清理**显式枚举清单**；保留 `oh_modules/`、`libs/`（bridge HAR）、`entry/libs/arm64-v8a/`（libnode.so 投放物）、`entry/build` 之外一律不动源码 | `git clean` 会误删运行时投放物（≈121 MB 重建成本高） | FR-ark-101 |
-| D3 | 补丁迁移：逐条 `git apply --check`；通过→复制入 `patches/v2.1.2/`；失败→按 v2.1.2 源码重生成；`patches/v2.0.26/` 原地保留 | `apply-patches.mjs` 头注「换基线必须重生成补丁并新建 patches/<新tag>/」 | FR-ark-104 |
-| D4 | `apply-patches.mjs` 更新两处：`patchDir` → `patches/v2.1.2`、`EXPECTED` 默认 → `a517687fde`；`build-opencode.mjs` / `collect-opencode.mjs` 中如有基线引用同步改 | spec U3 | FR-ark-105 |
-| D5 | 构建工具链用环境变量覆盖：`HVIGORW=/d/oh-workspace/command-line-tools/bin/hvigorw.bat`、`DEVECO_SDK_HOME` 指向本机 SDK | spec U4（脚本默认 `command-line-tools-6` 不存在） | FR-ark-105 |
-| D6 | 测试凭证零落盘；GIT 凭据测试后删除 | spec §6 | FR-ark-108 |
-| D7 | 同一时刻只有一个版别处于「已打补丁」状态：本工程补丁应用→构建→收集完成后，opencode 工作树按需复位（由补丁器幂等守卫保证） | 父工程 README「责任分界」 | FR-ark-104 |
+| D1 | 版本规则沿用 `major*10000 + minor*100 + patch` → `2.1.2` = **20102** | 与 `oc-desktop-hos` 对齐（`AppScope/app.json5` 注释） | FR-011-002 |
+| D2 | 清理**显式枚举清单**；保留 `oh_modules/`、`libs/`（bridge HAR）、`entry/libs/arm64-v8a/`（libnode.so 投放物）、`entry/build` 之外一律不动源码 | `git clean` 会误删运行时投放物（≈121 MB 重建成本高） | FR-011-001 |
+| D3 | 补丁迁移：逐条 `git apply --check`；通过→复制入 `patches/v2.1.2/`；失败→按 v2.1.2 源码重生成；`patches/v2.0.26/` 原地保留 | `apply-patches.mjs` 头注「换基线必须重生成补丁并新建 patches/<新tag>/」 | FR-011-004 |
+| D4 | `apply-patches.mjs` 更新两处：`patchDir` → `patches/v2.1.2`、`EXPECTED` 默认 → `a517687fde`；`build-opencode.mjs` / `collect-opencode.mjs` 中如有基线引用同步改 | spec U3 | FR-011-005 |
+| D5 | 构建工具链用环境变量覆盖：`HVIGORW=/d/oh-workspace/command-line-tools/bin/hvigorw.bat`、`DEVECO_SDK_HOME` 指向本机 SDK | spec U4（脚本默认 `command-line-tools-6` 不存在） | FR-011-005 |
+| D6 | 测试凭证零落盘；GIT 凭据测试后删除 | spec §6 | FR-011-008 |
+| D7 | 同一时刻只有一个版别处于「已打补丁」状态：本工程补丁应用→构建→收集完成后，opencode 工作树按需复位（由补丁器幂等守卫保证） | 父工程 README「责任分界」 | FR-011-004 |
 
 ## 2. 步骤
 

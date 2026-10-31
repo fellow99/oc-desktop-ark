@@ -12,7 +12,7 @@
 └───────────────────────────▲──────────────────────────────────────────────┘
                             │ 同源 HTTP（零 CORS / 零 preload / 零 IPC 载体）
 ┌───────────────────────────┴──────────────────────────────────────────────┐
-│ L3 服务层：opencode v2.0.26 stock CLI bundle（Node 侧）                   │
+│ L3 服务层：opencode v2.2.5 stock CLI bundle（Node 侧）                   │
 │    `serve --hostname 127.0.0.1 --port 0`                                  │
 │    /（内嵌 UI）· /api/*（协议面）· /auth/*（配对）· /api/event（SSE）      │
 │    数据：node:sqlite（WAL）→ <filesDir>/data/opencode/opencode.db          │

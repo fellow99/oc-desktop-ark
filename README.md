@@ -19,7 +19,7 @@
 | 渲染 | **ArkWeb** `Web` 组件（应用进程内） |
 | 数据 | `node:sqlite`（WAL）→ `<filesDir>/data/opencode/opencode.db` |
 | 规划 | [`docs/000-工程规划.md`](docs/000-工程规划.md)（**唯一权威规划**） |
-| 规格 | [`specs/README.md`](specs/README.md)（项目级 + 9 个模块） |
+| 规格 | [`specs/README.md`](specs/README.md)（项目级 + 14 个模块） |
 
 ## 快速开始
 
@@ -65,7 +65,7 @@ entry/        主模块：ArkTS 宿主（EntryAbility / pages / app / common / h
 payload/      Node 侧启动脚本（opencode-server.js + lib/*）
 patches/      上游幂等补丁（v2.2.5；v2.1.2 / v2.0.26 目录为历史锚点）
 scripts/      构建与门禁流水线
-specs/        规格体系（项目级 + 9 个模块）
+specs/        规格体系（项目级 + 14 个模块）
 docs/         工程规划（唯一权威）
 logs/         开发/评审/测试证据（按 <YYYYMMDD>-N 归档）
 ```
