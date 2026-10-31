@@ -1,7 +1,7 @@
-# 111 — 版本更新：2.1.2 功能规格
+# 101 — 版本更新：2.1.2 功能规格
 
 > **Module:** release ｜ **Status:** Implementing ｜ **Last Updated:** 2026-10-22
-> **需求编号:** 101-version-2.1.2（跨工程需求；本工程规格目录编号顺延为 **111**，101–110 / 203 已占用）
+> **需求编号:** 101-version-2.1.2（跨端统一模块名 `101-version-<VERSION>`；由原目录 111-version-2.1.2 更名）
 > **需求名称:** 版本更新：2.1.2
 > **git 分支:** 不改动（不新建、不切换、不重命名；沿用 `main`，与 `./opencode` 的 `Branch_v2.1.2` 无关）
 > **涉及工程:** `oc-desktop-ark`（父工程 `D:\opencode-workspace\`）

@@ -1,10 +1,10 @@
-# 112 — 版本更新：2.2.5 任务清单（ark）
+# 101 — 版本更新：2.2.5 任务清单（ark）
 
 > **回引:** `spec.md` / `plan.md` ｜ **最后更新:** 2026-10-31 ｜ 日志：`logs/20261031-1/`
 
 ## M1 静态收敛
 
-- **T01** 建 `specs/112-version-2.2.5/` 四件套 + `logs/20261031-1/DEV_CHECKLIST.md`
+- **T01** 建 `specs/101-version-2.2.5/` 四件套 + `logs/20261031-1/DEV_CHECKLIST.md`
 - **T02** 按 plan §3 清理，逐条断言 `.gitignore`；`git status` 无 ` D `
 - **T03** `AppScope/app.json5` → 2.2.5/20205；README 同步；脚本守卫（apply-patches/collect-opencode EXPECTED=9bbb8ce18c、patchDir=v2.2.5）；smoke 工具名口径；bun 1.4.4
 

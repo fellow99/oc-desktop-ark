@@ -11,7 +11,7 @@
 
 ## 执行记录
 （按时间追加命令/结果/产物路径）
-# 112-version-2.2.5 开发执行日志（ark）
+# 101-version-2.2.5 开发执行日志（ark）
 
 ## 构建结果（2026-10-31）
 - 版本：versionName 2.2.5 / versionCode 20205；守卫基线 9bbb8ce18c / patches/v2.2.5；bun ^1.4.4。

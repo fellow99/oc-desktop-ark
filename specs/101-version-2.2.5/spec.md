@@ -1,4 +1,4 @@
-# 112 — 版本更新：2.2.5 功能规格（ark）
+# 101 — 版本更新：2.2.5 功能规格（ark）
 
 > **Module:** release ｜ **Status:** Implementing ｜ **Last Updated:** 2026-10-31
 > **需求编号:** 101-version-2.2.5 ｜ **需求名称:** 版本更新：2.2.5
@@ -6,7 +6,7 @@
 > **涉及工程:** `oc-desktop-ark`（父工程 `D:\opencode-workspace\`）
 > **上游基线:** opencode **v2.2.5**（tag `v2.2.5` / 提交 `9bbb8ce18c` / 分支 `Branch_v2.2.5`）
 > **运行期:** 进程内 Node v24.2.0（@fellow99/node-bridge，ABI 137）+ ArkWeb；默认 jitless compat 形态
-> **前序规格:** `specs/111-version-2.1.2/`
+> **前序规格:** `specs/101-version-2.1.2/`
 
 ## 1. 目的
 

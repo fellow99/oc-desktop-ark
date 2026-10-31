@@ -1,10 +1,10 @@
 # 规格文档索引（`oc-desktop-ark/specs`）
 
 **项目名称：** OC Desktop · HarmonyOS Edition（`oc-desktop-ark`）
-**版本：** 2.1.2（`versionCode 20102`）
-**技术栈：** ArkTS / ArkWeb · `@fellow99/node-bridge`（Node v24.2.0）· opencode v2.1.2 · `node:sqlite`
+**版本：** 2.2.5（`versionCode 20205`；前一版 2.1.2/20102）
+**技术栈：** ArkTS / ArkWeb · `@fellow99/node-bridge`（Node v24.2.0）· opencode v2.2.5（基线 `9bbb8ce18c`）· `node:sqlite`
 **生成方式：** `specs-as-built`（以源码与规划为事实源；技术无关的 `spec.md` + 技术具体的 `plan.md` 成对）
-**最后更新：** 2026-10-22（新增 203 工作区选择器）
+**最后更新：** 2026-10-31（版本更新规格统一命名为 `101-version-<VERSION>`；新增 v2.2.5）
 
 ---
 
@@ -152,6 +152,18 @@
 | 技术方案 | [203-plugin-workspace-picker/plan.md](./203-plugin-workspace-picker/plan.md) | 插件 `mkdir`、补丁 `0007`、browse 列举、状态机 |
 | 任务清单 | [203-plugin-workspace-picker/tasks.md](./203-plugin-workspace-picker/tasks.md) | T1–T6 与判据 |
 | 测试用例 | [203-plugin-workspace-picker/test-cases.md](./203-plugin-workspace-picker/test-cases.md) | TC-203-S/B/R/U/E |
+
+---
+
+## 五之三、版本更新规格（`101-version-<VERSION>`）
+
+> 跨端约定：**版本更新类规格模块名固定为 `101-version-<VERSION>`**（与 hos / android 对齐），
+> 与运行时模块 `101-runtime-integration` 是不同目录、按目录名区分，不冲突。
+
+| 版本 | 目录 | 四件套 | 状态 |
+|------|------|--------|------|
+| v2.1.2 | [101-version-2.1.2/](./101-version-2.1.2/) | spec / plan / tasks / test-cases | ✅ 已发布（由原 `111-version-2.1.2` 更名） |
+| v2.2.5 | [101-version-2.2.5/](./101-version-2.2.5/) | spec / plan / tasks / test-cases | ✅ 已发布（由原 `112-version-2.2.5` 更名；基线 `9bbb8ce18c`，本轮主机 unsigned HAP 编译、真机待验） |
 
 ---
 
