@@ -22,7 +22,7 @@
 # 本地缓存与日志
 /opencode-dist/
 /.cache/
-/logs/**/hdc-*
+/logs/
 /node_modules/
 
 # hvigor 本地缓存
