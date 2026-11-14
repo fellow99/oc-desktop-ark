@@ -1,7 +1,7 @@
 # 013 — 品牌化（HarmonyOS Ark Edition）功能规格（gap record）
 
 > **Module:** 013-branding ｜ **Status:** Not Implemented（gap） ｜ **Last Updated:** 2026-11-01
-> **应用:** OC Desktop Ark / `org.fellow99.oc.OCDesktopArk`
+> **应用:** OC Desktop Ark / `top.fellow99.oc.OCDesktopArk`
 > **上游基线:** opencode v2.2.5（`9bbb8ce18c`）
 > **父规格:** [`../../specs/013-branding/spec.md`](../../specs/013-branding/spec.md)（父工程公共品牌化）
 > **源码证据:** `entry/src/main/resources/resfile/opencode/assets/app-archive.bin` 解包实测 `<title>OpenCode`、`OC Desktop` 0 处；`patches/v2.2.5/` 无品牌化补丁；`scripts/` 无 `branding`/`verify-branding` 脚本；壳层 `AppScope`/`EntryAbility` 资源显示 `OC Desktop Ark`。

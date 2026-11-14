@@ -41,7 +41,7 @@
     ],
     // 权限声明面：**按真实需要**申报（宪法 S4：声明面 = 使用面）。详见 docs/ACL配置.md。
     //   · 受限权限（ACL）：**只保留** kernel.ALLOW_WRITABLE_CODE_MEMORY（JIT 刚性前置，system_basic，
-    //     无它 V8 走 JIT 即 SIGTRAP）—— 必须按本包名 org.fellow99.oc.OCDesktopArk 申请并写进发布 Profile。
+    //     无它 V8 走 JIT 即 SIGTRAP）—— 必须按本包名 top.fellow99.oc.OCDesktopArk 申请并写进发布 Profile。
     //     已撤销 READ_PASTEBOARD / READ_WRITE_DESKTOP_DIRECTORY（ArkWeb 自读剪贴板；选择器只留沙箱/文档/下载三根）。
     //   · 其余为开放权限（normal / user_grant），声明即生效或在运行期首次访问时弹窗。
     "requestPermissions": [

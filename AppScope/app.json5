@@ -1,6 +1,6 @@
 {
   "app": {
-    "bundleName": "org.fellow99.oc.OCDesktopArk",
+    "bundleName": "top.fellow99.oc.OCDesktopArk",
     "vendor": "fellow99",
     // versionCode 规则：major*10000 + minor*100 + patch（与 oc-desktop-hos 对齐）
     // 2.1.2 → 2*10000 + 1*100 + 2 = 20102
