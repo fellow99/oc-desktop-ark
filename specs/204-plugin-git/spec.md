@@ -1,6 +1,6 @@
 # Git 插件（204-plugin-git）—— 规格
 
-> **模块**：`204-plugin-git` ｜ **状态**：Proposed ｜ **日期**：2026-10-18 ｜ **应用**：OC Desktop Ark / `org.fellow99.oc.OCDesktopArk`
+> **模块**：`204-plugin-git` ｜ **状态**：Proposed ｜ **日期**：2026-10-18 ｜ **应用**：OC Desktop Ark / `top.fellow99.oc.OCDesktopArk`
 > **依据**：`docs/000-工程规划.md` v0.3 §5.9（插件与 Git）、§8.1（能力对齐）、§12.1 A5（hmdfs / flock 风险）、§14.2；`specs/constitution.md`（C1–C6、S1–S7）
 > **证据口径**：✅ 实测 ｜ 🔶 沿用 ｜ ⬜ 待验证
 > **技术无关**：具体 git 库、版本号、依赖包名与文件落点一律见 [`plan.md`](./plan.md)；本文件只写行为与判据。

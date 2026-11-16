@@ -104,7 +104,7 @@
 
 **实现说明**：t1 用 host 侧轮询 HTTP（500 ms 间隔，上限 180 s），不用「日志里出现某行」；t2 用 `uitest dumpLayout` 轮询 + 节点断言。首次精度 ⬜ 待 Phase 0（P0-K）实测后回写本表。
 ### 6.4 四通道与结果计算
-- 通道命令（原文入 `commands.md`）：`hdc shell snapshot_display -f /data/local/tmp/s.jpeg && hdc file recv …`；`hdc shell uitest uiInput click <x> <y>`；`hdc fport tcp:4096 tcp:<port>` + `curl -s -u opencode:<pwd> http://127.0.0.1:4096/api/info`；`hdc shell "hilog -x | grep -E 'Cpp Crash|\[ark\]|org.fellow99.oc'"`。
+- 通道命令（原文入 `commands.md`）：`hdc shell snapshot_display -f /data/local/tmp/s.jpeg && hdc file recv …`；`hdc shell uitest uiInput click <x> <y>`；`hdc fport tcp:4096 tcp:<port>` + `curl -s -u opencode:<pwd> http://127.0.0.1:4096/api/info`；`hdc shell "hilog -x | grep -E 'Cpp Crash|\[ark\]|top.fellow99.oc'"`。
 - 结果优先级：`blocked`（门禁/版本/崩溃）> `regressed`（任一指标越阈）> `incomplete`（缺通道或 `skip`）> `pass`。
 - 崩溃判据：`hilog` 出现 `Cpp Crash` 或 `lastCrash()` 非空 ⇒ `blocked`（C5）。
 ### 6.5 证据与记录

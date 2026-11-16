@@ -1,4 +1,4 @@
-# ACL 与权限配置（`org.fellow99.oc.OCDesktopArk`）
+# ACL 与权限配置（`top.fellow99.oc.OCDesktopArk`）
 
 > **口径**：与 `pi-desktop-ark/docs/ACL配置.md` **同源**（基准：`pi-desktop-hos/docs/ACL申请清单.md`），但**载荷不同**——本工程跑的是 `opencode.mjs serve`（Hono + `node:http` 服务端 + `node:sqlite`），**没有 Next.js / SWC**。
 > 落点：`entry/src/main/module.json5`（单一模块应用，声明面集中在 entry）。

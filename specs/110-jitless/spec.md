@@ -1,6 +1,6 @@
 # spec.md —— `110-jitless` 无 JIT 模式（双形态兼容）
 
-> **模块**：`110-jitless` ｜ **状态**：Proposed ｜ **日期**：2026-10-21 ｜ **应用**：OC Desktop Ark / `org.fellow99.oc.OCDesktopArk`
+> **模块**：`110-jitless` ｜ **状态**：Proposed ｜ **日期**：2026-10-21 ｜ **应用**：OC Desktop Ark / `top.fellow99.oc.OCDesktopArk`
 > **依据**：`docs/ACL配置.md`、`docs/ACL-无ACL评估.md`（P0–P4 与取证）；参考工程 `pi-desktop-ark/specs/108-jitless/`（同方案，真机已验证）；`specs/constitution.md`（A1 壳只做四件事 / A2 库不解释应用语义 / T5 事实优先 / G1 不静默失败）
 > **编号**：功能需求 `FR-110-001` 起，验收场景 `AC-110-01` 起。编号一经发布不得复用。
 > **证据口径**：✅ 实测 ｜ 🔶 沿用他工程 ｜ ⚠️ 推断 ｜ ⬜ 未取证。

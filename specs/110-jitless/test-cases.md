@@ -103,7 +103,7 @@ hdc fport tcp:18400 tcp:$PORT   # 与后续 curl 写在同一条命令里
 
 ### TC-110-18 运行形态（编译期 compat）
 ```bash
-hdc shell aa start -b org.fellow99.oc.OCDesktopArk -a EntryAbility
+hdc shell aa start -b top.fellow99.oc.OCDesktopArk -a EntryAbility
 hdc shell "cat <filesDir>/payload/node-mode.json"
 hdc shell "tail -50 <filesDir>/payload/node.log"
 ```

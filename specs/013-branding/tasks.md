@@ -6,9 +6,9 @@
 
 | 项 | 现值 | 新值 |
 |---|---|---|
-| `AppScope/app.json5` `bundleName` | `org.fellow99.oc.OCDesktopArk` | `top.fellow99.oc.OCDesktopArk` |
-| `hvigorfile.ts` 签名提示文案（2 处） | `org.fellow99.oc.OCDesktopArk` | `top.fellow99.oc.OCDesktopArk` |
-| `entry/src/main/module.json5` ACL 注释 | `org.fellow99.oc.OCDesktopArk` | `top.fellow99.oc.OCDesktopArk` |
+| `AppScope/app.json5` `bundleName` | `top.fellow99.oc.OCDesktopArk` | `top.fellow99.oc.OCDesktopArk` |
+| `hvigorfile.ts` 签名提示文案（2 处） | `top.fellow99.oc.OCDesktopArk` | `top.fellow99.oc.OCDesktopArk` |
+| `entry/src/main/module.json5` ACL 注释 | `top.fellow99.oc.OCDesktopArk` | `top.fellow99.oc.OCDesktopArk` |
 
 ## 验收
 

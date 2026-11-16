@@ -1,6 +1,6 @@
 # 回归基线（109-regression）—— 规格
 
-> **模块**：`109-regression` ｜ **状态**：Proposed ｜ **日期**：2026-10-18 ｜ **应用**：OC Desktop Ark / `org.fellow99.oc.OCDesktopArk`
+> **模块**：`109-regression` ｜ **状态**：Proposed ｜ **日期**：2026-10-18 ｜ **应用**：OC Desktop Ark / `top.fellow99.oc.OCDesktopArk`
 > **依据**：`docs/000-工程规划.md` v0.3 §11 Phase 4（回归四件套）、§7.3（host 门禁）、§7.2（体积预算）、§7.4（首启代价）、§5.2.3（就绪判据）、附录 A（四条取证通道）、§15（证据落点）
 > **证据口径**：✅ 实测 ｜ 🔶 沿用 ｜ ⬜ 待验证 ｜ **不写「看起来正常」**
 > **技术无关**：脚本、命令与阈值常量见 [`plan.md`](./plan.md)；本文件只写口径与判据。

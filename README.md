@@ -11,7 +11,7 @@
 
 | 项 | 值 |
 |---|---|
-| 应用名 / 包名 | **OC Desktop Ark** / `org.fellow99.oc.OCDesktopArk` |
+| 应用名 / 包名 | **OC Desktop Ark** / `top.fellow99.oc.OCDesktopArk` |
 | 版本 | `2.2.5` / `versionCode 20205` |
 | 目标设备 | `2in1` / `tablet`（不做 phone） |
 | 上游基线 | opencode **v2.2.5**（tag `v2.2.5` / 提交 `9bbb8ce18c` / 分支 `Branch_v2.2.5`） |
@@ -53,7 +53,7 @@ cmd //c "D:\\oh-workspace\\command-line-tools\\bin\\hvigorw.bat assembleHap \
 
 | # | 事项 |
 |---|---|
-| 1 | **签名材料不入库**：在 DevEco 里为 `org.fellow99.oc.OCDesktopArk` 生成证书，或提供 `signing.debug.local.json` |
+| 1 | **签名材料不入库**：在 DevEco 里为 `top.fellow99.oc.OCDesktopArk` 生成证书，或提供 `signing.debug.local.json` |
 | 2 | **JIT 需要 ACL**：`ohos.permission.kernel.ALLOW_WRITABLE_CODE_MEMORY` 必须按本包名获批；无它启动即 SIGTRAP（`--jitless` 会废掉 WASM，等于废掉 fetch） |
 | 3 | **载荷必须先投放**：`resfile/opencode/` 为空时应用会显示「载荷缺失」错误页（这是预期行为，不是白屏） |
 

@@ -1,6 +1,6 @@
 # 上架合规（107-compliance）—— 规格
 
-> **模块**：`107-compliance` ｜ **状态**：Proposed ｜ **日期**：2026-10-18 ｜ **应用**：OC Desktop Ark / `org.fellow99.oc.OCDesktopArk`
+> **模块**：`107-compliance` ｜ **状态**：Proposed ｜ **日期**：2026-10-18 ｜ **应用**：OC Desktop Ark / `top.fellow99.oc.OCDesktopArk`
 > **依据**：`docs/000-工程规划.md` v0.3 §13（G1–G11）、§10（ACL 与权限）、§5.11（命名与签名）、§12.1 R10（材料口径）；`specs/constitution.md`（C1–C6、S1–S7）｜ **证据口径**：✅ 实测 ｜ 🔶 沿用 ｜ ⬜ 待验证
 > **技术无关**：本文件只写「要满足什么 + 怎么判定」；脚本、命令、落点见 [`plan.md`](./plan.md)。
 

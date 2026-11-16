@@ -93,7 +93,7 @@ onCreate
 ## 七、部署拓扑
 
 ```
-HAP（org.fellow99.oc.OCDesktopArk）
+HAP（top.fellow99.oc.OCDesktopArk）
 ├── entry/libs/arm64-v8a/{libnode.so, libc++_shared.so}   ← provision 投放（不入库）
 ├── resfile/opencode/{opencode.mjs, assets/**}            ← 载荷（构建产物，不入库）
 └── rawfile/boot.html                                     ← 加载页

@@ -60,7 +60,7 @@
 | 项 | 内容 |
 |---|---|
 | 回引 | FR-011-006 |
-| 动作 | `hdc uninstall org.fellow99.oc.OCDesktopArk` → `app install -r` → `aa start -a EntryAbility` |
+| 动作 | `hdc uninstall top.fellow99.oc.OCDesktopArk` → `app install -r` → `aa start -a EntryAbility` |
 | 完成判据 | 安装成功 + ArkWeb 界面加载非白屏 |
 
 ## M4 测试与报告（T09–T11）

@@ -169,12 +169,12 @@ $ node --jitless -e "fetch('http://127.0.0.1:38999/x').catch(e=>console.log(e.ca
 
 ```bash
 # 1) 零 ACL 现场（设备）：jitless 启动 ⇒ 看是否 ARK_SERVER_READY / 是否崩
-hdc shell 'aa start -b org.fellow99.oc.OCDesktopArk -a EntryAbility --ps probeFlags "--jitless"'
+hdc shell 'aa start -b top.fellow99.oc.OCDesktopArk -a EntryAbility --ps probeFlags "--jitless"'
 hdc shell "tail -40 <filesDir>/payload/node.log"
 hdc shell "hilog" | grep -a "LastFatalMessage\|Signal:SIGABRT\|Cpp Crash"
 
 # 2) 对照（默认 --no-verify-heap）⇒ 存活、/api/info 正常
-hdc shell "aa start -b org.fellow99.oc.OCDesktopArk -a EntryAbility"
+hdc shell "aa start -b top.fellow99.oc.OCDesktopArk -a EntryAbility"
 
 # 3) fetch / WASM（本机，Node v24.x）
 node --jitless -e "console.log(typeof WebAssembly)"          # undefined

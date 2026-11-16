@@ -28,7 +28,7 @@
 | S6 | opencode 产物 | `node scripts/apply-patches.mjs` → `node scripts/build-opencode.mjs` → `node scripts/collect-opencode.mjs` | resfile 就绪 |
 | S7 | host 门禁 | `node scripts/smoke-node24.mjs --allow-version-drift` | 全绿 |
 | S8 | HAP 构建 | `hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon`（D5 环境变量） | AC-06 |
-| S9 | 部署 | `hdc uninstall org.fellow99.oc.OCDesktopArk` → `app install -r` → `aa start` | AC-07 |
+| S9 | 部署 | `hdc uninstall top.fellow99.oc.OCDesktopArk` → `app install -r` → `aa start` | AC-07 |
 | S10 | 真机测试 | `test-cases.md` | AC-08 |
 | S11 | 代码评审 | `requesting-code-review` + `receiving-code-review` | REVIEW_REPORT |
 | S12 | 敏感信息扫描 + 提交 | spec §6 + `git-commit` 规范前缀 | AC-09/10 |

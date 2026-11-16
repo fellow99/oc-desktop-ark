@@ -1,7 +1,7 @@
 # test-cases.md —— `203-plugin-workspace-picker` 测试用例
 
 > 环境：Windows + Git Bash；OHOS CLI tools（`hvigorw` / `hdc`）；真机 2-in-1（OpenHarmony 5.0 / API 12 级同型）。
-> 关键路径（`<filesDir>` = `/data/app/el2/100/base/org.fellow99.oc.OCDesktopArk/files`；端口见 `files/payload/server.ready.json`）。
+> 关键路径（`<filesDir>` = `/data/app/el2/100/base/top.fellow99.oc.OCDesktopArk/files`；端口见 `files/payload/server.ready.json`）。
 > **敏感信息纪律**：DeepSeek API key 只作应用内输入，本文与所有产物一律用占位符 `<DEEPSEEK_API_KEY>`。
 
 ## 一、静态与门禁（TC-203-S*）
@@ -23,7 +23,7 @@
 | TC-203-B02 | 上游产物 | `node scripts/build-opencode.mjs`（`OPENCODE_NODE_TARGET=node24`） | 产出 `dist-node/opencode.mjs`；`packages/app` vite build 成功 |
 | TC-203-B03 | 载荷收集 | `node scripts/collect-opencode.mjs --apply` | 插件与 `app-archive` 就位；回读/语法校验通过 |
 | TC-203-B04 | HAP 构建 | `hvigorw --mode module -p product=default -p buildMode=debug assembleHap` | BUILD SUCCESSFUL |
-| TC-203-B05 | 安装与启动 | `hdc install -r entry-default-signed.hap`；`hdc shell aa start -b org.fellow99.oc.OCDesktopArk -a EntryAbility` | `install bundle successfully`；进程存活；服务端就绪 |
+| TC-203-B05 | 安装与启动 | `hdc install -r entry-default-signed.hap`；`hdc shell aa start -b top.fellow99.oc.OCDesktopArk -a EntryAbility` | `install bundle successfully`；进程存活；服务端就绪 |
 
 ## 三、能力侧真机 RPC（TC-203-R*）
 

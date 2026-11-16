@@ -8,7 +8,7 @@
 ```
 oc-desktop-ark/
 ├── AppScope/
-│   ├── app.json5                          🚧 bundleName org.fellow99.oc.OCDesktopArk / label "OC Desktop Ark"
+│   ├── app.json5                          🚧 bundleName top.fellow99.oc.OCDesktopArk / label "OC Desktop Ark"
 │   └── resources/base/{element,media}/     🚧 应用名与图标
 ├── build-profile.json5                    🚧 产品 / SDK 6.1.1(24) / 签名指针
 ├── hvigorfile.ts                          🚧 签名注入（不覆盖 DevEco 写入的配置）

@@ -1,6 +1,6 @@
 # 工作区选择器（203-plugin-workspace-picker）—— 规格
 
-> **模块**：`203-plugin-workspace-picker` ｜ **状态**：Proposed ｜ **日期**：2026-10-22 ｜ **应用**：OC Desktop Ark / `org.fellow99.oc.OCDesktopArk`
+> **模块**：`203-plugin-workspace-picker` ｜ **状态**：Proposed ｜ **日期**：2026-10-22 ｜ **应用**：OC Desktop Ark / `top.fellow99.oc.OCDesktopArk`
 > **依据**：`docs/ACL配置.md` §3（三根与权限模型、交互契约）；参考实现 `oc-desktop-hos/specs/203-plugin-workspace-picker/` 与 `oc-desktop-hos/patches/v2.0.26/0007-workspace-roots-picker.patch`；`specs/constitution.md`（C1–C6、S1–S7）；需求 `203-plugin-workspace-picker`（父工程下发的需求编号）
 > **编号**：功能需求 `FR-203-001` 起，验收场景 `AC-203-01` 起。编号一经发布不得复用。
 > **证据口径**：✅ 实测 ｜ 🔶 沿用他工程 ｜ ⚠️ 推断 ｜ ⬜ 未取证。
