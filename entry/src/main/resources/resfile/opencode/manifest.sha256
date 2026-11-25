@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "baseline": "9bbb8ce18c",
+  "baseline": "6f0514052a",
   "form": "readonly",
   "node": "24.2.0",
   "target": "linux-arm64",
   "toolchain": {
-    "node": "v24.14.1",
-    "bun": "1.4.4"
+    "node": "v24.7.0",
+    "bun": "1.4.5"
   },
   "removed": [
     "@ff-labs/fff-bin-win32-x64",
@@ -48,8 +48,8 @@
     },
     {
       "path": "assets/@opentui/core-win32-x64/opentui.dll",
-      "sha256": "95b79f3a48dd4d1f9b4ca87e6e4e4145a5f32e80c81b4010b577a5bdba64b0d3",
-      "size": 5234568,
+      "sha256": "be2f4c64459be618c6fb84bc5adaf9f25b53816295600bd08667180413b533e7",
+      "size": 9285000,
       "kind": "asset"
     },
     {
@@ -132,8 +132,8 @@
     },
     {
       "path": "assets/@opentui/core/parser.worker.js",
-      "sha256": "4fb9e5b49cfe515d3a862a59798011bb66982f72a04aeeba67e4545d8a74d9c3",
-      "size": 172869,
+      "sha256": "4b39f42ae5bb6fa85cad1392d6a64d9bf0f15f9c20c5f3567d17e4977853b09b",
+      "size": 175949,
       "kind": "asset"
     },
     {
@@ -144,8 +144,8 @@
     },
     {
       "path": "assets/app-archive.bin",
-      "sha256": "cdf31d62c9be6a6cf3869c9b9bcb7be5d4e498c7a4d4318cbab63dbd57853ff1",
-      "size": 25828732,
+      "sha256": "32508fdf6da2ee6f1362895f3b036cf81f509262876f0f2370d39a1de742bce5",
+      "size": 26957747,
       "kind": "ui-archive"
     },
     {
@@ -414,14 +414,14 @@
     },
     {
       "path": "jitless/wasm-patch.js",
-      "sha256": "cca46bc10e8d1ed8e6bb4bf9f1d2eb4588de14319d03c046f720debe67d14f35",
-      "size": 5633,
+      "sha256": "473ea3420bd8823d7620d65983affac82b7c1450c25f1ade0dabca5334d494d9",
+      "size": 5744,
       "kind": "asset"
     },
     {
       "path": "lib/env.js",
-      "sha256": "20ff8f74c60831be157b06d28b85f0aa12c244996d1e449a325e651bfb4e1e81",
-      "size": 1380,
+      "sha256": "f6f59aeca0b54ee4e82550924dd1d36e0b9fb74b4a2ca0492c1cbe8de89a2bef",
+      "size": 1413,
       "kind": "asset"
     },
     {
@@ -432,8 +432,8 @@
     },
     {
       "path": "lib/ready.js",
-      "sha256": "96001f508285397a606acb774ce4cdda73090e703cac646749da115d5b22fa60",
-      "size": 1347,
+      "sha256": "8ae428cca12a73842b57d89ffb7bc691555863edb960f002140c7c0e0547cf2b",
+      "size": 1390,
       "kind": "asset"
     },
     {
@@ -444,8 +444,8 @@
     },
     {
       "path": "opencode.mjs",
-      "sha256": "b41d3438641177b071798da0907c4b56edca6d9dd2b00459984933b9485a89ac",
-      "size": 21636002,
+      "sha256": "320509e1831b5c91f59005a3b5d659fbf209474af73af0834420a178a967b707",
+      "size": 24781959,
       "kind": "entry"
     },
     {
@@ -456,8 +456,8 @@
     },
     {
       "path": "plugins/oc-plugin-git/lib/auth.js",
-      "sha256": "b4957b424dd978e8611cf5743e0e7be7fb46ffdd19a43af5c538681e1ac8a7d0",
-      "size": 3827,
+      "sha256": "fa35fbc933f4f28fcb9d8b71483bfbd9e40a681f63c9ab77ca4d87417f2cf9c8",
+      "size": 3727,
       "kind": "asset"
     },
     {
@@ -468,44 +468,44 @@
     },
     {
       "path": "plugins/oc-plugin-git/lib/diff.js",
-      "sha256": "480bbf7d2d72dbd3705de1ab121907c9d3d1b09a5179771e7aa198d3130d99ee",
-      "size": 3055,
+      "sha256": "892d64bd84daaebe1ba3716975c4584af590cbdd34dc0e603f6f6acd05f14b1f",
+      "size": 2976,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/fence.js",
-      "sha256": "8585c74e5fc40e7330d9de803ba8e07040edabb347f05981802719c641aef6ec",
-      "size": 3563,
+      "sha256": "f489d06d4ad4d92ec32d350d64c74e269a1342abc067acb85bb4a1bba0078457",
+      "size": 3477,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/fs-adapter.js",
-      "sha256": "079dab709c4f2aa042f48eb1456221f2ecbfd7ede24831ef150fcbd919ee351e",
-      "size": 3498,
+      "sha256": "e9378192d51a8fa74895dc20860f9ce79de1cdba4c3a16be7d4ae2df9b1ee00c",
+      "size": 3411,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/repo.js",
-      "sha256": "c6fc78055744b91b595b65f1d9a64e3520b963f2979ff600d347d0adc3b5fb9e",
-      "size": 9333,
+      "sha256": "f4491d62f1f41b134762787add878429a3b5cdf49945a277330da70c0a40d6a9",
+      "size": 9083,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/report.js",
-      "sha256": "b41f7241755f196eac96416a0d93056c73cf5d833935854da2364d20342c4773",
-      "size": 5830,
+      "sha256": "cd7d849bac1f2adeecb5211695b2c63786d5667a724fcb2865f05bfb27fc4f31",
+      "size": 5666,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/runtime.js",
-      "sha256": "90d886b28f35de4a0faf76b18a412ea6ce6b98c80005f8acfaf50d4dfb7a1c70",
-      "size": 2967,
+      "sha256": "78e635c0f15fbd70a9ccc18ccd47151f38ed26450ef7d3ac4ae8d0276f48d97c",
+      "size": 2890,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/add.js",
-      "sha256": "c168e5affc063f7b42a32b1ed149abbff62df5ea09668b7236a7f6274945ee5c",
-      "size": 1998,
+      "sha256": "68b45e9a1e2a990d773e6d8ee27b24f6b1bcd7aa00107a226ab211d743842b5f",
+      "size": 1952,
       "kind": "asset"
     },
     {
@@ -516,26 +516,26 @@
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/checkout.js",
-      "sha256": "3d8dd0f4fa00403f7480f7338182175cb7c7e32d99a9ad26a86c880d84b75058",
-      "size": 2144,
+      "sha256": "0614605d533981b7cf85282443f139773126a85600df0daff3456490390f2cfa",
+      "size": 2094,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/clone.js",
-      "sha256": "1f46d343b114ffffa3602b0e76b505ef3489c7bbfc6f5fc5cfec3b56a234d813",
-      "size": 2957,
+      "sha256": "8789d12412c68af8134a37960080f29fbfbccd4c1121d6714ed395fbcb6472dc",
+      "size": 2891,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/commit.js",
-      "sha256": "62844a9518469595bf3adf021647c3fa8bcefbc7893b805c025d2e02be1c16a6",
-      "size": 2859,
+      "sha256": "48ad97a66406d73d27eaa00131f8dce2561c42037327aa4515631213fa3b57e1",
+      "size": 2800,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/diff.js",
-      "sha256": "a9b957a95922fb12b8092047221709457162c15a3e2bd397661b085bb00776b9",
-      "size": 3749,
+      "sha256": "7eb60716285b3cac37bc763a37b08135244096747d2de1fea2b4dfc71e075d3f",
+      "size": 3673,
       "kind": "asset"
     },
     {
@@ -546,32 +546,32 @@
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/index.js",
-      "sha256": "aefe464b70e91e804ff6da95c2902ef933e207b34bdc297ecbd6a0ddafe58cd4",
-      "size": 2184,
+      "sha256": "af9a4e8f3780eb64667f5c8194159ba026aaedca31dab049da197b56c8f7fd3b",
+      "size": 2113,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/init.js",
-      "sha256": "afcae6545b0b353e5cdbe11c4b192586ae2c48df94d9950ad6491f20edb58e04",
-      "size": 1135,
+      "sha256": "1f439d79ed4d8a9c0776f9f5e5d7345dd2c5dd559d2c803a23371ccb52749a62",
+      "size": 1110,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/log-show.js",
-      "sha256": "9f7b47820358e2a7add3d0080ce3720f705a31e4417d598ba4e7e9ff92ad23e3",
-      "size": 5031,
+      "sha256": "42b6e067b1281fa97b6295c2cfd5e1439e8e60c5e0ab689de0763feaa5de540b",
+      "size": 4927,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/push-config.js",
-      "sha256": "91aa46d7efa62bb3ee6b079ad12c0f153caef44e8afc23f6b38ba73a192209d1",
-      "size": 6006,
+      "sha256": "2aa8eca3febdef5e512e18381c251e73b4981f665fa5a8cc31c0b2ce3b552747",
+      "size": 5878,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/remote.js",
-      "sha256": "abae2f5dfd5088da14c999bc802267c474b11cf4f29bd0687d70ecc694d49aa5",
-      "size": 4841,
+      "sha256": "01a58838779e4a21288a32fc29aa06e87f93995875a9af8e2d1f5c0a06b503a3",
+      "size": 4738,
       "kind": "asset"
     },
     {
@@ -588,50 +588,50 @@
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/shared.js",
-      "sha256": "4f1b6a39a20adf553b4272afbbc3902e23bb3fae5ee5702b6292fb7b436b04ec",
-      "size": 952,
+      "sha256": "4c1c9ebbebf76381a789752a93ce5dad6ac40e6bd5f4e189901b6fe0207755ac",
+      "size": 927,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/stash.js",
-      "sha256": "1225e0a295acf94c47c776a588b0e7995e91f577214c8a9c1b54caf6459f86ee",
-      "size": 3346,
+      "sha256": "b998b5f79cc678056bff51e506202e122d7392b02b647caf67efeca828d0776f",
+      "size": 3279,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/status.js",
-      "sha256": "e5bcf1832f478ee9864f3cf6eaa8655262c0e449a1dad019437cf542bebf8c2c",
-      "size": 1494,
+      "sha256": "2f316904c3629be757cfd64527cb0d02e1e9443ff758fec093fa482604d36bce",
+      "size": 1460,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/tools/tag.js",
-      "sha256": "9dbfaaa9e42ae0577d4a462761ffb027a9b57d00f211e7e1003a807807dd9923",
-      "size": 2791,
+      "sha256": "73a6c6b78bc92f72dc196dbd7383aa95397d915d614dc9c223a896337939052b",
+      "size": 2738,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/vcs.js",
-      "sha256": "218de1d237de8d42d5d8463f07f160639a0e08372ccf7010b5436cd953ee4fcc",
-      "size": 7798,
+      "sha256": "a2ce02b9aa10c00a1bb5c0836840c90d4121e18d88fdefebc59dafe974127ffc",
+      "size": 7607,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/lib/walk-diff.js",
-      "sha256": "cb1bfb5d5f8fedaf7a0101ac0eb9e0911c533cf7993f8337083bb5c63eaaea2a",
-      "size": 4244,
+      "sha256": "9cf26334b60c97774ad19a7571e38181548ef7bee59e10cd1e7cdabff5136ceb",
+      "size": 4140,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/materialize.json",
-      "sha256": "1e6de72fee1ba9638d5dc98159c85e827d80b96535059ef9791d9288ba86a059",
+      "sha256": "f9fc30238aec3d843451138f528fa3a1a52357475247b3feadb72a37e1ec7a47",
       "size": 257,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/node_modules/.package-lock.json",
-      "sha256": "c5e0d4712adcf662b8e09ef76087cfe410479188c856223ccf8130c5be0c7175",
-      "size": 26067,
+      "sha256": "a64b6c614b17e9424e126698fda05aed19e74e05f200622667da5bb245dfe5f0",
+      "size": 26795,
       "kind": "asset"
     },
     {
@@ -5412,14 +5412,14 @@
     },
     {
       "path": "plugins/oc-plugin-git/package.json",
-      "sha256": "7c73669f24e7b5a80073b45f25badef9d3e86da36fd9a0cfc03055b112aaab44",
-      "size": 334,
+      "sha256": "0937c1d1d576a7d9f4c8186921e82b1a3790104d192ef981fcd622759def7e65",
+      "size": 322,
       "kind": "asset"
     },
     {
       "path": "plugins/oc-plugin-git/README.md",
-      "sha256": "aeaa6a73cc79b4a307227f59dfe158b754a880cd2f7b88c449b5284f49e434cc",
-      "size": 5175,
+      "sha256": "18cf849e53bcaeaa8689fae38c7f0def07dda03def6c01979fedffbb02e8bfcf",
+      "size": 5099,
       "kind": "asset"
     },
     {
@@ -5431,6 +5431,6 @@
   ],
   "totals": {
     "count": 902,
-    "bytes": 68318748
+    "bytes": 76646014
   }
 }

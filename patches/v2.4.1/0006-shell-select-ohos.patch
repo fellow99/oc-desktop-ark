@@ -1,0 +1,32 @@
+diff --git a/packages/core/src/shell/select.ts b/packages/core/src/shell/select.ts
+index ff48b0fb82..29ec03cc07 100644
+--- a/packages/core/src/shell/select.ts
++++ b/packages/core/src/shell/select.ts
+@@ -59,7 +59,16 @@ export const Event = {
+ }
+ 
+ function stat(file: string) {
+-  return statSync(file, { throwIfNoEntry: false }) ?? undefined
++  try {
++    return statSync(file, { throwIfNoEntry: false }) ?? undefined
++  } catch {
++    // HarmonyOS（ohos）应用域里对系统路径 stat 会抛 `EACCES`（而不是 `ENOENT`），
++    // `throwIfNoEntry` 兜不住它。若让它冒泡，`environment()` 会在**每次模型请求前**失败：
++    // 会话能建、用户消息能进、SSE 也连得上，但助手永远不回复
++    // （真机日志只有 `Failed to drain Session: EACCES ... stat '/bin/sh'`）。
++    // 这里把「不可读」与「不存在」一视同仁地当作「该 shell 不可用」。
++    return undefined
++  }
+ }
+ 
+ function findExecutable(name: string, bin?: string) {
+@@ -142,6 +151,9 @@ function fallback(bin?: string) {
+   if (process.platform === "darwin") return "/bin/zsh"
+   const bash = findExecutable("bash", bin)
+   if (bash) return bash
++  // ohos/android 应用域里没有 `/bin/sh`；设备侧真实可执行的是 `/system/bin/sh`
++  // （由壳侧通过 `OC_SHELL_FALLBACK` 注入，见各工程壳层的 configureEnvironment）。
++  if (process.env.OC_SHELL_FALLBACK) return process.env.OC_SHELL_FALLBACK
+   return "/bin/sh"
+ }
+ 

@@ -31,7 +31,7 @@ const distNode = path.join(repo, 'packages/cli/dist-node')
 const bridgePayload = path.resolve(root, 'payload/bridge')
 const out = path.join(root, 'entry/src/main/resources/resfile/opencode')
 const NODE_VERSION = '24.2.0'
-const BASELINE = process.env.EXPECTED_BASELINE ?? '9bbb8ce18c'
+const BASELINE = process.env.EXPECTED_BASELINE ?? '6f0514052a'
 
 if (!existsSync(path.join(distNode, 'opencode.mjs'))) {
   console.error(`✗ 缺少产物：${distNode}/opencode.mjs（先跑 scripts/build-opencode.mjs）`)

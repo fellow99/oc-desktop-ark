@@ -63,7 +63,7 @@ if (!existsSync(path.join(repo, 'package.json'))) {
 }
 
 const flags = ['--bundle-only']
-if (bundleOnly) flags.push('--target=' + target)
+// 上游 build-node.ts 只认 OPENCODE_TARGET 环境变量（`--target=` 从未被解析）；目标由 run() 的 env 注入
 
 const skipInstall = process.argv.includes('--skip-install')
 if (!skipInstall) {
