@@ -8,7 +8,7 @@
  * 产物：../opencode/packages/cli/dist-node/{opencode.mjs, assets/**}
  */
 import { spawnSync } from 'node:child_process'
-import { existsSync } from 'node:fs'
+import { existsSync, readdirSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -63,7 +63,9 @@ if (!existsSync(path.join(repo, 'package.json'))) {
 }
 
 const flags = ['--bundle-only']
-// 上游 build-node.ts 只认 OPENCODE_TARGET 环境变量（`--target=` 从未被解析）；目标由 run() 的 env 注入
+// 上游 build-node.ts 只认 OPENCODE_TARGET 环境变量（`--target=` 从未被解析）。
+// 必须显式注入：缺省时 `--bundle-only` 会退回**构建机**平台（Windows 上即 win32-x64），
+// 产物里会带 win32 原生件而设备侧一个 linux-arm64 原生件都没有（review C1）。
 
 const skipInstall = process.argv.includes('--skip-install')
 if (!skipInstall) {
@@ -71,7 +73,21 @@ if (!skipInstall) {
 }
 run(BUN, ['run', '--cwd', 'packages/cli', 'script/build-node.ts', ...flags], repo, {
   OPENCODE_NODE_TARGET: nodeTarget,
+  OPENCODE_TARGET: target,
 })
+
+// 目标守卫（review C1）：产物 assets 里出现非目标平台的原生子包即失败，
+// 避免「构建机平台悄悄顶替设备目标」这一类假绿。
+const assetsDir = path.join(repo, 'packages/cli/dist-node/assets')
+if (existsSync(assetsDir)) {
+  const foreign = readdirSync(assetsDir, { recursive: true })
+    .map((item) => String(item).split(path.sep).join("/"))
+    .filter((item) => /-(win32|darwin)-/.test(item) && !item.includes("-ohos-"))
+  if (foreign.length > 0) {
+    console.error(`✗ 产物含非目标平台（${target}）原生件：${foreign.slice(0, 5).join(', ')}`)
+    process.exit(1)
+  }
+}
 
 const out = path.join(repo, 'packages/cli/dist-node')
 if (!existsSync(path.join(out, 'opencode.mjs'))) {

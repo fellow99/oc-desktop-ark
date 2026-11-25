@@ -293,7 +293,8 @@ function assemble(stage) {
     baseline: BASELINE,
     form: 'readonly',
     node: NODE_VERSION,
-    target: 'linux-arm64',
+    // 目标从构建环境推导（review C1）：写死会在构建机平台顶替设备目标时仍然「自洽」。
+    target: process.env.OPENCODE_TARGET ?? 'linux-arm64',
     toolchain: { node: process.version, bun: safeBunVersion() },
     removed,
     files: entries,
